@@ -1,5 +1,9 @@
 FROM php:8.4-fpm
 
+ENV APP_ENV=${APP_ENV:-development}
+
+USER root
+
 # Install system dependencies
 RUN apt-get clean && apt-get update && apt-get install -y \
     git \
@@ -13,9 +17,6 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip
-
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install PHP extensions
 RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -31,8 +32,13 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     zip \
     opcache
 
-# Install Redis extension
-RUN pecl install redis && docker-php-ext-enable redis
+# Check and install Redis extension only if not already installed
+RUN if ! php -m | grep -q redis; then \
+        PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
+    fi
+
+# Clear cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -44,13 +50,11 @@ WORKDIR /var/www
 COPY . .
 
 # Composer install
-RUN composer install
-# RUN composer install --no-dev --optimize-autoloader
-
-# use user www-data
-RUN chown -R www-data:www-data /var/www
-USER www-data
-
-# В контейнере открываем 9000 порт и запускаем сервер php-fpm
-# EXPOSE 9000
+RUN if [ "$APP_ENV" = "production" ]; then \
+        composer install --no-dev --optimize-autoloader; \
+    else \
+        composer install; \
+    fi
+    
+# Launch php-fpm
 CMD ["php-fpm"]
