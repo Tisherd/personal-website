@@ -55,6 +55,7 @@ RUN if [ "$APP_ENV" = "production" ]; then \
     else \
         composer install; \
     fi
-    
+
+EXPOSE 9000
 # Launch php-fpm
 CMD ["php-fpm"]

@@ -7,15 +7,18 @@ services:
     container_name: "${APP_NAME}_php"
     user: "${SERVER_USER}"
     restart: always
-    tty: true
-    ports:
-      - "9000:9000"
+    # tty: true
+    # ports:
+    #   - "9000:9000"
     working_dir: /var/www
     environment:
         APP_ENV: "${APP_ENV}"
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+    depends_on:
+      - database
+      - redis_cache
 
   web_server:
     image: nginx:1.27.3-alpine
@@ -26,6 +29,22 @@ services:
     volumes:
       - ./:/var/www
       - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+    depends_on:
+      - app
+
+  node:
+    build:
+      context: .
+      dockerfile: ./docker/node/Dockerfile
+    image: node:23.4
+    container_name: "${APP_NAME}_node"
+    # ports:
+    # - "3000:3000"
+    restart: always
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - /var/www/node_modules
 
   database:
     image: postgres:17
