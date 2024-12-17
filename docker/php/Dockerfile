@@ -53,7 +53,7 @@ RUN if [ "$APP_ENV" = "production" ]; then \
 # Copy project files
 COPY . .
 
-# Сonfigure user
+# Switch to correct user based on environment
 RUN if [ "$APP_ENV" = "production" ]; then \
         echo "Using www-data user for production"; \
         chown -R www-data:www-data storage bootstrap/cache; \
@@ -64,7 +64,8 @@ RUN if [ "$APP_ENV" = "production" ]; then \
         chown -R devuser:devuser storage bootstrap/cache; \
         export APP_USER=devuser; \
     fi
-    
+
+# Switch to the correct user
 USER $APP_USER
 
 # Launch php-fpm
