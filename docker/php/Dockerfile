@@ -1,7 +1,5 @@
 FROM php:8.4-fpm AS dependency_installer
 
-ENV APP_ENV=${APP_ENV:-development}
-
 RUN apt-get clean && apt-get update && apt-get install -y \
     git \
     curl \
@@ -30,13 +28,19 @@ RUN apt-get clean && apt-get update && apt-get install -y \
 
 # Check and install Redis extension only if not already installed
 RUN if ! php -m | grep -q redis; then \
-    PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
-fi
-
-FROM dependency_installer AS project_installer
+        PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
+    fi
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0
+
+
+
+FROM dependency_installer AS project_installer
+
+ENV APP_ENV=${APP_ENV:-development}
+ARG APP_USER
+ENV APP_USER=${APP_USER:-dev_user}
 
 # Set workdir
 WORKDIR /var/www
@@ -53,17 +57,12 @@ RUN if [ "$APP_ENV" = "production" ]; then \
 # Copy project files
 COPY . .
 
-# Switch to correct user based on environment
-RUN if [ "$APP_ENV" = "production" ]; then \
-        echo "Using www-data user for production"; \
-        chown -R www-data:www-data storage bootstrap/cache; \
-        export APP_USER=www-data; \
-    else \
-        echo "Creating devuser with UID 1000 for development"; \
-        useradd -ms /bin/bash -u 1000 devuser && \
-        chown -R devuser:devuser storage bootstrap/cache; \
-        export APP_USER=devuser; \
+# create user if not exist
+RUN if ! id -u $APP_USER > /dev/null 2>&1; then \
+        useradd -ms /bin/bash -u 1000 $APP_USER; \
     fi
+
+RUN chown -R $APP_USER:$APP_USER storage bootstrap/cache
 
 # Switch to the correct user
 USER $APP_USER

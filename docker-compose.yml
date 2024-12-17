@@ -3,12 +3,13 @@ services:
     build:
       context: .
       dockerfile: ./docker/php/Dockerfile
+      args:
+        - APP_USER=${APP_USER}
     container_name: "${APP_NAME}_php"
-    # user: "${SERVER_USER}"
     restart: always
     working_dir: /var/www
     environment:
-        APP_ENV: "${APP_ENV}"
+      - APP_ENV=${APP_ENV}
     volumes:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
