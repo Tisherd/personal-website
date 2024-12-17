@@ -1,10 +1,7 @@
-FROM php:8.4-fpm
+FROM php:8.4-fpm AS dependency_installer
 
 ENV APP_ENV=${APP_ENV:-development}
 
-USER root
-
-# Install system dependencies
 RUN apt-get clean && apt-get update && apt-get install -y \
     git \
     curl \
@@ -16,11 +13,9 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     libxml2-dev \
     libzip-dev \
     zip \
-    unzip
-
-# Install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install \
+    unzip \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) \
     pdo \
     pdo_pgsql \
     mbstring \
@@ -30,32 +25,48 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
     intl \
     xml \
     zip \
-    opcache
+    opcache \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Check and install Redis extension only if not already installed
 RUN if ! php -m | grep -q redis; then \
-        PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
-    fi
+    PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
+fi
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+FROM dependency_installer AS project_installer
 
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Install Composer
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0
 
 # Set workdir
 WORKDIR /var/www
 
+# Composer install
+COPY composer.json composer.lock ./
+RUN if [ "$APP_ENV" = "production" ]; then \
+        composer install --no-dev --no-scripts --no-progress --prefer-dist --optimize-autoloader; \
+        echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini; \
+    else \
+        composer install --no-scripts --no-progress --prefer-dist; \
+    fi
+
 # Copy project files
 COPY . .
 
-# Composer install
+# Сonfigure user
 RUN if [ "$APP_ENV" = "production" ]; then \
-        composer install --no-dev --optimize-autoloader; \
+        echo "Using www-data user for production"; \
+        chown -R www-data:www-data storage bootstrap/cache; \
+        export APP_USER=www-data; \
     else \
-        composer install; \
+        echo "Creating devuser with UID 1000 for development"; \
+        useradd -ms /bin/bash -u 1000 devuser && \
+        chown -R devuser:devuser storage bootstrap/cache; \
+        export APP_USER=devuser; \
     fi
+    
+USER $APP_USER
 
-EXPOSE 9000
 # Launch php-fpm
+EXPOSE 9000
 CMD ["php-fpm"]
