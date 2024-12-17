@@ -5,7 +5,14 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
+Route::get('/', [App\Http\Controllers\AboutController::class, 'index'] )->name('about_me');
+Route::get('/work_experience', [App\Http\Controllers\WorkExperience::class, 'index'] )->name('work_experience');
+
+
+
+// Наследие breeze, изучить, разобрать на сувениры и удалить
+
+Route::get('/welcome', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
