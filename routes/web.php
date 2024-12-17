@@ -5,7 +5,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', [App\Http\Controllers\AboutController::class, 'index'] )->name('about_me');
+Route::get('/', [App\Http\Controllers\AboutController::class, 'index'] )->name('about');
 Route::get('/work_experience', [App\Http\Controllers\WorkExperience::class, 'index'] )->name('work_experience');
 
 

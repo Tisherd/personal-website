@@ -4,9 +4,9 @@ import { Head } from '@inertiajs/vue3';
 </script>
 
 <template>
-    <Head title="About me" />
+    <Head title="Work Experience" />
     <MainLayout>
-        <h1>Welcome to the About Page!</h1>
+        <h1>Welcome to the Work Experience!</h1>
         <p>This is the main content of the page.</p>
     </MainLayout>
 </template>
