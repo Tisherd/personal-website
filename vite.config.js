@@ -16,5 +16,13 @@ export default defineConfig({
                 },
             },
         }),
+
     ],
+    server: {
+        host: true,  // Включает прослушивание на всех интерфейсах
+        port: 3000,
+        hmr: {
+            host: 'localhost', // Или ваш IP-адрес, если нужно
+        },
+    },
 });

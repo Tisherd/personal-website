@@ -1,5 +1,6 @@
 .git
 node_modules
+public/hot
 vendor
 storage/logs
 storage/debugbar
