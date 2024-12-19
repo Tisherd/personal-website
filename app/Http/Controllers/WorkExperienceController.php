@@ -12,8 +12,9 @@ class WorkExperienceController extends Controller
         $workExperience = WorkExperience::all();
 
         return Inertia::render('WorkExperience', [
-            'experience' => $workExperience->toArray(),
+            'experience' => WorkExperience::withPeriodAttribute($workExperience)->toArray(),
             'count' => $workExperience->count(),
+            'total_period_in_month' => WorkExperience::calculateTotalPeriod($workExperience),
         ]);
     }
 }
