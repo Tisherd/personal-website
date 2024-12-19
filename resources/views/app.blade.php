@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title inertia>{{ config('app.name', 'Laravel') }}</title>
+        <title>Резюме ИАБ</title>
+
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <link rel="icon" sizes="32x32" href="{{ asset('favicon-32x32.png') }}">
+        <link rel="icon" sizes="16x16" href="{{ asset('favicon-16x16.png') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
@@ -15,7 +19,7 @@
         @vite(['resources/js/app.js', 'resources/css/app.css'])
         @inertiaHead
     </head>
-    <body class="font-sans antialiased">
+    <body>
         @inertia
     </body>
 </html>

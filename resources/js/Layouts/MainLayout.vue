@@ -1,28 +1,14 @@
-<!-- MainLayout.vue -->
 <template>
-    <div>
-        <HeaderComponent /> <!-- Шапка сайта -->
-        <main>
-            <slot /> <!-- Место для динамического контента -->
+    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+        <HeaderComponent />
+        <main class="container mx-auto px-4 py-8 flex-grow">
+            <slot />
         </main>
-        <FooterComponent /> <!-- Подвал сайта -->
+        <FooterComponent />
     </div>
 </template>
 
-<script>
+<script setup>
 import HeaderComponent from "../Components/Header.vue";
 import FooterComponent from "../Components/Footer.vue";
-
-export default {
-    components: {
-        HeaderComponent,
-        FooterComponent,
-    },
-};
 </script>
-
-<!-- <style>
-main {
-    padding: 20px;
-}
-</style> -->
