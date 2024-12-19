@@ -3,6 +3,7 @@ import MainLayout from "../Layouts/MainLayout.vue";
 
 defineProps({
     experience: Array,
+    count: Number,
 });
 
 const toggleBlock = (block) => { //
@@ -21,7 +22,7 @@ const iso8601DateToLongMonthWithYear = (iso8601Date) => {
         <div class="flex flex-col items-center bg-gray-100">
             <!-- Основной блок с информацией -->
             <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
-                <h1 class="text-xl font-bold mb-2">Кол-во мест работы: 3</h1>
+                <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ count }}</h1>
                 <h1 class="text-xl font-bold mb-2">Опыт работы: 1 год 8 месяцев</h1>
             </div>
 
