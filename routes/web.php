@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [App\Http\Controllers\AboutController::class, 'index'] )->name('about');
-Route::get('/work_experience', [App\Http\Controllers\WorkExperience::class, 'index'] )->name('work_experience');
+Route::get('/work_experience', [App\Http\Controllers\WorkExperienceController::class, 'index'] )->name('work_experience');
+Route::get('/users', [App\Http\Controllers\UsersController::class, 'index'] )->name('users');
 
 
 
