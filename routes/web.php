@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])
+    Route::get('/login', [Controllers\Auth\AuthenticatedSessionController::class, 'create'])
         ->name('login');
 
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
+    Route::post('login', [Controllers\Auth\AuthenticatedSessionController::class, 'store']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+    Route::post('logout', [Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
 
-    Route::get('/', [App\Http\Controllers\AboutController::class, 'index'])->name('about');
-    Route::get('/work_experience', [App\Http\Controllers\WorkExperienceController::class, 'index'])->name('work_experience');
-    Route::get('/users', [App\Http\Controllers\UsersController::class, 'index'])->name('users');
+    Route::get('/', [Controllers\AboutController::class, 'index'])->name('about');
+    Route::get('/work_experience', [Controllers\WorkExperienceController::class, 'index'])->name('work_experience');
+    //Route::get('/users', [Controllers\UserController::class, 'index'])->name('users');
+    Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 });

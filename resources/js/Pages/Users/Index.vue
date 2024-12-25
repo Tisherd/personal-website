@@ -1,11 +1,9 @@
 <script setup>
-import MainLayout from "../Layouts/MainLayout.vue";
-import { ref } from "vue";
+import MainLayout from "../../Layouts/MainLayout.vue";
 
-const users = $page.props.users;
-const copyToClipboard = (password) => {
-    navigator.clipboard.writeText(password);
-};
+defineProps({
+    users: Array,
+});
 </script>
 
 <template>
@@ -15,7 +13,6 @@ const copyToClipboard = (password) => {
             <thead>
                 <tr>
                     <th class="border border-gray-300 px-4 py-2">Login</th>
-                    <th class="border border-gray-300 px-4 py-2">Password</th>
                     <th class="border border-gray-300 px-4 py-2">Role</th>
                     <th class="border border-gray-300 px-4 py-2">Description</th>
                     <th class="border border-gray-300 px-4 py-2">Actions</th>
@@ -24,15 +21,6 @@ const copyToClipboard = (password) => {
             <tbody>
                 <tr v-for="user in users" :key="user.id">
                     <td class="border border-gray-300 px-4 py-2">{{ user.login }}</td>
-                    <td class="border border-gray-300 px-4 py-2">
-                        <span>********</span>
-                        <button
-                            @click="copyToClipboard(user.password)"
-                            class="ml-2 text-blue-500 hover:underline"
-                        >
-                            Copy
-                        </button>
-                    </td>
                     <td class="border border-gray-300 px-4 py-2">{{ user.role }}</td>
                     <td class="border border-gray-300 px-4 py-2">{{ user.desc }}</td>
                     <td class="border border-gray-300 px-4 py-2">
