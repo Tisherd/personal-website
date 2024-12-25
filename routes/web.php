@@ -17,6 +17,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/', [Controllers\AboutController::class, 'index'])->name('about');
     Route::get('/work_experience', [Controllers\WorkExperienceController::class, 'index'])->name('work_experience');
-    //Route::get('/users', [Controllers\UserController::class, 'index'])->name('users');
+    
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 });

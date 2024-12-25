@@ -1,9 +1,26 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { ref } from 'vue';
+
+const { props } = usePage();
+const auth = props.auth;
+
+const form = useForm({});
+
+const logout = () => {
+    form.post(route('logout'));
+};
+
+const showDropdown = ref(false);
+
+const toggleDropdown = () => {
+    showDropdown.value = !showDropdown.value;
+};
 </script>
 
 <template>
-    <header class="bg-gray-600 text-white p-3">
+    <header class="bg-gray-600 text-white p-3 flex justify-between items-center">
+        <!-- Левая часть: навигация -->
         <ul class="flex space-x-4 pl-20">
             <li>
                 <Link :href="route('about')">Обо мне</Link>
@@ -12,7 +29,7 @@ import { Link } from '@inertiajs/vue3';
                 <Link :href="route('work_experience')">Опыт</Link>
             </li>
             <li>
-                <a href="https://github.com/Tisherd/andrey_ivanov_portfolio" target="_blank">Исходный код</a>
+                <a href="https://github.com/Tisherd/personal-website" target="_blank">Исходный код</a>
             </li>
             <li>
                 <Link :href="route('users.index')" class="ml-10">Пользователи</Link>
@@ -21,5 +38,22 @@ import { Link } from '@inertiajs/vue3';
                 <Link href="/telescope">Telescope</Link>
             </li>
         </ul>
+
+        <!-- Правая часть: имя пользователя -->
+        <div class="relative pr-20">
+            <button class="text-white hover:underline" @click="showDropdown = !showDropdown">
+                {{ auth.user.login }}
+            </button>
+
+            <div v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
+                <ul>
+                    <li>
+                        <button class="w-full text-left px-4 py-2 hover:bg-gray-200" @click="logout">
+                            Выйти
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </header>
 </template>

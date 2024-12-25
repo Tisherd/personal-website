@@ -1,3 +1,8 @@
+<script setup>
+import HeaderComponent from "../Components/Header.vue";
+import FooterComponent from "../Components/Footer.vue";
+</script>
+
 <template>
     <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
         <HeaderComponent />
@@ -7,8 +12,3 @@
         <FooterComponent />
     </div>
 </template>
-
-<script setup>
-import HeaderComponent from "../Components/Header.vue";
-import FooterComponent from "../Components/Footer.vue";
-</script>

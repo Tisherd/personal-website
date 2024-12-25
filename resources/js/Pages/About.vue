@@ -34,7 +34,8 @@ const calculateAge = (dateOfBirth) => {
                     <div>
                         <h1 class="text-2xl font-bold">{{ about.full_name }}</h1>
                         <p class="text-gray-600"> {{ formattedDate(about.date_of_birth) }} ({{
-                            calculateAge(about.date_of_birth) }} лет)</p>
+                            calculateAge(about.date_of_birth) }} лет)
+                        </p>
                     </div>
                 </div>
                 <div class="mt-4">
