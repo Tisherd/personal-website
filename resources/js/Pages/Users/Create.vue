@@ -3,9 +3,10 @@ import { Link, useForm } from '@inertiajs/vue3';
 import MainLayout from "../../Layouts/MainLayout.vue";
 
 const form = useForm({
-    name: null,
-    email: null,
-    password: null
+    login: null,
+    password: null,
+    desc: null,
+    role: 'test',
 });
 
 function store() {
@@ -31,19 +32,11 @@ function store() {
                     <div class="grid grid-cols-6 gap-6">
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Имя</label>
-                            <input :class="{ 'border-red-500': form.errors.name }" v-model="form.name" type="text"
+                            <label class="block text-sm font-medium text-gray-700">Логин</label>
+                            <input :class="{ 'border-red-500': form.errors.login }" v-model="form.login" type="text"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
-                            <div class="text-red-500 mt-2" v-if="form.errors.name">{{ form.errors.name }}</div>
-                        </div>
-
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">E-mail</label>
-                            <input :class="{ 'border-red-500': form.errors.email }" v-model="form.email" type="email"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-
-                            <div class="text-red-500 mt-2" v-if="form.errors.email">{{ form.errors.email }}</div>
+                            <div class="text-red-500 mt-2" v-if="form.errors.login">{{ form.errors.login }}</div>
                         </div>
 
                         <div class="col-span-6">
@@ -53,6 +46,15 @@ function store() {
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <div class="text-red-500 mt-2" v-if="form.errors.password">{{ form.errors.password }}</div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Описание</label>
+                            <textarea
+                                v-model="form.desc"
+                                rows="4"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </textarea>
                         </div>
 
                     </div>
