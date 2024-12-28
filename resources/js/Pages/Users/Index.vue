@@ -1,15 +1,15 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
-import MainLayout from "../../Layouts/MainLayout.vue";
+import { Link, router } from '@inertiajs/vue3';
+import MainLayout from "@/Layouts/MainLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 defineProps({
     users: Object,
 });
 
-function destroy(id) {
-    if (confirm("Вы уверенны?")) {
-        this.$inertia.delete(this.route('users.destroy', id));
+const destroy = (id) => {
+    if (confirm("Вы уверены?")) {
+        router.delete(route('users.destroy', id));
     }
 }
 </script>
