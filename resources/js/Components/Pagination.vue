@@ -4,9 +4,6 @@ import { Link } from '@inertiajs/vue3';
 defineProps({
     links: Array,
 });
-
-console.log('some');
-
 </script>
 
 <template>
@@ -21,7 +18,7 @@ console.log('some');
                         :key="k"
                         :disabled="(link.url === null) || (link.active)"
                         :class="[
-                            link.active ? 'text-blue-500 font-bold' : 'text-gray-500',
+                            link.active ? 'text-blue-500 font-bold pointer-events-none' : 'text-gray-500',
                             link.url === null ? 'bg-gray-100 pointer-events-none' : 'hover:bg-gray-50',
                             'bg-white border-gray-300 relative inline-flex items-center px-4 py-2 border text-sm font-medium'
                         ]"
