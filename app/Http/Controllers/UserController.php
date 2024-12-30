@@ -55,6 +55,8 @@ class UserController extends Controller
 
         $user->update($validated);
 
+        session()->flash('message', 'Пользователь успешно обновлен!');
+
         return redirect()->route('users.index');
     }
 

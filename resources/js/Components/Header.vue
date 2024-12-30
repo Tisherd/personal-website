@@ -1,9 +1,6 @@
 <script setup>
-import { Link, useForm, usePage } from '@inertiajs/vue3';
+import { Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-
-const { props } = usePage();
-const auth = props.auth;
 
 const form = useForm({});
 
@@ -12,10 +9,6 @@ const logout = () => {
 };
 
 const showDropdown = ref(false);
-
-const toggleDropdown = () => {
-    showDropdown.value = !showDropdown.value;
-};
 </script>
 
 <template>
@@ -42,7 +35,7 @@ const toggleDropdown = () => {
         <!-- Правая часть: имя пользователя -->
         <div class="relative pr-20">
             <button class="text-white hover:underline" @click="showDropdown = !showDropdown">
-                {{ auth.user.login }}
+                {{ $page.props.auth.user.login }}
             </button>
 
             <div v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
@@ -56,4 +49,8 @@ const toggleDropdown = () => {
             </div>
         </div>
     </header>
+
+    <p v-if="$page.props.message" class="bg-indigo-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
+        {{ $page.props.message }}
+    </p>
 </template>
