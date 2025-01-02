@@ -13,8 +13,7 @@ This is a resume project, optional for test tasks
 
 # Installation
 ## Docker compose
-- docker compose build
-- docker compose up  
+- docker compose up --build
   
 Inside docker container_php (docker exec -it andrey_ivanov_portfolio_php bash):
 - php artisan migrate
