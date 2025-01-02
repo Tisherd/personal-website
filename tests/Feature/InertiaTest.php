@@ -4,30 +4,16 @@ namespace Tests\Feature;
 
 use App\Models\User;
 use Tests\TestCase;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
-
-use Illuminate\Support\Str;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class InertiaTest extends TestCase
 {
-    /**
-     * A basic feature test example.
-     */
+    use RefreshDatabase;
+
     public function test_authenticated_user_can_access_users_page(): void
     {
-        // Найти или создать пользователя
-        $user = User::firstOrCreate(
-            [
-                'login' => 'Test User 18'
-            ],
-            [
-                'login' => 'Test User 18',
-                'password' => Hash::make(Str::random(20)),
-                'role' => 'test',
-                'desc' => 'User for testing',
-            ]
-        );
+        $user = User::factory()->create();
 
         $this->actingAs($user);
 
