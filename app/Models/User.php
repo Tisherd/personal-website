@@ -23,7 +23,7 @@ class User extends Authenticatable
     protected $fillable = [
         'login',
         'password',
-        'role',
+        'role_id',
         'desc',
     ];
 
@@ -38,7 +38,8 @@ class User extends Authenticatable
 
     public function role()
     {
-        return $this->belongsTo(UserRole::class, 'role_id');
+        return $this->belongsTo(UserRole::class, 'role_id')
+            ->withDefault(['title' => 'no_role']);
     }
 
     /**
