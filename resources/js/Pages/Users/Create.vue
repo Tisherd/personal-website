@@ -2,12 +2,17 @@
 import { Link, useForm } from '@inertiajs/vue3';
 import MainLayout from "../../Layouts/MainLayout.vue";
 
+const props = defineProps({
+    roles: Object,
+    defaultRoleId: Number,
+})
+
 const form = useForm({
     login: null,
     password: null,
     desc: null,
-    role: 'test',
-});
+    role_id: props.defaultRoleId || null,
+})
 
 function store() {
     form.post(route('users.store'))
@@ -46,6 +51,21 @@ function store() {
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <div class="text-red-500 mt-2" v-if="form.errors.password">{{ form.errors.password }}</div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Роль</label>
+                            <select
+                                v-model="form.role_id"
+                                :class="{ 'border-red-500': form.errors.role_id }"
+                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled>Выберите роль</option>
+                                <option v-for="(title, id) in roles" :key="id" :value="id">
+                                    {{ title }}
+                                </option>
+                            </select>
+
+                            <div class="text-red-500 mt-2" v-if="form.errors.role_id">{{ form.errors.role_id }}</div>
                         </div>
 
                         <div class="col-span-6">

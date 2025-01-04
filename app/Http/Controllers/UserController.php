@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserRole;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
@@ -18,7 +19,12 @@ class UserController extends Controller
 
     public function create()
     {
-        return Inertia::render('Users/Create');
+        $roles = UserRole::pluck('title', 'id');
+
+        return Inertia::render('Users/Create', [
+            'roles' => $roles,
+            'defaultRoleId' => $roles->search('user'),
+        ]);
     }
 
     public function store(Request $request)
@@ -26,14 +32,14 @@ class UserController extends Controller
         $validated = $request->validate([
             'login' => 'required|unique:users,login',
             'password' => 'required|min:6',
-            'role' => 'required',
-            'desc' => 'nullable',
+            'role_id' => 'required|exists:user_roles,id',
+            'desc' => 'nullable|string',
         ]);
 
         User::create([
             'login' => $validated['login'],
             'password' => Hash::make($validated['password']),
-            'role' => $validated['role'],
+            'role_id' => $validated['role_id'],
             'desc' => $validated['desc'],
         ]);
 
