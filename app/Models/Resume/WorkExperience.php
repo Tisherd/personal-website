@@ -10,6 +10,8 @@ class WorkExperience extends Model
 {
     public $timestamps = false;
 
+    protected $table = 'work_experiences';
+
     protected $fillable = [
         'company_name',
         'position',
