@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\UserRole;
-use Illuminate\Http\Request;
+
+use App\Http\Requests\StoreUserRequest;
+use App\Http\Requests\UpdateUserRequest;
+
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
@@ -27,14 +30,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        $validated = $request->validate([
-            'login' => 'required|unique:users,login',
-            'password' => 'required|min:6',
-            'role_id' => 'required|exists:user_roles,id',
-            'desc' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         User::create([
             'login' => $validated['login'],
@@ -56,13 +54,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request, User $user)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        $validated = $request->validate([
-            'login' => 'required|unique:users,login,' . $user->id,
-            'role_id' => 'required|exists:user_roles,id',
-            'desc' => 'nullable|string',
-        ]);
+        $validated = $request->validated();
 
         $user->update($validated);
 
