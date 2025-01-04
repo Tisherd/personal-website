@@ -1,4 +1,5 @@
 <script setup>
+import InputLabel from '@/Components/Base/InputLabel.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import MainLayout from "../../Layouts/MainLayout.vue";
 
@@ -36,7 +37,7 @@ function update() {
                     <div class="grid grid-cols-6 gap-6">
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Логин</label>
+                            <InputLabel value="Логин" />
                             <input :class="{ 'border-red-500': form.errors.login }" v-model="form.login" type="text"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
@@ -44,7 +45,7 @@ function update() {
                         </div>
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Роль</label>
+                            <InputLabel value="Роль" />
                             <select
                                 v-model="form.role_id"
                                 :class="{ 'border-red-500': form.errors.role_id }"
@@ -59,7 +60,7 @@ function update() {
                         </div>
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Описание</label>
+                            <InputLabel value="Описание" />
                             <textarea
                                 v-model="form.desc"
                                 rows="4"
