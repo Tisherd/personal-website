@@ -4,17 +4,18 @@ import MainLayout from "../../Layouts/MainLayout.vue";
 
 const props = defineProps({
     user: Object,
+    roles: Object,
 });
 
 const form = useForm({
     login: props.user.login,
     desc: props.user.desc,
-    role: props.user.role,
+    role_id: props.user.role_id,
 });
 
 function update() {
     form.put(route('users.update', props.user.id))
-}
+};
 </script>
 
 <template>
@@ -40,6 +41,21 @@ function update() {
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <div class="text-red-500 mt-2" v-if="form.errors.login">{{ form.errors.login }}</div>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Роль</label>
+                            <select
+                                v-model="form.role_id"
+                                :class="{ 'border-red-500': form.errors.role_id }"
+                                class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="" disabled>Выберите роль</option>
+                                <option v-for="(title, id) in roles" :key="id" :value="id">
+                                    {{ title }}
+                                </option>
+                            </select>
+
+                            <div class="text-red-500 mt-2" v-if="form.errors.role_id">{{ form.errors.role_id }}</div>
                         </div>
 
                         <div class="col-span-6">

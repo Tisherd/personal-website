@@ -43,20 +43,25 @@ class UserController extends Controller
             'desc' => $validated['desc'],
         ]);
 
+        session()->flash('message', 'Пользователь успешно создан!');
+
         return redirect()->route('users.index');
     }
 
     public function edit(User $user)
     {
-        return Inertia::render('Users/Edit', ['user' => $user]);
+        return Inertia::render('Users/Edit', [
+            'user' => $user,
+            'roles' => UserRole::pluck('title', 'id'),
+        ]);
     }
 
     public function update(Request $request, User $user)
     {
         $validated = $request->validate([
             'login' => 'required|unique:users,login,' . $user->id,
-            'role' => 'required',
-            'desc' => 'nullable',
+            'role_id' => 'required|exists:user_roles,id',
+            'desc' => 'nullable|string',
         ]);
 
         $user->update($validated);
@@ -69,6 +74,8 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $user->delete();
+
+        session()->flash('message', 'Пользователь успешно удален!');
 
         return redirect()->route('users.index');
     }

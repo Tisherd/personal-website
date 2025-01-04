@@ -11,7 +11,7 @@ const destroy = (id) => {
     if (confirm("Вы уверены?")) {
         router.delete(route('users.destroy', id));
     }
-}
+};
 </script>
 
 <template>

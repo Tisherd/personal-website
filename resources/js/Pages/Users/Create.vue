@@ -5,18 +5,18 @@ import MainLayout from "../../Layouts/MainLayout.vue";
 const props = defineProps({
     roles: Object,
     defaultRoleId: Number,
-})
+});
 
 const form = useForm({
     login: null,
     password: null,
     desc: null,
     role_id: props.defaultRoleId || null,
-})
+});
 
 function store() {
     form.post(route('users.store'))
-}
+};
 </script>
 
 <template>
