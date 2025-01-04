@@ -14,9 +14,13 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 
+    Route::get('/', function () {
+        return redirect()->route('resume');
+    });
 
-    Route::get('/', [Controllers\AboutController::class, 'index'])->name('about');
+
+    Route::get('/resume', [Controllers\AboutController::class, 'index'])->name('resume');
     Route::get('/work_experience', [Controllers\WorkExperienceController::class, 'index'])->name('work_experience');
-    
+
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 });
