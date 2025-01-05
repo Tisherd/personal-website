@@ -1,6 +1,7 @@
 <script setup>
 import InputLabel from '@/Components/Base/InputLabel.vue';
 import InputError from '@/Components/Base/InputError.vue';
+import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import MainLayout from "../../Layouts/MainLayout.vue";
 
@@ -83,10 +84,13 @@ function store() {
                 </div>
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <button type="submit"
-                        class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <PrimaryButton
+                        class="ms-4"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
                         Добавить
-                    </button>
+                    </PrimaryButton>
                 </div>
             </form>
         </div>
