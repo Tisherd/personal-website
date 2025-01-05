@@ -20,7 +20,6 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/resume', [Controllers\ResumeController::class, 'index'])->name('resume');
-    Route::get('/work_experience', [Controllers\WorkExperienceController::class, 'index'])->name('work_experience');
 
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 });
