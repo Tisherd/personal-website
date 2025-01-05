@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Inertia\Inertia;
+use App\Models\Resume\WorkExperience;
 
 class ResumeController extends Controller
 {
@@ -18,8 +19,15 @@ class ResumeController extends Controller
             'phone' => '+7 (900) 123-45-67',
         ];
 
+        $workExperience = WorkExperience::all();
+
         return Inertia::render('Resume/Main', [
-            'aboutMe' => $aboutMe
+            'aboutMe' => $aboutMe,
+            'workExperience' => [
+                'experience' => WorkExperience::withPeriodAttribute($workExperience)->toArray(),
+                'count' => $workExperience->count(),
+                'totalPeriodInMonth' => WorkExperience::calculateTotalPeriod($workExperience),
+            ],
         ]);
     }
 }

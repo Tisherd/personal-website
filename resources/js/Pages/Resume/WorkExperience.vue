@@ -1,18 +1,25 @@
 <script setup>
-import MainLayout from "@/Layouts/MainLayout.vue";
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-    experience: Array, // Переданный массив опыта работы
-    count: Number,     // Количество мест работы
-    total_period_in_month:  Number, // Количество мест работы
+    workExperience: {
+        type: Object,
+        required: true,
+        validator(value) {
+            return (
+                Array.isArray(value.experience) &&
+                typeof value.count === "number" &&
+                typeof value.totalPeriodInMonth === "number"
+            );
+        },
+    },
 });
 
 const sortOrder = ref("asc"); // Порядок сортировки: "asc" или "desc"
 
 const sortedExperience = computed(() => {
     // Используем props напрямую
-    return [...props.experience].sort((a, b) => {
+    return [...props.workExperience.experience].sort((a, b) => {
         const dateA = new Date(a.start_date);
         const dateB = new Date(b.start_date);
         return sortOrder.value === "asc" ? dateA - dateB : dateB - dateA;
@@ -58,43 +65,38 @@ const formattedPeriod = (periodInMonth) => {
 </script>
 
 <template>
-    <MainLayout>
-        <div class="flex flex-col items-center bg-gray-100">
-            <!-- Основной блок с информацией -->
-            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
-                <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ count }}</h1>
-                <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(total_period_in_month) }}</h1>
-                <!-- Кнопка для сортировки -->
-                <button
-                    @click="toggleSortOrder"
-                    class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600"
-                >
-                    {{ sortOrder === 'asc' ? 'От старых к новым' : 'От новых к старым' }}
-                </button>
-            </div>
+    <!-- Основной блок с информацией -->
+    <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
+        <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperience.count }}</h1>
+        <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(workExperience.totalPeriodInMonth) }}</h1>
+        <!-- Кнопка для сортировки -->
+        <button @click="toggleSortOrder"
+            class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-600">
+            {{ sortOrder === 'asc' ? 'От старых к новым' : 'От новых к старым' }}
+        </button>
+    </div>
 
-            <!-- Блоки с контентом, которые раскрываются по клику -->
-            <div v-for="(block, index) in sortedExperience" :key="block.id" class="w-full max-w-2xl mb-4">
-                <div class="bg-white p-4 rounded-lg shadow-md">
-                    <button @click="toggleBlock(block)" class="w-full text-left font-semibold text-lg">
-                        {{ block.company_name }}
-                        <span class="float-right">{{ block.isOpen ? '-' : '+' }}</span>
-                    </button>
-                    <div v-if="block.isOpen" class="mt-2 text-gray-700">
-                        <p>Период работы: {{ iso8601DateToLongMonthWithYear(block.start_date) }} - {{ iso8601DateToLongMonthWithYear(block.end_date) }}</p>
-                        <p>Период: {{ formattedPeriod(block.period_in_month) }}</p>
-                        <p>Должность: {{ block.position }}</p>
-                        <p>Стек технологий:</p>
-                        <ul class="list-disc pl-5">
-                            <li v-for="item in block.technology_stack" class="mb-1 text-gray-800">
-                                <p>{{ item }}</p>
-                            </li>
-                        </ul>
-                        <p>Описание: </p>
-                        <p>{{ block.desc }}</p>
-                    </div>
-                </div>
+    <!-- Блоки с контентом, которые раскрываются по клику -->
+    <div v-for="(block, index) in sortedExperience" :key="block.id" class="w-full max-w-2xl mb-4">
+        <div class="bg-white p-4 rounded-lg shadow-md">
+            <button @click="toggleBlock(block)" class="w-full text-left font-semibold text-lg">
+                {{ block.company_name }}
+                <span class="float-right">{{ block.isOpen ? '-' : '+' }}</span>
+            </button>
+            <div v-if="block.isOpen" class="mt-2 text-gray-700">
+                <p>Период работы: {{ iso8601DateToLongMonthWithYear(block.start_date) }} - {{
+                    iso8601DateToLongMonthWithYear(block.end_date) }}</p>
+                <p>Период: {{ formattedPeriod(block.period_in_month) }}</p>
+                <p>Должность: {{ block.position }}</p>
+                <p>Стек технологий:</p>
+                <ul class="list-disc pl-5">
+                    <li v-for="item in block.technology_stack" class="mb-1 text-gray-800">
+                        <p>{{ item }}</p>
+                    </li>
+                </ul>
+                <p>Описание: </p>
+                <p>{{ block.desc }}</p>
             </div>
         </div>
-    </MainLayout>
+    </div>
 </template>
