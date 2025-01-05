@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/resume', [Controllers\ResumeController::class, 'index'])->name('resume');
+    Route::get('/admin', [Controllers\AdminController::class, 'index'])->name('admin');
 
     Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
 });
