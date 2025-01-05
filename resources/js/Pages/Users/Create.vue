@@ -1,5 +1,6 @@
 <script setup>
 import InputLabel from '@/Components/Base/InputLabel.vue';
+import InputError from '@/Components/Base/InputError.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 import MainLayout from "../../Layouts/MainLayout.vue";
 
@@ -42,7 +43,7 @@ function store() {
                             <input :class="{ 'border-red-500': form.errors.login }" v-model="form.login" type="text"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
-                            <div class="text-red-500 mt-2" v-if="form.errors.login">{{ form.errors.login }}</div>
+                            <InputError class="mt-2" :message="form.errors.login" />
                         </div>
 
                         <div class="col-span-6">
@@ -51,7 +52,7 @@ function store() {
                                 type="password"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
-                            <div class="text-red-500 mt-2" v-if="form.errors.password">{{ form.errors.password }}</div>
+                            <InputError class="mt-2" :message="form.errors.password" />
                         </div>
 
                         <div class="col-span-6">
@@ -66,7 +67,7 @@ function store() {
                                 </option>
                             </select>
 
-                            <div class="text-red-500 mt-2" v-if="form.errors.role_id">{{ form.errors.role_id }}</div>
+                            <InputError class="mt-2" :message="form.errors.role_id" />
                         </div>
 
                         <div class="col-span-6">
