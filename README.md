@@ -18,5 +18,7 @@ This is a resume project, optional for test tasks
 Inside docker container_php (docker exec -it andrey_ivanov_portfolio_php bash):
 - php artisan migrate
 - php artisan storage:link
+- php artisan db:seed
+
 
 
