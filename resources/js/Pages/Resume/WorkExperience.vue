@@ -1,5 +1,5 @@
 <script setup>
-import MainLayout from "../Layouts/MainLayout.vue";
+import MainLayout from "@/Layouts/MainLayout.vue";
 import { ref, computed } from 'vue';
 
 const props = defineProps({

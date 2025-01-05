@@ -1,8 +1,8 @@
 <script setup>
-import MainLayout from "../Layouts/MainLayout.vue";
+import MainLayout from "@/Layouts/MainLayout.vue";
 
 defineProps({
-    about: Object, // Данные о пользователе, передаются из контроллера
+    about: Object,
 });
 
 const formattedDate = (dateOfBirth) => {

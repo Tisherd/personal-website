@@ -19,6 +19,6 @@ class AboutController extends Controller
             'phone' => '+7 (900) 123-45-67',
         ];
 
-        return Inertia::render('About', ['about' => $about]);
+        return Inertia::render('Resume/About', ['about' => $about]);
     }
 }
