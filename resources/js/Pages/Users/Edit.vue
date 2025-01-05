@@ -1,9 +1,9 @@
 <script setup>
+import MainLayout from "@/Layouts/MainLayout.vue";
 import InputLabel from '@/Components/Base/InputLabel.vue';
 import InputError from '@/Components/Base/InputError.vue';
 import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
 import { Link, useForm } from '@inertiajs/vue3';
-import MainLayout from "../../Layouts/MainLayout.vue";
 
 const props = defineProps({
     user: Object,

@@ -1,6 +1,6 @@
 <script setup>
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
-import FooterComponent from "../Components/Footer.vue";
+import FooterComponent from "@/Components/Footer.vue";
 import { Link } from '@inertiajs/vue3';
 </script>
 
