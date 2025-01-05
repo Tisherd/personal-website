@@ -3,7 +3,7 @@ import GuestLayout from '@/Layouts/GuestLayout.vue';
 import InputError from '@/Components/Base/InputError.vue';
 import InputLabel from '@/Components/Base/InputLabel.vue';
 import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
-import TextInput from '@/Components/TextInput.vue';
+import TextInput from '@/Components/Base/TextInput.vue';
 import { useForm } from '@inertiajs/vue3';
 
 defineProps({
