@@ -1,21 +1,22 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\User;
-use App\Models\UserRole;
-
+use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
 use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 
+use App\Models\User;
+use App\Models\UserRole;
+
 class UserController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Users/Index', [
+        return Inertia::render('Admin/Users/Index', [
             'users' => User::orderByDesc('created_at')->with('role')->paginate(5),
         ]);
     }
@@ -24,7 +25,7 @@ class UserController extends Controller
     {
         $roles = UserRole::pluck('title', 'id');
 
-        return Inertia::render('Users/Create', [
+        return Inertia::render('Admin/Users/Create', [
             'roles' => $roles,
             'defaultRoleId' => $roles->search('user'),
         ]);
@@ -43,12 +44,12 @@ class UserController extends Controller
 
         session()->flash('message', 'Пользователь успешно создан!');
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     public function edit(User $user)
     {
-        return Inertia::render('Users/Edit', [
+        return Inertia::render('Admin/Users/Edit', [
             'user' => $user,
             'roles' => UserRole::pluck('title', 'id'),
         ]);
@@ -62,7 +63,7 @@ class UserController extends Controller
 
         session()->flash('message', 'Пользователь успешно обновлен!');
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 
     public function destroy(User $user)
@@ -71,6 +72,6 @@ class UserController extends Controller
 
         session()->flash('message', 'Пользователь успешно удален!');
 
-        return redirect()->route('users.index');
+        return redirect()->route('admin.users.index');
     }
 }

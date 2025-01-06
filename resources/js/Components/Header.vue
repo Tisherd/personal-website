@@ -27,14 +27,11 @@ const showDropdown = ref(false);
             <li>
                 <Link href="#">Блог</Link>
             </li>
-            <li>
+            <!-- <li>
                 <a href="https://github.com/Tisherd/personal-website" target="_blank">Исходный код</a>
-            </li>
+            </li> -->
             <li>
-                <Link :href="route('users.index')" class="ml-10">Админка</Link>
-            </li>
-            <li>
-                <Link href="/telescope">Telescope</Link>
+                <Link :href="route('admin.about_me.index')" class="ml-10">Админка</Link>
             </li>
         </ul>
 

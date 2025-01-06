@@ -1,40 +1,41 @@
 <script setup>
-import MainLayout from "@/Layouts/MainLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import InputLabel from '@/Components/Base/InputLabel.vue';
 import InputError from '@/Components/Base/InputError.vue';
 import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 
 const props = defineProps({
-    user: Object,
     roles: Object,
+    defaultRoleId: Number,
 });
 
 const form = useForm({
-    login: props.user.login,
-    desc: props.user.desc,
-    role_id: props.user.role_id,
+    login: null,
+    password: null,
+    desc: null,
+    role_id: props.defaultRoleId || null,
 });
 
-function update() {
-    form.put(route('users.update', props.user.id))
+function store() {
+    form.post(route('admin.users.store'))
 };
 </script>
 
 <template>
-    <MainLayout>
+    <AdminLayout>
         <div class="bg-white shadow mb-10 ">
             <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                 <h1 class="text-3xl font-bold text-gray-900">
-                    Редактировать пользователя
+                    Добавить пользователя
                 </h1>
 
-                <Link :href="route('users.index')" class="text-indigo-600 hover:text-indigo-900 my-5 block">
+                <Link :href="route('admin.users.index')" class="text-indigo-600 hover:text-indigo-900 my-5 block">
                     Вернуться назад
                 </Link>
             </div>
 
-            <form @submit.prevent="update">
+            <form @submit.prevent="store">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <div class="grid grid-cols-6 gap-6">
 
@@ -44,6 +45,15 @@ function update() {
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <InputError class="mt-2" :message="form.errors.login" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Пароль" />
+                            <input :class="{ 'border-red-500': form.errors.password }" v-model="form.password"
+                                type="password"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                            <InputError class="mt-2" :message="form.errors.password" />
                         </div>
 
                         <div class="col-span-6">
@@ -79,10 +89,10 @@ function update() {
                         :class="{ 'opacity-25': form.processing }"
                         :disabled="form.processing"
                     >
-                        Обновить
+                        Добавить
                     </PrimaryButton>
                 </div>
             </form>
         </div>
-    </MainLayout>
+    </AdminLayout>
 </template>

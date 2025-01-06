@@ -20,7 +20,14 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/resume', [Controllers\ResumeController::class, 'index'])->name('resume');
-    Route::get('/admin', [Controllers\AdminController::class, 'index'])->name('admin');
 
-    Route::resource('users', App\Http\Controllers\UserController::class)->middleware('auth');
+    Route::prefix('admin')->as('admin.')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('about_me.index');
+        });
+
+        Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])->name('about_me.index');
+        Route::get('/work_experience', [Controllers\Admin\AboutMeController::class, 'index'])->name('work_experience.index');
+        Route::resource('users', App\Http\Controllers\Admin\UserController::class)->middleware('auth');
+    });
 });

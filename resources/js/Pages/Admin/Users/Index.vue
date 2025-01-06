@@ -1,6 +1,6 @@
 <script setup>
 import { Link, router } from '@inertiajs/vue3';
-import MainLayout from "@/Layouts/MainLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import Pagination from "@/Components/Pagination.vue";
 
 defineProps({
@@ -9,16 +9,16 @@ defineProps({
 
 const destroy = (id) => {
     if (confirm("Вы уверены?")) {
-        router.delete(route('users.destroy', id));
+        router.delete(route('admin.users.destroy', id));
     }
 };
 </script>
 
 <template>
-    <MainLayout>
+    <AdminLayout>
         <h1 class="text-2xl font-bold mb-4 ml-5">Users</h1>
 
-        <Link :href="route('users.create')" class="ml-5 text-indigo-600 hover:text-indigo-900 my-5 block">
+        <Link :href="route('admin.users.create')" class="ml-5 text-indigo-600 hover:text-indigo-900 my-5 block">
             Добавить пользователя
         </Link>
 
@@ -65,7 +65,7 @@ const destroy = (id) => {
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
                                     <Link
                                         class="text-indigo-600 hover:text-indigo-900"
-                                        :href="route('users.edit', user.id)"
+                                        :href="route('admin.users.edit', user.id)"
                                     >Редактировать</Link>
 
                                     <a @click="destroy(user.id)" class="text-red-600 hover:text-red-900 cursor-pointer"
@@ -84,5 +84,5 @@ const destroy = (id) => {
                 </div>
             </div>
         </div>
-    </MainLayout>
+    </AdminLayout>
 </template>
