@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\AboutMe;
+use App\Http\Requests\Admin\UpdateAboutMeRequest;
 
 class AboutMeController extends Controller
 {
@@ -14,22 +14,15 @@ class AboutMeController extends Controller
         return inertia('Admin/AboutMe', ['aboutMe' => $data]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateAboutMeRequest $request)
     {
-        $validated = $request->validate([
-            'full_name' => 'required|string|max:255',
-            'birth_date' => 'required|date',
-            'photo' => 'nullable|image|max:2048',
-            'about_me' => 'required|string',
-            'contacts' => 'required|string',
-        ]);
+        $validated = $request->validated();
 
         $aboutMe = AboutMe::firstOrFail();
         if ($request->hasFile('photo')) {
             $path = $request->file('photo')->store('photos', 'public');
             $validated['photo_path'] = $path;
         }
-
 
         $aboutMe->update($validated);
 
