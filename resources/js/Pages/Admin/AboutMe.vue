@@ -30,7 +30,17 @@ function cancelChanges() {
 
 // Сохраняем изменения
 function saveChanges() {
+    const data = new FormData();
+    for (const key in form.data()) {
+        data.append(key, form[key]);
+    }
+    if (form.photo) {
+        data.append("photo", form.photo);
+    }
+
     form.post(route("admin.about_me.update"), {
+        data,
+        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
             Object.assign(initialData.value, form.data());
@@ -47,7 +57,7 @@ function saveChanges() {
 function resetFileInput() {
     const fileInput = document.getElementById("photo");
     if (fileInput) {
-        fileInput.value = ""; // Сброс значения
+        fileInput.value = "";
     }
 }
 
