@@ -1,5 +1,6 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
+import InputLabel from '@/Components/Base/InputLabel.vue';
 import { ref, watch } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
@@ -11,15 +12,20 @@ const props = defineProps({
 // Инициализация данных формы
 const form = useForm({ ...props.aboutMe });
 const initialData = ref({ ...props.aboutMe }); // Сохраняем начальные данные для сравнения
-const oldPhotoUrl = ref(props.aboutMe.photo_url || "/images/default_photo.jpg"); // Старое фото
+const oldPhotoUrl = ref(`/storage/${props.aboutMe.photo_path || 'images/default_photo.jpg'}`);
 const newPhotoUrl = ref(null); // Новое фото для предпросмотра
 const hasChanges = ref(false); // Флаг наличия изменений
 
 // Обновляем флаг изменений при изменении данных формы
 watch(
-    () => form.data(),
-    () => {
-        hasChanges.value = JSON.stringify(form.data()) !== JSON.stringify(initialData.value);
+    () => ({
+        formData: form.data(),
+        newPhoto: newPhotoUrl.value,
+    }),
+    ({ formData, newPhoto }) => {
+        hasChanges.value =
+            JSON.stringify(formData) !== JSON.stringify(initialData.value) ||
+            newPhoto !== oldPhotoUrl.value;
     },
     { deep: true }
 );
@@ -58,53 +64,9 @@ function handlePhotoUpload(event) {
     <AdminLayout>
         <h1 class="text-2xl font-bold">Обо мне</h1>
         <form @submit.prevent="saveChanges" class="mt-6 space-y-4">
-            <!-- ФИО -->
-            <div>
-                <label for="fullName" class="block text-sm font-medium text-gray-700">ФИО</label>
-                <input
-                    id="fullName"
-                    v-model="form.full_name"
-                    type="text"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-            </div>
-
-            <!-- Дата рождения -->
-            <div>
-                <label for="birthDate" class="block text-sm font-medium text-gray-700">Дата рождения</label>
-                <input
-                    id="birthDate"
-                    v-model="form.birth_date"
-                    type="date"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-            </div>
-
-            <!-- Обо мне -->
-            <div>
-                <label for="aboutMe" class="block text-sm font-medium text-gray-700">Обо мне</label>
-                <textarea
-                    id="aboutMe"
-                    v-model="form.about_me"
-                    rows="4"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                ></textarea>
-            </div>
-
-            <!-- Контакты -->
-            <div>
-                <label for="contacts" class="block text-sm font-medium text-gray-700">Контакты</label>
-                <input
-                    id="contacts"
-                    v-model="form.contacts"
-                    type="text"
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                />
-            </div>
-
             <!-- Фото -->
             <div>
-                <label for="photo" class="block text-sm font-medium text-gray-700">Фотография</label>
+                <InputLabel value="Фотография" />
                 <div class="flex items-center space-x-4 mt-2">
                     <!-- Старое фото -->
                     <div v-if="oldPhotoUrl" class="w-24 h-24 border rounded overflow-hidden">
@@ -117,29 +79,48 @@ function handlePhotoUpload(event) {
                     </div>
 
                     <!-- Загрузка фото -->
-                    <input
-                        id="photo"
-                        type="file"
-                        accept="image/*"
-                        @change="handlePhotoUpload"
-                        class="block text-sm text-gray-500"
-                    />
+                    <input id="photo" type="file" accept="image/*" @change="handlePhotoUpload"
+                        class="block text-sm text-gray-500" />
                 </div>
             </div>
 
+            <!-- ФИО -->
+            <div>
+                <InputLabel value="Полное имя" />
+                <input id="fullName" v-model="form.full_name" type="text"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+            </div>
+
+            <!-- Дата рождения -->
+            <div>
+                <InputLabel value="Дата рождения" />
+                <input id="birthDate" v-model="form.birth_date" type="date"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+            </div>
+
+            <!-- Обо мне -->
+            <div>
+                <InputLabel value="Обо мне" />
+                <textarea id="aboutMe" v-model="form.about_me" rows="4"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"></textarea>
+            </div>
+
+            <!-- Контакты -->
+            <div>
+                <InputLabel value="Контакты" />
+                <input id="contacts" v-model="form.contacts" type="text"
+                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+            </div>
+
+
+
             <!-- Кнопки -->
             <div class="flex justify-end space-x-4" v-if="hasChanges">
-                <button
-                    type="button"
-                    @click="cancelChanges"
-                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300"
-                >
+                <button type="button" @click="cancelChanges"
+                    class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">
                     Отменить
                 </button>
-                <button
-                    type="submit"
-                    class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700"
-                >
+                <button type="submit" class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700">
                     Сохранить
                 </button>
             </div>
