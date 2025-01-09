@@ -30,13 +30,8 @@ class AboutMeController extends Controller
             $validated['photo_path'] = $path;
         }
 
-        $aboutMe->update([
-            'full_name' => $validated['fullName'],
-            'birth_date' => $validated['birthDate'],
-            'photo_path' => $validated['photo_path'] ?? $aboutMe->photo_path,
-            'about_me' => $validated['aboutMe'],
-            'contacts' => $validated['contacts'],
-        ]);
+
+        $aboutMe->update($validated);
 
         return back()->with('message', 'Данные обновлены.');
     }
