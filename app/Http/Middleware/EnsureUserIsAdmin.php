@@ -16,11 +16,10 @@ class EnsureUserIsAdmin
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-        if (!$user || !$user->roles()->where('title', 'admin')->exists()) {
-            // Если пользователь не админ, возвращаем 403
-            abort(403, 'Доступ запрещен.');
+        if (!$user || !$user->role()->where('title', 'admin')->exists()) {
+            abort(404);
         }
-        
+
         return $next($request);
     }
 }
