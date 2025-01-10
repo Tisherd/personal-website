@@ -1,6 +1,7 @@
 <script setup>
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import InputLabel from '@/Components/Base/InputLabel.vue';
+import InputError from '@/Components/Base/InputError.vue';
 import { ref, computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
 
@@ -8,8 +9,8 @@ const props = defineProps({
     aboutMe: Object,
 });
 
-const form = useForm({ ...props.aboutMe });
-const initialData = ref({ ...props.aboutMe });
+const form = useForm({ ...props.aboutMe, photo: null});
+const initialData = ref({ ...props.aboutMe, photo: null });
 const oldPhotoUrl = ref(`/storage/${props.aboutMe.photo_path || 'images/default_photo.jpg'}`);
 const newPhotoUrl = ref(null);
 
@@ -30,24 +31,12 @@ function cancelChanges() {
 
 // Сохраняем изменения
 function saveChanges() {
-    const data = new FormData();
-    for (const key in form.data()) {
-        data.append(key, form[key]);
-    }
-    if (form.photo) {
-        data.append("photo", form.photo);
-    }
-
     form.post(route("admin.about_me.update"), {
-        data,
-        forceFormData: true,
         preserveScroll: true,
         onSuccess: () => {
-            Object.assign(initialData.value, form.data());
-            if (newPhotoUrl.value) {
-                oldPhotoUrl.value = newPhotoUrl.value;
-            }
-            newPhotoUrl.value = null;
+            Object.assign(initialData.value, form.data()); // Обновляем initialData после успешного сохранения
+            oldPhotoUrl.value = newPhotoUrl.value || oldPhotoUrl.value; // Обновляем старое фото
+            newPhotoUrl.value = null; // Сбрасываем новое фото
             resetFileInput();
         },
     });
@@ -65,17 +54,6 @@ function resetFileInput() {
 function handlePhotoUpload(event) {
     const file = event.target.files[0];
     if (file) {
-        // Проверка формата и размера файла
-        if (!file.type.startsWith("image/")) {
-            alert("Пожалуйста, загрузите изображение.");
-            resetFileInput();
-            return;
-        }
-        if (file.size > 2 * 1024 * 1024) { // 2 MB
-            alert("Размер файла не должен превышать 2MB.");
-            resetFileInput();
-            return;
-        }
         form.photo = file;
         newPhotoUrl.value = URL.createObjectURL(file);
     }
@@ -96,6 +74,7 @@ function handlePhotoUpload(event) {
                     <input id="photo" type="file" accept="image/*" @change="handlePhotoUpload"
                         class="block text-sm text-gray-500" />
                 </div>
+                <InputError class="mt-2" :message="form.errors.photo" />
             </div>
 
             <!-- ФИО -->

@@ -18,12 +18,11 @@ class AboutMeController extends Controller
     {
         $validated = $request->validated();
 
-        $aboutMe = AboutMe::firstOrFail();
         if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('photos', 'public');
-            $validated['photo_path'] = $path;
+            $validated['photo_path'] = $request->file('photo')->store('images/resume', 'public');
         }
 
+        $aboutMe = AboutMe::firstOrFail();
         $aboutMe->update($validated);
 
         return back()->with('message', 'Данные обновлены.');
