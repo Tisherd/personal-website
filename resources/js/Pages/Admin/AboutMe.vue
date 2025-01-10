@@ -53,7 +53,19 @@ function resetFileInput() {
 // Обработчик загрузки фото
 function handlePhotoUpload(event) {
     const file = event.target.files[0];
+    form.clearErrors('photo');
     if (file) {
+        // Проверка формата и размера файла
+        if (!file.type.startsWith("image/")) {
+            form.setError('photo', "Пожалуйста, загрузите изображение.");
+            resetFileInput();
+            return;
+        }
+        if (file.size > 2 * 1024 * 1024) { // 2 MB
+            form.setError('photo', "Размер файла не должен превышать 2MB.");
+            resetFileInput();
+            return;
+        }
         form.photo = file;
         newPhotoUrl.value = URL.createObjectURL(file);
     }
