@@ -27,10 +27,7 @@ const showDropdown = ref(false);
             <li>
                 <Link href="#">Блог</Link>
             </li>
-            <!-- <li>
-                <a href="https://github.com/Tisherd/personal-website" target="_blank">Исходный код</a>
-            </li> -->
-            <li>
+            <li v-if="$page.props.auth.user.is_admin">
                 <Link :href="route('admin.about_me.index')" class="ml-10">Админка</Link>
             </li>
         </ul>
