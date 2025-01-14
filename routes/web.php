@@ -31,13 +31,14 @@ Route::prefix('resume')->as('resume.')->middleware('auth')->group(function () {
 });
 
 
-Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
+Route::prefix('admin')->as('admin.')->middleware(['auth', 'admin'])->group(function () {
     Route::get('/', function () {
         return redirect()->route('admin.about_me.index');
     });
 
     Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])->name('about_me.index');
     Route::post('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])->name('about_me.update');
-    Route::get('/work_experience', [Controllers\Admin\WorkExperienceController::class, 'index'])->name('work_experience.index');
+
+    Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class);
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 });
