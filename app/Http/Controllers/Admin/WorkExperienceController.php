@@ -26,14 +26,8 @@ class WorkExperienceController extends Controller
     public function store(StoreWorkExperienceRequest $request)
     {
         $validated = $request->validated();
-        dd($validated);
 
-        WorkExperience::create([
-            'login' => $validated['login'],
-            'password' => Hash::make($validated['password']),
-            'role_id' => $validated['role_id'],
-            'desc' => $validated['desc'],
-        ]);
+        WorkExperience::create($validated);
 
         session()->flash('message', 'Опыт работы успешно создан!');
 
