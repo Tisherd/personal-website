@@ -44,21 +44,21 @@ const destroy = (id) => {
                                         {{ workExperience.company_name }}
                                     </div>
                                 </td>
-                                
+
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
                                     <Link
                                         class="text-indigo-600 hover:text-indigo-900"
-                                        :href="route('admin.work_experiences.edit', user.id)"
+                                        :href="route('admin.work_experiences.edit', workExperience.id)"
                                     >Редактировать</Link>
 
-                                    <a @click="destroy(user.id)" class="text-red-600 hover:text-red-900 cursor-pointer"
+                                    <a @click="destroy(workExperience.id)" class="text-red-600 hover:text-red-900 cursor-pointer"
                                     >Удалить</a>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
 
-                        <Pagination :links="users.links" />
+                        <Pagination :links="workExperiences.links" />
                     </div>
 
                     <div v-else class="text-center font-bold text-xl">
