@@ -14,6 +14,11 @@ class AboutMeController extends Controller
             return AboutMe::firstOrFail();
         });
 
+        /*
+            TODO: photo_url, birthdate_formatted и full_age - атрибуты, которые вычисляются, а не получаются из бд
+            Т.е их тоже есть смысл закинуть в кэширование
+        */
+
         return inertia('Resume/AboutMe', [
             'photoUrl' => $data->photo_url,
             'fullName' => $data->full_name,
