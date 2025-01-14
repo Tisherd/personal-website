@@ -31,8 +31,8 @@ class WorkExperience extends Model
     public static function withPeriodAttribute(Collection $workExperiences): Collection
     {
         $workExperiences = $workExperiences->map(function ($item) {
-            $startDate = $item->start_date;
-            $endDate = $item->end_date ?? Carbon::today();
+            $startDate = Carbon::parse($item->start_date);
+            $endDate = Carbon::parse($item->end_date) ?? Carbon::today();
             $item['period_in_month'] = (int)ceil($startDate->diffInMonths($endDate));
             return $item;
         });
