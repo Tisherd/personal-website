@@ -3,12 +3,20 @@
 namespace App\Http\Controllers\Resume;
 
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
+use App\Models\WorkExperience;
 
 class WorkExperienceController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Resume/WorkExperience', []);
+        $workExperience = WorkExperience::all();
+
+        return inertia('Resume/WorkExperience', [
+            'workExperience' => [
+                'experience' => WorkExperience::withPeriodAttribute($workExperience)->toArray(),
+                'count' => $workExperience->count(),
+                'totalPeriodInMonth' => WorkExperience::calculateTotalPeriod($workExperience),
+            ],
+        ]);
     }
 }
