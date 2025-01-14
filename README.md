@@ -2,6 +2,10 @@
 
 (Это черновое описание, будет изменено позже)
 
+## Table of Contents
+1. [Technologies Used](#technologies-used)
+2. [Installation Instructions](#installation-instructions)
+
 ## Technologies Used
 
 ### Backend:
@@ -21,13 +25,11 @@
 
 ### 1. **Docker Compose Setup**
 
-To get the project running with Docker, use the following command to build and start the containers:
-
-docker compose up --build
+- **docker compose up --build** – To get the project running with Docker.
 
 ### 2. **Inside the Docker Container**
 
-docker exec -it (project_name)_php bash
+- **docker exec -it (project_name)_php bash**
 
 ### 3. **Run the Laravel Commands**
 - **php artisan migrate** – Run the migrations to set up your database schema.
