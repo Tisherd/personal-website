@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWorkExperienceRequest;
 use App\Http\Requests\UpdateWorkExperienceRequest;
-use Inertia\Inertia;
 use App\Models\WorkExperience;
 
 class WorkExperienceController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Admin/WorkExperiences/Index', [
+        return inertia('Admin/WorkExperiences/Index', [
             'workExperiences' => WorkExperience::paginate(5),
         ]);
     }
 
     public function create()
     {
-        return Inertia::render('Admin/WorkExperiences/Create', []);
+        return inertia('Admin/WorkExperiences/Create', []);
     }
 
     public function store(StoreWorkExperienceRequest $request)
@@ -35,7 +34,7 @@ class WorkExperienceController extends Controller
 
     public function edit(WorkExperience $workExperience)
     {
-        return Inertia::render('Admin/WorkExperiences/Edit', [
+        return inertia('Admin/WorkExperiences/Edit', [
             'workExperience' => $workExperience,
         ]);
     }
