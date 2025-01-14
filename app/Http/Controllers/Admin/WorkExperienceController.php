@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreWorkExperienceRequest;
 use App\Http\Requests\UpdateWorkExperienceRequest;
-use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use App\Models\WorkExperience;
 
