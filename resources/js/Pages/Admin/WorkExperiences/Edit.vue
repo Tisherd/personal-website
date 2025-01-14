@@ -1,49 +1,114 @@
 <script setup>
-import { useForm } from "@inertiajs/vue3";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
+import InputLabel from '@/Components/Base/InputLabel.vue';
+import InputError from '@/Components/Base/InputError.vue';
+import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
+import { Link, useForm } from '@inertiajs/vue3';
 
-const form = useForm({
-    company_name: "",
-    position: "",
-    start_date: "",
-    end_date: "",
-    technology_stack: "",
-    desc: "",
+const props = defineProps({
+    workExperience: Object,
 });
 
-const submit = () => {
-    form.post(route("admin.work_experiences.update"));
+const form = useForm({
+    company_name: props.workExperience.company_name,
+    position: props.workExperience.position,
+    start_date: props.workExperience.start_date,
+    end_date: props.workExperience.end_date,
+    technology_stack: props.workExperience.technology_stack,
+    desc: props.workExperience.desc,
+});
+
+function update() {
+    form.put(route('admin.work_experiences.update', props.workExperience.id))
 };
 </script>
 
 <template>
-    <div>
-        <h1 class="text-2xl font-bold mb-4">Добавить опыт работы</h1>
-        <form @submit.prevent="submit">
-            <div class="mb-4">
-                <label for="company_name" class="block font-bold">Компания</label>
-                <input v-model="form.company_name" id="company_name" type="text" class="input" />
+    <AdminLayout>
+        <div class="bg-white shadow mb-10 ">
+            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <h1 class="text-3xl font-bold text-gray-900">
+                    Редактировать опыт работы
+                </h1>
+
+                <Link :href="route('admin.work_experiences.index')" class="text-indigo-600 hover:text-indigo-900 my-5 block">
+                    Вернуться назад
+                </Link>
             </div>
-            <div class="mb-4">
-                <label for="position" class="block font-bold">Должность</label>
-                <input v-model="form.position" id="position" type="text" class="input" />
-            </div>
-            <div class="mb-4">
-                <label for="start_date" class="block font-bold">Дата начала</label>
-                <input v-model="form.start_date" id="start_date" type="date" class="input" />
-            </div>
-            <div class="mb-4">
-                <label for="end_date" class="block font-bold">Дата окончания</label>
-                <input v-model="form.end_date" id="end_date" type="date" class="input" />
-            </div>
-            <div class="mb-4">
-                <label for="technology_stack" class="block font-bold">Технологии</label>
-                <textarea v-model="form.technology_stack" id="technology_stack" class="input"></textarea>
-            </div>
-            <div class="mb-4">
-                <label for="desc" class="block font-bold">Описание</label>
-                <textarea v-model="form.desc" id="desc" class="input"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Сохранить</button>
-        </form>
-    </div>
+
+            <form @submit.prevent="update">
+                <div class="px-4 py-5 bg-white sm:p-6">
+                    <div class="grid grid-cols-6 gap-6">
+
+                        <div class="col-span-6">
+                            <InputLabel value="Компания" />
+                            <input :class="{ 'border-red-500': form.errors.company_name }" v-model="form.company_name" type="text"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                            <InputError class="mt-2" :message="form.errors.company_name" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Должность" />
+                            <input :class="{ 'border-red-500': form.errors.position }" v-model="form.position" type="text"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                            <InputError class="mt-2" :message="form.errors.position" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Дата начала" />
+                            <input :class="{ 'border-red-500': form.errors.start_date }" v-model="form.start_date" type="date"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+
+                            <InputError class="mt-2" :message="form.errors.start_date" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Дата окончания" />
+                            <input :class="{ 'border-red-500': form.errors.end_date }" v-model="form.end_date" type="date"
+                                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+
+                            <InputError class="mt-2" :message="form.errors.end_date" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Технологии" />
+                            <textarea
+                                :class="{ 'border-red-500': form.errors.technology_stack }"
+                                v-model="form.technology_stack"
+                                rows="4"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </textarea>
+
+                            <InputError class="mt-2" :message="form.errors.technology_stack" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Описание" />
+                            <textarea
+                                :class="{ 'border-red-500': form.errors.desc }"
+                                v-model="form.desc"
+                                rows="4"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            </textarea>
+
+                            <InputError class="mt-2" :message="form.errors.desc" />
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <PrimaryButton
+                        class="ms-4"
+                        :class="{ 'opacity-25': form.processing }"
+                        :disabled="form.processing"
+                    >
+                        Обновить
+                    </PrimaryButton>
+                </div>
+            </form>
+        </div>
+    </AdminLayout>
 </template>

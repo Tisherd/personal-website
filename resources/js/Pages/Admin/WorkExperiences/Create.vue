@@ -14,8 +14,8 @@ const form = useForm({
     desc: "",
 });
 
-const store = () => {
-    form.post(route("admin.work_experiences.store"));
+function store() {
+    form.post(route('admin.work_experiences.store'))
 };
 </script>
 

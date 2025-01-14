@@ -37,7 +37,7 @@ class WorkExperienceController extends Controller
     public function edit(WorkExperience $workExperience)
     {
         return Inertia::render('Admin/WorkExperiences/Edit', [
-            'user' => $workExperience,
+            'workExperience' => $workExperience,
         ]);
     }
 
