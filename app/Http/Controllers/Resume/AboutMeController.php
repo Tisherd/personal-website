@@ -3,12 +3,15 @@
 namespace App\Http\Controllers\Resume;
 
 use App\Http\Controllers\Controller;
-use Inertia\Inertia;
+use App\Models\AboutMe;
+use Illuminate\Support\Facades\Storage;
 
 class AboutMeController extends Controller
 {
     public function index()
     {
-        return Inertia::render('Resume/AboutMe', []);
+        $data = AboutMe::firstOrFail();
+        dump($data->toArray());
+        return inertia('Resume/AboutMe', ['aboutMe' => $data]);
     }
 }

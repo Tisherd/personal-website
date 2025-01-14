@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class AboutMe extends Model
 {
@@ -17,4 +19,33 @@ class AboutMe extends Model
         'about_me',
         'contacts',
     ];
+
+    protected $appends = ['photo_url', 'birthdate_formatted', 'full_age'];
+
+    protected function photoUrl(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->photo_path ? asset('storage/' . $this->photo_path) : null,
+        );
+    }
+
+    protected function birthdateFormatted(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->birth_date
+                ? Carbon::createFromFormat('Y-m-d', $this->birth_date)
+                    ->locale('ru')
+                    ->translatedFormat('d F Y г.')
+                : null,
+        );
+    }
+
+    protected function fullAge(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->birth_date
+                ? Carbon::createFromFormat('Y-m-d', $this->birth_date)->age
+                : null,
+        );
+    }
 }
