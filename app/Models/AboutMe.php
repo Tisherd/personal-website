@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
 use Carbon\Carbon;
@@ -19,6 +20,13 @@ class AboutMe extends Model
         'about_me',
         'contacts',
     ];
+
+    protected static function booted()
+    {
+        static::updated(function () {
+            Cache::forget('about_me_data');
+        });
+    }
 
     protected function photoUrl(): Attribute
     {
