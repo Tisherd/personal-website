@@ -11,7 +11,7 @@ const props = defineProps({
 
 const form = useForm({ ...props.aboutMe, photo: null});
 const initialData = ref({ ...props.aboutMe, photo: null });
-const oldPhotoUrl = ref(`/storage/${props.aboutMe.photo_path || 'images/default_photo.jpg'}`);
+const oldPhotoUrl = ref(props.aboutMe.photo_path && `/storage/${props.aboutMe.photo_path}`);
 const newPhotoUrl = ref(null);
 
 // Определение изменений
