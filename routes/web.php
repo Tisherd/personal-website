@@ -17,12 +17,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect()->route('resume');
     });
-
-
-    Route::get('/resume', [Controllers\ResumeController::class, 'index'])->name('resume');
 });
 
 Route::prefix('resume')->as('resume.')->middleware('auth')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('resume.about_me.index');
+    });
+
     Route::get('/about_me', [Controllers\Resume\AboutMeController::class, 'index'])->name('about_me.index');
     Route::get('/work_experience', [Controllers\Resume\WorkExperienceController::class, 'index'])->name('work_experience.index');
     Route::get('/skills', [Controllers\Resume\SkillsController::class, 'index'])->name('skills.index');
@@ -32,7 +33,7 @@ Route::prefix('resume')->as('resume.')->middleware('auth')->group(function () {
 
 Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
     Route::get('/', function () {
-        return redirect()->route('about_me.index');
+        return redirect()->route('admin.about_me.index');
     });
 
     Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])->name('about_me.index');
