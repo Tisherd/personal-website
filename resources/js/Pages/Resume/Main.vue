@@ -1,7 +1,7 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import AboutMe from "./AboutMe.vue";
-import WorkExperience from "./WorkExperience.vue";
+import AboutMe from "./AboutMeOld.vue";
+import WorkExperience from "./WorkExperienceOld.vue";
 
 defineProps({
     aboutMe: Object,

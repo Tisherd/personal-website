@@ -14,12 +14,12 @@ import { Link } from "@inertiajs/vue3";
             <Link :href="route('resume.work_experience.index')" class="block py-2 px-4 rounded hover:bg-gray-700">
             Опыт работы
             </Link>
-            <!-- <Link :href="route('resume.skills.index')" class="block py-2 px-4 rounded hover:bg-gray-700">
+            <Link :href="route('resume.skills.index')" class="block py-2 px-4 rounded hover:bg-gray-700">
             Навыки
-            </Link> -->
-            <!-- <Link :href="route('resume.questions.index')" class="block py-2 px-4 rounded hover:bg-gray-700">
+            </Link>
+            <Link :href="route('resume.questions.index')" class="block py-2 px-4 rounded hover:bg-gray-700">
             Вопросы
-            </Link> -->
+            </Link>
         </nav>
     </aside>
 </template>

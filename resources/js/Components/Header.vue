@@ -16,7 +16,7 @@ const showDropdown = ref(false);
         <!-- Левая часть: навигация -->
         <ul class="flex space-x-4 pl-20">
             <li>
-                <Link :href="route('resume')">Резюме</Link>
+                <Link :href="route('resume.about_me.index')">Резюме</Link>
             </li>
             <li>
                 <Link href="#">Проекты</Link>

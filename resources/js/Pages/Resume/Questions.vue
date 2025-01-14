@@ -4,6 +4,6 @@ import ResumeLayout from "@/Layouts/ResumeLayout.vue";
 
 <template>
     <ResumeLayout>
-        <p>Work experience Page</p>
+        <p>Questions Page</p>
     </ResumeLayout>
 </template>

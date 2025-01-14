@@ -22,6 +22,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/resume', [Controllers\ResumeController::class, 'index'])->name('resume');
 });
 
+Route::prefix('resume')->as('resume.')->middleware('auth')->group(function () {
+    Route::get('/about_me', [Controllers\Resume\AboutMeController::class, 'index'])->name('about_me.index');
+    Route::get('/work_experience', [Controllers\Resume\WorkExperienceController::class, 'index'])->name('work_experience.index');
+    Route::get('/skills', [Controllers\Resume\SkillsController::class, 'index'])->name('skills.index');
+    Route::get('/questions', [Controllers\Resume\WorkExperienceController::class, 'index'])->name('questions.index');
+});
+
+
 Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
     Route::get('/', function () {
         return redirect()->route('about_me.index');
@@ -30,5 +38,5 @@ Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
     Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])->name('about_me.index');
     Route::post('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])->name('about_me.update');
     Route::get('/work_experience', [Controllers\Admin\WorkExperienceController::class, 'index'])->name('work_experience.index');
-    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->middleware('auth');
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
 });
