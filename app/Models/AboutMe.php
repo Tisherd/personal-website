@@ -20,8 +20,6 @@ class AboutMe extends Model
         'contacts',
     ];
 
-    protected $appends = ['photo_url', 'birthdate_formatted', 'full_age'];
-
     protected function photoUrl(): Attribute
     {
         return Attribute::make(

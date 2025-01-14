@@ -2,7 +2,10 @@
 import ResumeLayout from "@/Layouts/ResumeLayout.vue";
 
 defineProps({
-    aboutMe: Object,
+    photoUrl: String,
+    fullName: String,
+    birthdateFormatted: String,
+    fullAge: Number,
 });
 </script>
 
@@ -10,11 +13,10 @@ defineProps({
     <ResumeLayout>
         <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mt-8">
             <div class="flex items-center mb-4">
-                <img :src="aboutMe.photo_url" alt="Фото пользователя" class="h-36 rounded-full shadow-lg mr-4" />
+                <img :src="photoUrl" alt="Фото пользователя" class="h-36 rounded-full shadow-lg mr-4" />
                 <div>
-                    <h1 class="text-2xl font-bold">{{ aboutMe.full_name }}</h1>
-                    <p class="text-gray-600"> {{ aboutMe.birthdate_formatted }} ({{
-                        aboutMe.full_age }} лет)
+                    <h1 class="text-2xl font-bold">{{ fullName }}</h1>
+                    <p class="text-gray-600"> {{ birthdateFormatted }} ({{ fullAge }} лет)
                     </p>
                 </div>
             </div>
