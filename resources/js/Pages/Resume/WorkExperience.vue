@@ -3,17 +3,7 @@ import ResumeLayout from "@/Layouts/ResumeLayout.vue";
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-    workExperience: {
-        type: Object,
-        required: true,
-        validator(value) {
-            return (
-                Array.isArray(value.experience) &&
-                typeof value.count === "number" &&
-                typeof value.totalPeriodInMonth === "number"
-            );
-        },
-    },
+    workExperience: Object,
 });
 
 const sortOrder = ref("asc"); // Порядок сортировки: "asc" или "desc"
@@ -67,7 +57,7 @@ const formattedPeriod = (periodInMonth) => {
 
 <template>
     <ResumeLayout>
-        <div class="flex justify-center bg-gray-100">
+        <div class="flex flex-col items-center justify-center bg-gray-100">
             <!-- Основной блок с информацией -->
             <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
                 <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperience.count }}</h1>
