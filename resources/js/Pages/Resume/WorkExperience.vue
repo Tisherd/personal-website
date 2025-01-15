@@ -3,14 +3,14 @@ import ResumeLayout from "@/Layouts/ResumeLayout.vue";
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-    workExperience: Object,
+    workExperiences: Array,
 });
 
 const sortOrder = ref("asc"); // Порядок сортировки: "asc" или "desc"
 
 const sortedExperience = computed(() => {
     // Используем props напрямую
-    return [...props.workExperience.experience].sort((a, b) => {
+    return [...props.workExperiences].sort((a, b) => {
         const dateA = new Date(a.start_date);
         const dateB = new Date(b.start_date);
         return sortOrder.value === "asc" ? dateA - dateB : dateB - dateA;
@@ -23,12 +23,6 @@ const toggleBlock = (block) => {
 
 const toggleSortOrder = () => {
     sortOrder.value = sortOrder.value === "asc" ? "desc" : "asc";
-};
-
-const iso8601DateToLongMonthWithYear = (iso8601Date) => {
-    const date = new Date(iso8601Date);
-    const options = { month: 'long', year: 'numeric' };
-    return date.toLocaleString('ru-RU', options);
 };
 
 const formattedPeriod = (periodInMonth) => {
@@ -60,8 +54,8 @@ const formattedPeriod = (periodInMonth) => {
         <div class="flex flex-col items-center justify-center bg-gray-100">
             <!-- Основной блок с информацией -->
             <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
-                <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperience.count }}</h1>
-                <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(workExperience.totalPeriodInMonth) }}
+                <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperiences.length }}</h1>
+                <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(10) }}
                 </h1>
                 <!-- Кнопка для сортировки -->
                 <button @click="toggleSortOrder"
@@ -71,25 +65,24 @@ const formattedPeriod = (periodInMonth) => {
             </div>
 
             <!-- Блоки с контентом, которые раскрываются по клику -->
-            <div v-for="(block, index) in sortedExperience" :key="block.id" class="w-full max-w-2xl mb-4">
+            <div v-for="experience in sortedExperience" :key="experience.id" class="w-full max-w-2xl mb-4">
                 <div class="bg-white p-4 rounded-lg shadow-md">
-                    <button @click="toggleBlock(block)" class="w-full text-left font-semibold text-lg">
-                        {{ block.company_name }}
-                        <span class="float-right">{{ block.isOpen ? '-' : '+' }}</span>
+                    <button @click="toggleBlock(experience)" class="w-full text-left font-semibold text-lg">
+                        {{ experience.company_name }}
+                        <span class="float-right">{{ experience.isOpen ? '-' : '+' }}</span>
                     </button>
-                    <div v-if="block.isOpen" class="mt-2 text-gray-700">
-                        <p>Период работы: {{ iso8601DateToLongMonthWithYear(block.start_date) }} - {{
-                            iso8601DateToLongMonthWithYear(block.end_date) }}</p>
-                        <p>Период: {{ formattedPeriod(block.period_in_month) }}</p>
-                        <p>Должность: {{ block.position }}</p>
+                    <div v-if="experience.isOpen" class="mt-2 text-gray-700">
+                        <p>Период работы: {{ experience.formatted_date_range }}</p>
+                        <p>Период: {{ formattedPeriod(experience.period_in_month) }}</p>
+                        <p>Должность: {{ experience.position }}</p>
                         <p>Стек технологий:</p>
                         <ul class="list-disc pl-5">
-                            <li v-for="item in block.technology_stack" class="mb-1 text-gray-800">
+                            <li v-for="item in experience.technology_stack" class="mb-1 text-gray-800">
                                 <p>{{ item }}</p>
                             </li>
                         </ul>
                         <p>Описание: </p>
-                        <p>{{ block.desc }}</p>
+                        <p>{{ experience.desc }}</p>
                     </div>
                 </div>
             </div>

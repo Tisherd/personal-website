@@ -9,14 +9,8 @@ class WorkExperienceController extends Controller
 {
     public function index()
     {
-        $workExperience = WorkExperience::all();
-
         return inertia('Resume/WorkExperience', [
-            'workExperience' => [
-                'experience' => WorkExperience::withPeriodAttribute($workExperience)->toArray(),
-                'count' => $workExperience->count(),
-                'totalPeriodInMonth' => WorkExperience::calculateTotalPeriod($workExperience),
-            ],
+            'workExperiences' => WorkExperience::all(),
         ]);
     }
 }
