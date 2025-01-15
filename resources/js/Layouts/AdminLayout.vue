@@ -7,7 +7,7 @@ import AdminLeftPanel from "@/Layouts/Aside/AdminLeftPanel.vue";
 <template>
     <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
         <HeaderComponent />
-        <div class="flex h-screen">
+        <div class="flex flex-grow">
             <AdminLeftPanel />
             <main class="container mx-auto px-4 py-8 flex-grow">
                 <slot />
