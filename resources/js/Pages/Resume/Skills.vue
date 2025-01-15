@@ -1,9 +1,10 @@
 <script setup>
 import ResumeLayout from "@/Layouts/ResumeLayout.vue";
+import UnderConstruction from "@/Components/UnderConstruction.vue";
 </script>
 
 <template>
     <ResumeLayout>
-        <p>Skills Page</p>
+        <UnderConstruction />
     </ResumeLayout>
 </template>
