@@ -19,13 +19,13 @@ const showDropdown = ref(false);
                 <Link :href="route('resume.about_me.index')">Резюме</Link>
             </li>
             <li>
-                <Link href="#">Проекты</Link>
+                <Link :href="route('projects.index')">Проекты</Link>
             </li>
             <li>
-                <Link href="#">Песочница</Link>
+                <Link :href="route('sandbox.index')">Песочница</Link>
             </li>
             <li>
-                <Link href="#">Блог</Link>
+                <Link :href="route('blog.index')">Блог</Link>
             </li>
             <li v-if="$page.props.auth.user.is_admin">
                 <Link :href="route('admin.about_me.index')" class="ml-10">Админка</Link>
