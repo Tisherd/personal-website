@@ -17,6 +17,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect()->route('resume.about_me.index');
     });
+
+    Route::get('/projects', Controllers\Projects\IndexController::class)->name('projects.index');
+    Route::get('/sandbox', Controllers\Sandbox\IndexController::class)->name('sandbox.index');
+    Route::get('/blog', Controllers\Blog\IndexController::class)->name('blog.index');
 });
 
 Route::prefix('resume')->as('resume.')->middleware('auth')->group(function () {
