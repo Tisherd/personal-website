@@ -5,7 +5,7 @@ import ResumeLeftPanel from "@/Layouts/Aside/ResumeLeftPanel.vue";
 </script>
 
 <template>
-    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen">
+    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen overflow-hidden">
         <HeaderComponent />
         <div class="flex flex-grow">
             <ResumeLeftPanel />
