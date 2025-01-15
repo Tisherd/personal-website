@@ -16,7 +16,7 @@ const destroy = (id) => {
 
 <template>
     <AdminLayout>
-        <h1 class="text-2xl font-bold mb-4 ml-5">Users</h1>
+        <h1 class="text-2xl font-bold mb-4 ml-5">Пользователи</h1>
 
         <Link :href="route('admin.users.create')" class="ml-5 text-indigo-600 hover:text-indigo-900 my-5 block">
             Добавить пользователя
