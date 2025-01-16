@@ -28,9 +28,7 @@ class ProjectController extends Controller
     {
         $validated = $request->validated();
 
-        Project::create([
-
-        ]);
+        Project::create($validated);
 
         session()->flash('message', 'Проект успешно создан!');
 
