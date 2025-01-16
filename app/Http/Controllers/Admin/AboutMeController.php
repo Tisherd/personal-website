@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AboutMe;
-use App\Http\Requests\Admin\UpdateAboutMeRequest;
+use App\Http\Requests\Admin\AboutMe\UpdateRequest;
 
 class AboutMeController extends Controller
 {
@@ -14,7 +14,7 @@ class AboutMeController extends Controller
         return inertia('Admin/AboutMe', ['aboutMe' => $data]);
     }
 
-    public function update(UpdateAboutMeRequest $request)
+    public function update(UpdateRequest $request)
     {
         $validated = $request->validated();
 
