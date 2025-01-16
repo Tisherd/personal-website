@@ -2,29 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
+
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Project\StoreRequest;
 use App\Http\Requests\Project\UpdateRequest;
-
-use Inertia\Inertia;
-
 use App\Models\Project;
 
 class ProjectController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Admin/Projects/Index', [
             'projects' => Project::orderByDesc('created_at')->paginate(5),
         ]);
     }
 
-    public function create()
+    public function create(): Response
     {
-        return inertia('Admin/Projects/Create', []);
+        return Inertia::render('Admin/Projects/Create', []);
     }
 
-    public function store(StoreRequest $request)
+    public function store(StoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -35,14 +37,14 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index');
     }
 
-    public function edit(Project $project)
+    public function edit(Project $project): Response
     {
         return Inertia::render('Admin/Projects/Edit', [
             'project' => $project,
         ]);
     }
 
-    public function update(UpdateRequest $request, Project $project)
+    public function update(UpdateRequest $request, Project $project): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -53,7 +55,7 @@ class ProjectController extends Controller
         return redirect()->route('admin.projects.index');
     }
 
-    public function destroy(Project $project)
+    public function destroy(Project $project): RedirectResponse
     {
         $project->delete();
 
