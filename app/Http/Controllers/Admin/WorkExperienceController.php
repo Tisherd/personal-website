@@ -9,8 +9,8 @@ use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\WorkExperience;
-use App\Http\Requests\StoreWorkExperienceRequest;
-use App\Http\Requests\UpdateWorkExperienceRequest;
+use App\Http\Requests\Admin\WorkExperience\StoreRequest;
+use App\Http\Requests\Admin\WorkExperience\UpdateRequest;
 
 class WorkExperienceController extends Controller
 {
@@ -26,7 +26,7 @@ class WorkExperienceController extends Controller
         return Inertia::render('Admin/WorkExperiences/Create', []);
     }
 
-    public function store(StoreWorkExperienceRequest $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -44,7 +44,7 @@ class WorkExperienceController extends Controller
         ]);
     }
 
-    public function update(UpdateWorkExperienceRequest $request, WorkExperience $workExperience): RedirectResponse
+    public function update(UpdateRequest $request, WorkExperience $workExperience): RedirectResponse
     {
         $validated = $request->validated();
 
