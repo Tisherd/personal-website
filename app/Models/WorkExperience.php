@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+
 use Carbon\Carbon;
 
 class WorkExperience extends Model
@@ -64,39 +64,5 @@ class WorkExperience extends Model
             : Carbon::now();
 
         return (int)ceil($startDate->diffInMonths($endDate));
-    }
-
-    /**
-     * Добавляет аттрибут period для каждого элемента коллекции от WorkExperience
-     */
-    public static function withPeriodAttribute(Collection $workExperiences): Collection
-    {
-        $workExperiences = $workExperiences->map(function ($item) {
-            $startDate = Carbon::parse($item->start_date);
-            $endDate = Carbon::parse($item->end_date) ?? Carbon::today();
-            $item['period_in_month'] = (int)ceil($startDate->diffInMonths($endDate));
-            return $item;
-        });
-
-        return $workExperiences;
-    }
-
-    /**
-     * Рассчитывает общий период для записей.
-     */
-    public static function calculateTotalPeriod(Collection|null $workExperiences = null): int
-    {
-        $workExperiences ??= self::all();
-
-        $minStartDate = $workExperiences->min('start_date');
-        $maxEndDate = $workExperiences->max(function ($experience) {
-            return $experience->end_date ?? Carbon::today();
-        });
-
-        if ($minStartDate && $maxEndDate) {
-            return Carbon::parse($minStartDate)->diffInMonths(Carbon::parse($maxEndDate));
-        }
-
-        return 0;
     }
 }
