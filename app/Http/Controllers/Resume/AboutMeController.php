@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\Resume;
 
-use App\Http\Controllers\Controller;
-use App\Models\AboutMe;
 use Illuminate\Support\Facades\Cache;
+
+use Inertia\Inertia;
+use Inertia\Response;
+
+use App\Models\AboutMe;
+use App\Http\Controllers\Controller;
 
 class AboutMeController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $data = Cache::remember('about_me_data', 60, function () {
             return AboutMe::firstOrFail();
@@ -19,7 +23,7 @@ class AboutMeController extends Controller
             Т.е их тоже есть смысл закинуть в кэширование
         */
 
-        return inertia('Resume/AboutMe', [
+        return Inertia::render('Resume/AboutMe', [
             'photoUrl' => $data->photo_url,
             'fullName' => $data->full_name,
             'birthdateFormatted'=>$data->birthdate_formatted,
