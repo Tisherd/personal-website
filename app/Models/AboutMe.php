@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+
 use Carbon\Carbon;
 
 class AboutMe extends Model
@@ -21,7 +22,7 @@ class AboutMe extends Model
         'contacts',
     ];
 
-    protected static function booted()
+    protected static function booted(): void
     {
         static::updated(function () {
             Cache::forget('about_me_data');
