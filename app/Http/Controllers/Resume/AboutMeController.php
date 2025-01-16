@@ -15,19 +15,16 @@ class AboutMeController extends Controller
     public function index(): Response
     {
         $data = Cache::remember('about_me_data', 60, function () {
-            return AboutMe::firstOrFail();
+            $aboutMe = AboutMe::firstOrFail();
+    
+            return [
+                'photoUrl' => $aboutMe->photo_url,
+                'fullName' => $aboutMe->full_name,
+                'birthdateFormatted' => $aboutMe->birthdate_formatted,
+                'fullAge' => $aboutMe->full_age,
+            ];
         });
 
-        /*
-            TODO: photo_url, birthdate_formatted и full_age - атрибуты, которые вычисляются, а не получаются из бд
-            Т.е их тоже есть смысл закинуть в кэширование
-        */
-
-        return Inertia::render('Resume/AboutMe', [
-            'photoUrl' => $data->photo_url,
-            'fullName' => $data->full_name,
-            'birthdateFormatted'=>$data->birthdate_formatted,
-            'fullAge' => $data->full_age,
-        ]);
+        return Inertia::render('Resume/AboutMe', $data);
     }
 }
