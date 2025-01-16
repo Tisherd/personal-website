@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Sandbox;
 
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): Response
     {
-        return inertia('Sandbox/Main');
+        return Inertia::render('Sandbox/Main');
     }
 }

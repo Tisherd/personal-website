@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Blog;
 
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
 
 class IndexController extends Controller
 {
-    public function __invoke()
+    public function __invoke(): Response
     {
-        return inertia('Blog/Main');
+        return Inertia::render('Blog/Main');
     }
 }
