@@ -11,8 +11,8 @@ use Inertia\Response;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserRole;
-use App\Http\Requests\StoreUserRequest;
-use App\Http\Requests\UpdateUserRequest;
+use App\Http\Requests\Admin\User\StoreRequest;
+use App\Http\Requests\Admin\User\UpdateRequest;
 
 class UserController extends Controller
 {
@@ -33,7 +33,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(StoreUserRequest $request): RedirectResponse
+    public function store(StoreRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -57,7 +57,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UpdateUserRequest $request, User $user): RedirectResponse
+    public function update(UpdateRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
 
