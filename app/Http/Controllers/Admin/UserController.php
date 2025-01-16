@@ -2,26 +2,28 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Hash;
+
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
+use App\Models\User;
+use App\Models\UserRole;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 
-use Illuminate\Support\Facades\Hash;
-use Inertia\Inertia;
-
-use App\Models\User;
-use App\Models\UserRole;
-
 class UserController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         return Inertia::render('Admin/Users/Index', [
             'users' => User::orderByDesc('created_at')->with('role')->paginate(5),
         ]);
     }
 
-    public function create()
+    public function create(): Response
     {
         $roles = UserRole::pluck('title', 'id');
 
@@ -31,7 +33,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(StoreUserRequest $request)
+    public function store(StoreUserRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -47,7 +49,7 @@ class UserController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function edit(User $user)
+    public function edit(User $user): Response
     {
         return Inertia::render('Admin/Users/Edit', [
             'user' => $user,
@@ -55,7 +57,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(UpdateUserRequest $request, User $user)
+    public function update(UpdateUserRequest $request, User $user): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -66,7 +68,7 @@ class UserController extends Controller
         return redirect()->route('admin.users.index');
     }
 
-    public function destroy(User $user)
+    public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
