@@ -2,26 +2,31 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
+
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
+use App\Models\WorkExperience;
 use App\Http\Requests\StoreWorkExperienceRequest;
 use App\Http\Requests\UpdateWorkExperienceRequest;
-use App\Models\WorkExperience;
 
 class WorkExperienceController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        return inertia('Admin/WorkExperiences/Index', [
+        return Inertia::render('Admin/WorkExperiences/Index', [
             'workExperiences' => WorkExperience::paginate(5),
         ]);
     }
 
-    public function create()
+    public function create(): Response
     {
-        return inertia('Admin/WorkExperiences/Create', []);
+        return Inertia::render('Admin/WorkExperiences/Create', []);
     }
 
-    public function store(StoreWorkExperienceRequest $request)
+    public function store(StoreWorkExperienceRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -32,14 +37,14 @@ class WorkExperienceController extends Controller
         return redirect()->route('admin.work_experiences.index');
     }
 
-    public function edit(WorkExperience $workExperience)
+    public function edit(WorkExperience $workExperience): Response
     {
-        return inertia('Admin/WorkExperiences/Edit', [
+        return Inertia::render('Admin/WorkExperiences/Edit', [
             'workExperience' => $workExperience,
         ]);
     }
 
-    public function update(UpdateWorkExperienceRequest $request, WorkExperience $workExperience)
+    public function update(UpdateWorkExperienceRequest $request, WorkExperience $workExperience): RedirectResponse
     {
         $validated = $request->validated();
 
@@ -50,7 +55,7 @@ class WorkExperienceController extends Controller
         return redirect()->route('admin.work_experiences.index');
     }
 
-    public function destroy(WorkExperience $workExperience)
+    public function destroy(WorkExperience $workExperience): RedirectResponse
     {
         $workExperience->delete();
 
