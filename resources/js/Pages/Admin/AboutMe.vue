@@ -31,7 +31,7 @@ function cancelChanges() {
 
 // Сохраняем изменения
 function saveChanges() {
-    form.post(route("admin.about_me.update"), {
+    form.put(route("admin.about_me.update"), {
         preserveScroll: true,
         onSuccess: () => {
             Object.assign(initialData.value, form.data()); // Обновляем initialData после успешного сохранения
