@@ -8,8 +8,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Project\StoreRequest;
-use App\Http\Requests\Project\UpdateRequest;
+use App\Http\Requests\Admin\Project\StoreRequest;
+use App\Http\Requests\Admin\Project\UpdateRequest;
 use App\Models\Project;
 
 class ProjectController extends Controller
