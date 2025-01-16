@@ -57,6 +57,8 @@ Route::middleware('auth')->group(function () {
 
         Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class)
             ->names('work_experiences');
+        Route::resource('projects', Controllers\Admin\WorkExperienceController::class)
+            ->names('projects');
         Route::resource('users', Controllers\Admin\UserController::class)
             ->names('users');
     });
