@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Illuminate\Http\RedirectResponse;
+
+use Inertia\Inertia;
+use Inertia\Response;
+
 use App\Http\Controllers\Controller;
 use App\Models\AboutMe;
 use App\Http\Requests\Admin\AboutMe\UpdateRequest;
 
 class AboutMeController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $data = AboutMe::firstOrFail();
-        return inertia('Admin/AboutMe', ['aboutMe' => $data]);
+        return Inertia::render('Admin/AboutMe', ['aboutMe' => $data]);
     }
 
-    public function update(UpdateRequest $request)
+    public function update(UpdateRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
