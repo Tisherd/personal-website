@@ -7,10 +7,10 @@ use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
+use App\Models\Project;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\Project\StoreRequest;
 use App\Http\Requests\Admin\Project\UpdateRequest;
-use App\Models\Project;
 
 class ProjectController extends Controller
 {

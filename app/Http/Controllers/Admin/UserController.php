@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
 use Inertia\Response;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\UserRole;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\User\StoreRequest;
 use App\Http\Requests\Admin\User\UpdateRequest;
 
