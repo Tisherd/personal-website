@@ -35,20 +35,19 @@ class RoutesTest extends TestCase
 
         $this->actingAs($this->simpleUser);
 
-        $this->get(route('login'))->assertRedirect(route('resume.about_me.index'));
-
-        $this->get(route('projects.index'))->assertRedirect(route('login'));
-        $this->get(route('sandbox.index'))->assertRedirect(route('login'));
-        $this->get(route('blog.index'))->assertRedirect(route('login'));
+        $this->get(route('login'))->assertRedirect('/');
     }
 
-    public function test_resume_routes(): void
+    public function test_user_routes(): void
     {
         $routes = [
             route('resume.about_me.index'),
             route('resume.work_experiences.index'),
             route('resume.skills.index'),
             route('resume.questions.index'),
+            route('projects.index'),
+            route('sandbox.index'),
+            route('blog.index'),
         ];
 
         foreach ($routes as $route) {
