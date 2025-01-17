@@ -53,6 +53,13 @@ class RoutesTest extends TestCase
         $this->get('/telescope')->assertNotFound();
     }
 
+    public function test_telescope_route(): void
+    {
+        $this->get('/telescope')->assertNotFound();
+        $this->actingAs($this->simpleUser)->get('/telescope')->assertNotFound();
+        $this->actingAs($this->adminUser)->get('/telescope')->assertStatus(200);
+    }
+
     public function test_guest_cannot_access_protected_routes(): void
     {
         $response = $this->get(route('resume.about_me.index'));
