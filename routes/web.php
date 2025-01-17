@@ -27,7 +27,7 @@ Route::middleware('auth')->group(function () {
             ->name('about_me.index');
 
         Route::get('/work_experience', [Controllers\Resume\WorkExperienceController::class, 'index'])
-            ->name('work_experience.index');
+            ->name('work_experiences.index');
 
         Route::get('/skills', [Controllers\Resume\SkillsController::class, 'index'])
             ->name('skills.index');
