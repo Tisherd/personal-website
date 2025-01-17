@@ -29,7 +29,7 @@ class UserController extends Controller
 
         return Inertia::render('Admin/Users/Create', [
             'roles' => $roles,
-            'defaultRoleId' => $roles->search('user'),
+            'defaultRoleId' => $roles->search(UserRole::USER),
         ]);
     }
 

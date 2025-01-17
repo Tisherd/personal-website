@@ -32,8 +32,7 @@ class User extends Authenticatable
 
     public function role(): BelongsTo
     {
-        return $this->belongsTo(UserRole::class, 'role_id')
-            ->withDefault(['title' => 'no_role']);
+        return $this->belongsTo(UserRole::class, 'role_id');
     }
 
     protected function casts(): array
@@ -46,7 +45,7 @@ class User extends Authenticatable
     protected function isAdmin(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->role->title === 'admin'
+            get: fn () => $this->role->title === UserRole::ADMIN
         );
     }
 }
