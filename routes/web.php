@@ -44,22 +44,22 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/blog', Controllers\Blog\IndexController::class)
         ->name('blog.index');
+});
 
-    Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
-        Route::get('/', function () {
-            return redirect()->route('admin.about_me.index');
-        });
-
-        Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])
-            ->name('about_me.index');
-        Route::put('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])
-            ->name('about_me.update');
-
-        Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class)
-            ->names('work_experiences');
-        Route::resource('projects', Controllers\Admin\ProjectController::class)
-            ->names('projects');
-        Route::resource('users', Controllers\Admin\UserController::class)
-            ->names('users');
+Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
+    Route::get('/', function () {
+        return redirect()->route('admin.about_me.index');
     });
+
+    Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])
+        ->name('about_me.index');
+    Route::put('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])
+        ->name('about_me.update');
+
+    Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class)
+        ->names('work_experiences');
+    Route::resource('projects', Controllers\Admin\ProjectController::class)
+        ->names('projects');
+    Route::resource('users', Controllers\Admin\UserController::class)
+        ->names('users');
 });
