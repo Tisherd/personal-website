@@ -1,5 +1,9 @@
 FROM php:8.4-fpm AS dependency_installer
 
+ENV APP_ENV=${APP_ENV:-development}
+ARG APP_USER
+ENV APP_USER=${APP_USER:-dev_user}
+
 RUN apt-get clean && apt-get update && apt-get install -y \
     git \
     curl \
@@ -7,7 +11,6 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     libjpeg-dev \
     libfreetype6-dev \
     libpq-dev \
-    libonig-dev \
     libxml2-dev \
     libzip-dev \
     zip \
@@ -31,16 +34,17 @@ RUN if ! php -m | grep -q redis; then \
         PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
     fi
 
+# Install Xdebug if not in production
+RUN if [ "$APP_ENV" != "production" ]; then \
+        pecl install xdebug && docker-php-ext-enable xdebug; \
+    fi
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0
 
 # ==================================================================
 
 FROM dependency_installer AS project_installer
-
-ENV APP_ENV=${APP_ENV:-development}
-ARG APP_USER
-ENV APP_USER=${APP_USER:-dev_user}
 
 # Set workdir
 WORKDIR /var/www
@@ -52,11 +56,6 @@ RUN if [ "$APP_ENV" = "production" ]; then \
         echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini; \
     else \
         composer install --no-scripts --no-progress --prefer-dist; \
-    fi
-
-# Install Xdebug if not in production
-RUN if [ "$APP_ENV" != "production" ]; then \
-        pecl install xdebug && docker-php-ext-enable xdebug; \
     fi
 
 # Copy project files
