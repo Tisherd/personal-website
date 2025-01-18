@@ -1,7 +1,11 @@
 FROM php:8.4-fpm AS dependency_installer
 
-ENV APP_ENV=${APP_ENV:-development}
+ARG APP_ENV
 ARG APP_USER
+ARG XDEBUG_ENABLED
+
+ENV APP_ENV=${APP_ENV:-development}
+ENV XDEBUG_ENABLED=${XDEBUG_ENABLED:-false}
 ENV APP_USER=${APP_USER:-dev_user}
 
 RUN apt-get clean && apt-get update && apt-get install -y \
@@ -35,9 +39,11 @@ RUN if ! php -m | grep -q redis; then \
     fi
 
 # Install Xdebug if not in production
-RUN if [ "$APP_ENV" != "production" ]; then \
+RUN if [ "$XDEBUG_ENABLED" = "true" ]; then \
         pecl install xdebug && docker-php-ext-enable xdebug; \
     fi
+
+EXPOSE ${XDEBUG_ENABLED:+9003}
 
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0

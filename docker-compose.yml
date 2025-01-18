@@ -4,12 +4,12 @@ services:
       context: .
       dockerfile: ./docker/php/Dockerfile
       args:
+        - APP_ENV=${APP_ENV}
         - APP_USER=${APP_USER}
+        - XDEBUG_ENABLED=${XDEBUG_ENABLED}
     container_name: "${APP_NAME}_php"
     restart: always
     working_dir: /var/www
-    environment:
-      - APP_ENV=${APP_ENV}
     volumes:
       - ./:/var/www
       - ./docker/php/ini:/usr/local/etc/php/conf.d
@@ -18,6 +18,8 @@ services:
       - redis_cache
     networks:
       - app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   web_server:
     image: nginx:1.27.3-alpine
@@ -37,6 +39,8 @@ services:
     build:
       context: .
       dockerfile: ./docker/node/Dockerfile
+      args:
+        APP_ENV: ${APP_ENV}
     container_name: "${APP_NAME}_node"
     restart: always
     ports:
