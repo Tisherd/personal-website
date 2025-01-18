@@ -14,9 +14,9 @@ class AboutMeController extends Controller
 {
     public function index(): Response
     {
-        $data = Cache::remember('about_me_data', 60, function () {
+        $data = Cache::remember(AboutMe::CACHE_KEY, 60, function () {
             $aboutMe = AboutMe::firstOrFail();
-    
+
             return [
                 'photoUrl' => $aboutMe->photo_url,
                 'fullName' => $aboutMe->full_name,

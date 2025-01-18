@@ -10,6 +10,8 @@ use Carbon\Carbon;
 
 class AboutMe extends Model
 {
+    const CACHE_KEY = 'about_me_data';
+
     public $timestamps = true;
 
     protected $table = 'about_me';
@@ -25,7 +27,7 @@ class AboutMe extends Model
     protected static function booted(): void
     {
         static::updated(function () {
-            Cache::forget('about_me_data');
+            Cache::forget(self::CACHE_KEY);
         });
     }
 
