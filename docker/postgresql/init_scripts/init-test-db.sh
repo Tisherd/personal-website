@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Проверяем, если переменная APP_ENV не равна 'production'
+# Check APP_ENV is not equal 'production'
 if [ "$APP_ENV" != "production" ]; then
-  # Создаем тестовую базу данных
+  # Create Test Database
   psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
     CREATE DATABASE "$POSTGRES_TEST_DB";
 EOSQL

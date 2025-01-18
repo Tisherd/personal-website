@@ -1,6 +1,10 @@
 # Set the base image
 FROM node:23.4
 
+ARG APP_ENV
+
+ENV APP_ENV=${APP_ENV:-development}
+
 # Set working directory
 WORKDIR /var/www
 
@@ -17,4 +21,4 @@ COPY . .
 EXPOSE 3000
 
 # Start the Vite server
-CMD ["npm", "run", "dev"]
+CMD ["sh", "-c", "if [ \"$APP_ENV\" = \"production\" ]; then npm run build; else npm run dev; fi"]
