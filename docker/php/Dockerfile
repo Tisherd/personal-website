@@ -54,6 +54,11 @@ RUN if [ "$APP_ENV" = "production" ]; then \
         composer install --no-scripts --no-progress --prefer-dist; \
     fi
 
+# Install Xdebug if not in production
+RUN if [ "$APP_ENV" != "production" ]; then \
+        pecl install xdebug && docker-php-ext-enable xdebug; \
+    fi
+
 # Copy project files
 COPY . .
 

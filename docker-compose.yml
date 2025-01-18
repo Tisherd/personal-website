@@ -12,7 +12,7 @@ services:
       - APP_ENV=${APP_ENV}
     volumes:
       - ./:/var/www
-      - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
+      - ./docker/php/ini:/usr/local/etc/php/conf.d
     depends_on:
       - database
       - redis_cache
