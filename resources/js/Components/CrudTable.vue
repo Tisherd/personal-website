@@ -23,7 +23,7 @@ function destroy(routed, id) {
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col items-center justify-center mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div class="w-full text-left my-6 ml-10">
             <h1 class="text-2xl font-bold">{{ headerTitle }}</h1>
             <Link :href="route(routes.create)" class="text-indigo-600 hover:text-indigo-900 mt-2 block">

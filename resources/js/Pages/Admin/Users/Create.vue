@@ -24,7 +24,7 @@ function store() {
 
 <template>
     <AdminLayout>
-        <div class="flex flex-col items-center justify-center mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-center mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
             <div class="w-full mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white">
                 <h1 class="text-3xl font-bold text-gray-900">
                     Добавить пользователя
