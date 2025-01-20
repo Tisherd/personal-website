@@ -8,7 +8,7 @@ use Tests\TestCase;
 
 use App\Models\User;
 use Database\Seeders\AboutMeSeeder;
-use Database\Seeders\UserRolesSeeder;
+use Database\Seeders\UserRoleSeeder;
 
 class RoutesTest extends TestCase
 {
@@ -22,7 +22,7 @@ class RoutesTest extends TestCase
     {
         parent::setUp();
 
-        $this->seed(UserRolesSeeder::class);
+        $this->seed(UserRoleSeeder::class);
         $this->seed(AboutMeSeeder::class);
 
         $this->simpleUser = User::factory()->create();
