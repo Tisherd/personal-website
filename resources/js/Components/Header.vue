@@ -35,7 +35,7 @@ const showDropdown = ref(false);
         <!-- Правая часть: имя пользователя -->
         <div class="relative pr-20">
             <button class="text-white hover:underline" @click="showDropdown = !showDropdown">
-                {{ $page.props.auth.user.login }}
+                {{ $page.props.auth.user.name }}
             </button>
 
             <div v-if="showDropdown" class="absolute right-0 mt-2 w-48 bg-white text-black rounded shadow-lg z-50">
