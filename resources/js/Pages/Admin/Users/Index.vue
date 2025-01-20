@@ -16,18 +16,18 @@ const destroy = (id) => {
 
 <template>
     <AdminLayout>
-        <h1 class="text-2xl font-bold mb-4 ml-5">Пользователи</h1>
+        <div class="flex flex-col items-center justify-center mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div class="w-full text-left my-6 ml-10">
+                <h1 class="text-2xl font-bold">Пользователи</h1>
+                <Link :href="route('admin.users.create')" class="text-indigo-600 hover:text-indigo-900 mt-2 block">
+                    Добавить пользователя
+                </Link>
+            </div>
 
-        <Link :href="route('admin.users.create')" class="ml-5 text-indigo-600 hover:text-indigo-900 my-5 block">
-            Добавить пользователя
-        </Link>
-
-        <div class="flex flex-col">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div v-if="users.total > 0" class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                        <table class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
+            <div class="w-full shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                <div v-if="users.total > 0">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                     Логин
@@ -45,8 +45,8 @@ const destroy = (id) => {
                                     <span class="sr-only">Действия</span>
                                 </th>
                             </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
                             <tr v-for="user in users.data" :key="user.id">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900">
@@ -63,32 +63,27 @@ const destroy = (id) => {
                                         {{ user.role.title }}
                                     </div>
                                 </td>
-
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900">
                                         {{ user.desc }}
                                     </div>
                                 </td>
-
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
                                     <Link
                                         class="text-indigo-600 hover:text-indigo-900"
                                         :href="route('admin.users.edit', user.id)"
                                     >Редактировать</Link>
-
                                     <a @click="destroy(user.id)" class="text-red-600 hover:text-red-900 cursor-pointer"
                                     >Удалить</a>
                                 </td>
                             </tr>
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
+                    <Pagination :links="users.links" />
+                </div>
 
-                        <Pagination :links="users.links" />
-                    </div>
-
-                    <div v-else class="text-center font-bold text-xl">
-                        Пользователей пока нет
-                    </div>
+                <div v-else class="text-center font-bold text-xl py-10">
+                    Пользователей пока нет
                 </div>
             </div>
         </div>
