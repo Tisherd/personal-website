@@ -23,8 +23,8 @@ function update() {
 
 <template>
     <AdminLayout>
-        <div class="bg-white shadow mb-10 ">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-center mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div class="w-full mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white">
                 <h1 class="text-3xl font-bold text-gray-900">
                     Редактировать проект
                 </h1>
@@ -34,7 +34,7 @@ function update() {
                 </Link>
             </div>
 
-            <form @submit.prevent="update">
+            <form @submit.prevent="update" class="w-full">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <div class="grid grid-cols-6 gap-6">
 

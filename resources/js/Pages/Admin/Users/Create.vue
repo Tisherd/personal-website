@@ -24,18 +24,18 @@ function store() {
 
 <template>
     <AdminLayout>
-        <div class="bg-white shadow mb-10 ">
-            <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col items-center justify-center mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+            <div class="w-full mx-auto py-6 px-4 sm:px-6 lg:px-8 bg-white">
                 <h1 class="text-3xl font-bold text-gray-900">
                     Добавить пользователя
                 </h1>
 
                 <Link :href="route('admin.users.index')" class="text-indigo-600 hover:text-indigo-900 my-5 block">
-                    Вернуться назад
+                Вернуться назад
                 </Link>
             </div>
 
-            <form @submit.prevent="store">
+            <form @submit.prevent="store" class="w-full ">
                 <div class="px-4 py-5 bg-white sm:p-6">
                     <div class="grid grid-cols-6 gap-6">
 
@@ -49,7 +49,7 @@ function store() {
                         </div>
 
                         <div class="col-span-6">
-                            <InputLabel value="Имя пользователя" />
+                            <InputLabel value="Отображаемое имя" />
                             <input :class="{ 'border-red-500': form.errors.name }" v-model="form.name" type="text"
                                 autocomplete="off"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -60,8 +60,7 @@ function store() {
                         <div class="col-span-6">
                             <InputLabel value="Пароль" />
                             <input :class="{ 'border-red-500': form.errors.password }" v-model="form.password"
-                                type="password"
-                                autocomplete="off"
+                                type="password" autocomplete="off"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <InputError class="mt-2" :message="form.errors.password" />
@@ -69,9 +68,7 @@ function store() {
 
                         <div class="col-span-6">
                             <InputLabel value="Роль" />
-                            <select
-                                v-model="form.role_id"
-                                :class="{ 'border-red-500': form.errors.role_id }"
+                            <select v-model="form.role_id" :class="{ 'border-red-500': form.errors.role_id }"
                                 class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="" disabled>Выберите роль</option>
                                 <option v-for="(title, id) in roles" :key="id" :value="id">
@@ -84,9 +81,7 @@ function store() {
 
                         <div class="col-span-6">
                             <InputLabel value="Описание" />
-                            <textarea
-                                v-model="form.desc"
-                                rows="4"
+                            <textarea v-model="form.desc" rows="4"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </textarea>
                         </div>
@@ -95,11 +90,7 @@ function store() {
                 </div>
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <PrimaryButton
-                        class="ms-4"
-                        :class="{ 'opacity-25': form.processing }"
-                        :disabled="form.processing"
-                    >
+                    <PrimaryButton class="ms-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                         Добавить
                     </PrimaryButton>
                 </div>
