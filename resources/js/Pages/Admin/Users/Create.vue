@@ -42,15 +42,26 @@ function store() {
                         <div class="col-span-6">
                             <InputLabel value="Логин" />
                             <input :class="{ 'border-red-500': form.errors.login }" v-model="form.login" type="text"
+                                autocomplete="off"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <InputError class="mt-2" :message="form.errors.login" />
                         </div>
 
                         <div class="col-span-6">
+                            <InputLabel value="Имя пользователя" />
+                            <input :class="{ 'border-red-500': form.errors.name }" v-model="form.name" type="text"
+                                autocomplete="off"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                            <InputError class="mt-2" :message="form.errors.name" />
+                        </div>
+
+                        <div class="col-span-6">
                             <InputLabel value="Пароль" />
                             <input :class="{ 'border-red-500': form.errors.password }" v-model="form.password"
                                 type="password"
+                                autocomplete="off"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <InputError class="mt-2" :message="form.errors.password" />
