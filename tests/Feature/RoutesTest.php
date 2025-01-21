@@ -3,33 +3,18 @@
 namespace Tests\Feature;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 
-use App\Models\User;
-use Database\Seeders\AboutMeSeeder;
-use Database\Seeders\UserRoleSeeder;
+
 
 class RoutesTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected User $simpleUser;
-
-    protected User $adminUser;
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->seed(UserRoleSeeder::class);
-        $this->seed(AboutMeSeeder::class);
-
-        $this->simpleUser = User::factory()->create();
-        $this->adminUser = User::factory()->admin()->create();
-    }
-
-    public function test_login_route(): void
+    #[Test]
+    public function check_login_route(): void
     {
         $this->get(route('login'))->assertStatus(200);
 
@@ -38,7 +23,8 @@ class RoutesTest extends TestCase
         $this->get(route('login'))->assertRedirect('/');
     }
 
-    public function test_user_routes(): void
+    #[Test]
+    public function check_user_routes(): void
     {
         $routes = [
             route('resume.about_me.index'),
@@ -61,7 +47,8 @@ class RoutesTest extends TestCase
         }
     }
 
-    public function test_admin_routes(): void
+    #[Test]
+    public function check_admin_routes(): void
     {
         $routes = [
             route('admin.about_me.index'),
