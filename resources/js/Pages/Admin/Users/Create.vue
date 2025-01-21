@@ -12,6 +12,7 @@ const props = defineProps({
 
 const form = useForm({
     login: null,
+    name: null,
     password: null,
     desc: null,
     role_id: props.defaultRoleId || null,

@@ -39,6 +39,7 @@ class UserController extends Controller
 
         User::create([
             'login' => $validated['login'],
+            'name' => $validated['name'],
             'password' => Hash::make($validated['password']),
             'role_id' => $validated['role_id'],
             'desc' => $validated['desc'],

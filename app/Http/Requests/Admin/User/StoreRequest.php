@@ -15,6 +15,7 @@ class StoreRequest extends FormRequest
     {
         return [
             'login' => 'required|unique:users,login',
+            'name' => 'required|string',
             'password' => 'required|min:6',
             'role_id' => 'required|exists:user_roles,id',
             'desc' => 'nullable|string',

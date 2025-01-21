@@ -12,6 +12,7 @@ const props = defineProps({
 
 const form = useForm({
     login: props.user.login,
+    name: props.user.name,
     desc: props.user.desc,
     role_id: props.user.role_id,
 });
@@ -44,6 +45,15 @@ function update() {
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
 
                             <InputError class="mt-2" :message="form.errors.login" />
+                        </div>
+
+                        <div class="col-span-6">
+                            <InputLabel value="Отображаемое имя" />
+                            <input :class="{ 'border-red-500': form.errors.name }" v-model="form.name" type="text"
+                                autocomplete="off"
+                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+
+                            <InputError class="mt-2" :message="form.errors.name" />
                         </div>
 
                         <div class="col-span-6">
