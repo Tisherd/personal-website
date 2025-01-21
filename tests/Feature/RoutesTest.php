@@ -7,8 +7,6 @@ use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 
-
-
 class RoutesTest extends TestCase
 {
     use RefreshDatabase;
