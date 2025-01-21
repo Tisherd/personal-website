@@ -1,13 +1,13 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Routes;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\Test;
 
 use Tests\TestCase;
 
-class RoutesTest extends TestCase
+class WebRoutesTest extends TestCase
 {
     use RefreshDatabase;
 
