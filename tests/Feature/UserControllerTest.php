@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
@@ -11,17 +12,20 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\UserRole;
 
-use Illuminate\Support\Facades\Hash;
-
 class UserControllerTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->withoutMiddleware(ValidateCsrfToken::class);
+        $this->actingAs($this->adminUser);
+    }
+
     #[Test]
     public function it_can_display_the_users_index_page()
     {
-        $this->actingAs($this->adminUser);
-
         $this->get(route('admin.users.index'))
             ->assertInertia(
                 fn(Assert $page) => $page
@@ -33,8 +37,6 @@ class UserControllerTest extends TestCase
     #[Test]
     public function it_can_display_the_create_user_page()
     {
-        $this->actingAs($this->adminUser);
-
         $this->get(route('admin.users.create'))
             ->assertInertia(
                 fn(Assert $page) => $page
@@ -47,9 +49,6 @@ class UserControllerTest extends TestCase
     #[Test]
     public function it_can_create_a_new_user()
     {
-        $this->withoutMiddleware();
-        $this->actingAs($this->adminUser);
-
         $this->from(route('admin.users.create'));
 
         $response = $this->post(route('admin.users.store'), [
@@ -67,8 +66,6 @@ class UserControllerTest extends TestCase
     #[Test]
     public function it_can_display_the_edit_user_page()
     {
-        $this->actingAs($this->adminUser);
-
         $user = User::factory()->create();
 
         $this->get(route('admin.users.edit', $user))
@@ -83,17 +80,12 @@ class UserControllerTest extends TestCase
     #[Test]
     public function it_can_update_an_existing_user()
     {
-        $this->withoutMiddleware();
-        $this->actingAs($this->adminUser);
-
         $user = User::factory()->create([
             'login' => 'oldlogin',
             'desc' => 'Old description',
         ]);
 
-        //dd(route('admin.users.update', $user));
-
-        $response = $this->put(route('admin.users.update', $user), [
+        $response = $this->put(route('admin.users.update', ['user' => $user]), [
             'login' => 'newlogin',
             'name' => $user->name,
             'role_id' => $user->role_id,
@@ -104,14 +96,14 @@ class UserControllerTest extends TestCase
         $this->assertDatabaseHas('users', ['login' => 'newlogin', 'desc' => 'Updated description']);
     }
 
-    // #[Test]
-    // public function it_can_delete_a_user()
-    // {
-    //     $user = User::factory()->create();
+    #[Test]
+    public function it_can_delete_a_user()
+    {
+        $user = User::factory()->create();
 
-    //     $response = $this->delete(route('admin.users.destroy', $user));
+        $response = $this->delete(route('admin.users.destroy', $user));
 
-    //     $response->assertRedirect(route('admin.users.index'));
-    //     $this->assertDatabaseMissing('users', ['id' => $user->id]);
-    // }
+        $response->assertRedirect(route('admin.users.index'));
+        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+    }
 }
