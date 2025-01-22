@@ -14,7 +14,7 @@ services:
       - ./:/var/www
       - ./docker/php/ini:/usr/local/etc/php/conf.d
     depends_on:
-      - database
+      - postgres
       - redis
     networks:
       - app-network
