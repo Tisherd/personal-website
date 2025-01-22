@@ -15,7 +15,7 @@ services:
       - ./docker/php/ini:/usr/local/etc/php/conf.d
     depends_on:
       - database
-      - redis_cache
+      - redis
     networks:
       - app-network
     extra_hosts:
@@ -94,7 +94,7 @@ services:
     networks:
       - app-network
 
-  redis_cache:
+  redis:
     image: redis:7.4.1
     container_name: "${APP_NAME}_redis"
     restart: always
