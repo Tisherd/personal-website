@@ -75,6 +75,25 @@ services:
     networks:
       - app-network
 
+  mongodb:
+    image: mongo:6.0
+    container_name: "${APP_NAME}_mongodb"
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 60s
+      retries: 5
+      timeout: 5s
+    networks:
+      - app-network
+
   redis_cache:
     image: redis:7.4.1
     container_name: "${APP_NAME}_redis"
