@@ -13,13 +13,25 @@ class AboutMeSeeder extends Seeder
     public function run(): void
     {
         AboutMe::firstOrCreate(
-            ['id' => 1], // Предполагаем, что запись всегда имеет id = 1
+            ['_id' => AboutMe::DOC_ID],
             [
-                'full_name' => 'Иван Иванов',
-                'birth_date' => '2000-01-01',
-                'photo_path' => null,
-                'about_me' => 'Это описание обо мне.',
-                'contacts' => 'example@mail.com',
+                'common' => [
+                    'full_name' => null,
+                    'birth_date' => null,
+                    'photo_path' => null,
+                    'description' => null,
+                ],
+                'education' => [
+                    'status' => null,
+                    'institution' => null,
+                    'faculty' => null,
+                    'speciality' => null,
+                ],
+                'contacts' => [
+                    'email' => null,
+                    'phone' => null,
+                    'telegram' => null,
+                ],
             ]
         );
     }
