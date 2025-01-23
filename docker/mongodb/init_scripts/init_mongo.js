@@ -10,7 +10,7 @@ if (!process.env.MONGO_DB_NAME) {
 
 // Create app database
 const appDB = db.getSiblingDB(dbName);
-appDB.createCollection('init_collection'); // create explicitly
+appDB.createCollection('example_collection'); // create explicitly
 appDB.example_collection.insertOne({ exampleField: 'exampleValue' });
 print('Created app database:', appDB.getName());
 
@@ -25,7 +25,7 @@ if (process.env.APP_ENV !== 'production') {
 
     // Create test database
     const testDB = db.getSiblingDB(testDbName);
-    testDB.createCollection('init_collection'); // create explicitly
+    testDB.createCollection('example_collection'); // create explicitly
     testDB.example_collection.insertOne({ exampleField: 'exampleValue' });
     print('Created test database:', testDB.getName());
 } else {
