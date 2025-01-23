@@ -19,7 +19,6 @@ class AboutMeController extends Controller
 
             return [
                 'photoUrl' => $aboutMe->photo_url,
-                'fullName' => $aboutMe->full_name,
                 'birthdateFormatted' => $aboutMe->birthdate_formatted,
                 'fullAge' => $aboutMe->full_age,
             ];
