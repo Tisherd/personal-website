@@ -17,6 +17,7 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     libpq-dev \
     libxml2-dev \
     libzip-dev \
+    libssl-dev \
     zip \
     unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -32,6 +33,10 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     zip \
     opcache \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Install MongoDB extension
+RUN pecl install mongodb \
+    && docker-php-ext-enable mongodb
 
 # Check and install Redis extension only if not already installed
 RUN if ! php -m | grep -q redis; then \

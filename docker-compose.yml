@@ -8,14 +8,15 @@ services:
         - APP_USER=${APP_USER}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
     container_name: "${APP_NAME}_php"
-    restart: always
+    restart: unless-stopped
     working_dir: /var/www
     volumes:
       - ./:/var/www
       - ./docker/php/ini:/usr/local/etc/php/conf.d
     depends_on:
-      - database
-      - redis_cache
+      - postgres
+      - redis
+      - mongodb
     networks:
       - app-network
     extra_hosts:
@@ -24,7 +25,7 @@ services:
   web_server:
     image: nginx:1.27.3-alpine
     container_name: "${APP_NAME}_nginx"
-    restart: always
+    restart: unless-stopped
     ports:
       - "80:80"
     volumes:
@@ -42,7 +43,7 @@ services:
       args:
         APP_ENV: ${APP_ENV}
     container_name: "${APP_NAME}_node"
-    restart: always
+    restart: unless-stopped
     ports:
     - "3000:3000"
     working_dir: /var/www
@@ -52,33 +53,56 @@ services:
     networks:
       - app-network
 
-  database:
+  postgres:
     image: postgres:17
     container_name: "${APP_NAME}_postgres"
-    restart: always
+    restart: unless-stopped
     ports:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgresql/init_scripts:/docker-entrypoint-initdb.d
+      - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d
     environment:
-      - POSTGRES_DB=${DB_DATABASE}
-      - POSTGRES_TEST_DB=${DB_TEST_DATABASE}
-      - POSTGRES_USER=${DB_USERNAME}
-      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_TEST_DB=${POSTGRES_TEST_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
       - APP_ENV=${APP_ENV}
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 60s
       retries: 5
       timeout: 5s
     networks:
       - app-network
 
-  redis_cache:
+  mongodb:
+    image: mongo:6.0
+    container_name: "${APP_NAME}_mongodb"
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./docker/mongodb/init_scripts:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      MONGO_TEST_DB_NAME: ${MONGO_TEST_DB_NAME}
+      APP_ENV: ${APP_ENV}
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 60s
+      retries: 5
+      timeout: 5s
+    networks:
+      - app-network
+
+  redis:
     image: redis:7.4.1
     container_name: "${APP_NAME}_redis"
-    restart: always
+    restart: unless-stopped
     ports:
       - "6379:6379"
     healthcheck:
@@ -95,4 +119,6 @@ networks:
 
 volumes:
   postgres_data:
+    driver: local
+  mongodb_data:
     driver: local

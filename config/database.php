@@ -10,11 +10,11 @@ return [
         'pgsql' => [
             'driver' => 'pgsql',
             'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
+            'host' => env('POSTGRES_HOST', '127.0.0.1'),
+            'port' => env('POSTGRES_PORT', '5432'),
+            'database' => env('POSTGRES_DB', 'laravel'),
+            'username' => env('POSTGRES_USER', 'root'),
+            'password' => env('POSTGRES_PASSWORD', ''),
             'charset' => env('DB_CHARSET', 'utf8'),
             'prefix' => '',
             'prefix_indexes' => true,
@@ -22,19 +22,16 @@ return [
             'sslmode' => 'prefer',
         ],
 
-        'pgsql_test' => [
-            'driver' => 'pgsql',
-            'url' => env('DB_URL'),
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', '5432'),
-            'database' => env('DB_TEST_DATABASE', 'laravel'),
-            'username' => env('DB_USERNAME', 'root'),
-            'password' => env('DB_PASSWORD', ''),
-            'charset' => env('DB_CHARSET', 'utf8'),
-            'prefix' => '',
-            'prefix_indexes' => true,
-            'search_path' => 'public',
-            'sslmode' => 'prefer',
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'host' => env('MONGO_HOST', 'mongodb'),
+            'port' => env('MONGO_PORT', 27017),
+            'database' => env('MONGO_DB_NAME'),
+            'username' => env('MONGO_INITDB_ROOT_USERNAME'),
+            'password' => env('MONGO_INITDB_ROOT_PASSWORD'),
+            'options' => [
+                'authSource' => 'admin',
+            ],
         ],
 
         // 'sqlite' => [
