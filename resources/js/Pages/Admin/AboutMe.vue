@@ -12,6 +12,7 @@ const props = defineProps({
     birth_date: String,
     description: String,
     photo_path: String,
+    contacts: Object,
 });
 
 console.log(props);
@@ -35,9 +36,8 @@ function cancelChanges() {
     resetFileInput();
 }
 
-
 function saveChanges() {
-    form.put(route("admin.about_me.update"), {
+    form.post(route("admin.about_me.update"), {
         preserveScroll: true,
         onSuccess: () => {
             Object.assign(initialData, form.data()); // Обновляем initialData после успешного сохранения
@@ -126,7 +126,7 @@ function handlePhotoUpload(event) {
                         </div>
                     </div>
 
-                    <!-- <div>
+                    <div>
                         <h2 class="text-lg font-semibold text-gray-700 border-b pb-2 mb-4">
                             Контакты
                         </h2>
@@ -135,15 +135,24 @@ function handlePhotoUpload(event) {
                                 <InputLabel value="Email" />
                                 <input v-model="form.contacts.email" type="text"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                <InputError class="mt-2" :message="form.errors['contacts.email']" />
+                            </div>
+
+                            <div class="col-span-6">
+                                <InputLabel value="Телефон" />
+                                <input v-model="form.contacts.phone" type="tel" placeholder="+7 (___) ___-__-__"
+                                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                <InputError class="mt-2" :message="form.errors['contacts.phone']" />
                             </div>
 
                             <div class="col-span-6">
                                 <InputLabel value="Telegram" />
                                 <input v-model="form.contacts.telegram" type="text"
                                     class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" />
+                                <InputError class="mt-2" :message="form.errors['contacts.telegram']" />
                             </div>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
 
                 <div class="px-4 py-3 bg-gray-50 text-right sm:px-6" v-if="hasChanges">

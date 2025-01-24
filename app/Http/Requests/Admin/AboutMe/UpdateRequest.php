@@ -27,8 +27,9 @@ class UpdateRequest extends FormRequest
             'birth_date' => 'required|date',
             'description' => 'required|string',
 
-            // 'contacts.email' => 'nullable|email',
-            // 'contacts.telegram' => 'nullable|string|max:255',
+            'contacts.email' => 'nullable|email',
+            'contacts.phone' => 'nullable|regex:/^\+?[0-9\s\-\(\)]{7,15}$/',
+            'contacts.telegram' => 'nullable|string|max:255',
         ];
     }
 }

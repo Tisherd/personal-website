@@ -53,7 +53,7 @@ Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
 
     Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])
         ->name('about_me.index');
-    Route::put('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])
+    Route::post('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])
         ->name('about_me.update');
 
     Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class)
