@@ -25,12 +25,9 @@ class AboutMe extends Model
         'full_name',
         'birth_date',
         'photo_path',
-        'about_me',
-        'contacts',
-    ];
+        'description',
 
-    protected $casts = [
-        'birth_date' => 'date',
+        'contacts',
     ];
 
     protected static function booted(): void
@@ -51,7 +48,7 @@ class AboutMe extends Model
     {
         return Attribute::make(
             get: fn() => $this->birth_date
-                ? Carbon::parse($this->birth_date)
+                ? Carbon::createFromFormat('Y-m-d', $this->birth_date)
                 ->locale('ru')
                 ->translatedFormat('d F Y г.')
                 : null,
@@ -62,7 +59,7 @@ class AboutMe extends Model
     {
         return Attribute::make(
             get: fn() => $this->birth_date
-                ? Carbon::parse($this->birth_date)->age
+                ? Carbon::createFromFormat('Y-m-d', $this->birth_date)->age
                 : null,
         );
     }

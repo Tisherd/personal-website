@@ -22,11 +22,13 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'photo' => 'nullable|image|max:2048',
             'full_name' => 'required|string|max:255',
             'birth_date' => 'required|date',
-            'photo' => 'nullable|image|max:2048',
-            'about_me' => 'required|string',
-            'contacts' => 'required|string',
+            'description' => 'required|string',
+
+            // 'contacts.email' => 'nullable|email',
+            // 'contacts.telegram' => 'nullable|string|max:255',
         ];
     }
 }

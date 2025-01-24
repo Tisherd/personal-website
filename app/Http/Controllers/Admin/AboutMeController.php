@@ -16,7 +16,7 @@ class AboutMeController extends Controller
     public function index(): Response
     {
         $data = AboutMe::firstOrFail();
-        return Inertia::render('Admin/AboutMe', ['aboutMe' => $data]);
+        return Inertia::render('Admin/AboutMe', $data);
     }
 
     public function update(UpdateRequest $request): RedirectResponse
@@ -27,7 +27,7 @@ class AboutMeController extends Controller
             $validated['photo_path'] = $request->file('photo')->store('images/resume', 'public');
         }
 
-        $aboutMe = AboutMe::firstOrFail();
+        $aboutMe = AboutMe::find(AboutMe::DOC_ID);
         $aboutMe->update($validated);
 
         return back()->with('message', 'Данные обновлены.');
