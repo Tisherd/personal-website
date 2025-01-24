@@ -15,18 +15,11 @@ class AboutMeSeeder extends Seeder
         AboutMe::firstOrCreate(
             ['_id' => AboutMe::DOC_ID],
             [
-                'common' => [
-                    'full_name' => null,
-                    'birth_date' => null,
-                    'photo_path' => null,
-                    'description' => null,
-                ],
-                'education' => [
-                    'status' => null,
-                    'institution' => null,
-                    'faculty' => null,
-                    'speciality' => null,
-                ],
+                'full_name' => null,
+                'birth_date' => null,
+                'photo_path' => null,
+                'description' => null,
+
                 'contacts' => [
                     'email' => null,
                     'phone' => null,
