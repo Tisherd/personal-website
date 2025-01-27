@@ -26,7 +26,7 @@
 ## Installation Instructions
 
 ### 1. **Set environments**
-- fill in the .env file
+- fill in the **.env** file
 
 ### 2. **Docker Compose Setup**
 
