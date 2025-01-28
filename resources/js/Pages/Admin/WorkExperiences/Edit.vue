@@ -14,8 +14,7 @@ const form = useForm({
     position: props.workExperience.position,
     start_date: props.workExperience.start_date,
     end_date: props.workExperience.end_date,
-    technology_stack: props.workExperience.technology_stack,
-    desc: props.workExperience.desc,
+    description: props.workExperience.description,
 });
 
 function update() {
@@ -73,27 +72,15 @@ function update() {
                         </div>
 
                         <div class="col-span-6">
-                            <InputLabel value="Технологии" />
-                            <textarea
-                                :class="{ 'border-red-500': form.errors.technology_stack }"
-                                v-model="form.technology_stack"
-                                rows="4"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </textarea>
-
-                            <InputError class="mt-2" :message="form.errors.technology_stack" />
-                        </div>
-
-                        <div class="col-span-6">
                             <InputLabel value="Описание" />
                             <textarea
-                                :class="{ 'border-red-500': form.errors.desc }"
-                                v-model="form.desc"
+                                :class="{ 'border-red-500': form.errors.description }"
+                                v-model="form.description"
                                 rows="4"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </textarea>
 
-                            <InputError class="mt-2" :message="form.errors.desc" />
+                            <InputError class="mt-2" :message="form.errors.description" />
                         </div>
 
                     </div>

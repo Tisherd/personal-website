@@ -18,8 +18,7 @@ class UpdateRequest extends FormRequest
             'position' => 'required|string|max:255',
             'start_date' => 'required|date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'technology_stack' => 'nullable|json',
-            'desc' => 'nullable|string',
+            'description' => 'nullable|string',
         ];
     }
 }

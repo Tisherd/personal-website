@@ -6,12 +6,11 @@ import PrimaryButton from '@/Components/Base/PrimaryButton.vue';
 import { Link, useForm } from '@inertiajs/vue3';
 
 const form = useForm({
-    company_name: "",
-    position: "",
-    start_date: "",
-    end_date: "",
-    technology_stack: "",
-    desc: "",
+    company_name: null,
+    position: null,
+    start_date: null,
+    end_date: null,
+    description: null,
 });
 
 function store() {
@@ -69,27 +68,15 @@ function store() {
                         </div>
 
                         <div class="col-span-6">
-                            <InputLabel value="Технологии" />
-                            <textarea
-                                :class="{ 'border-red-500': form.errors.technology_stack }"
-                                v-model="form.technology_stack"
-                                rows="4"
-                                class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            </textarea>
-
-                            <InputError class="mt-2" :message="form.errors.technology_stack" />
-                        </div>
-
-                        <div class="col-span-6">
                             <InputLabel value="Описание" />
                             <textarea
-                                :class="{ 'border-red-500': form.errors.desc }"
-                                v-model="form.desc"
+                                :class="{ 'border-red-500': form.errors.description }"
+                                v-model="form.description"
                                 rows="4"
                                 class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             </textarea>
 
-                            <InputError class="mt-2" :message="form.errors.desc" />
+                            <InputError class="mt-2" :message="form.errors.description" />
                         </div>
 
                     </div>

@@ -76,14 +76,8 @@ const formattedPeriod = (periodInMonth) => {
                         <p>Период работы: {{ experience.formatted_date_range }}</p>
                         <p>Период: {{ formattedPeriod(experience.period_in_month) }}</p>
                         <p>Должность: {{ experience.position }}</p>
-                        <p>Стек технологий:</p>
-                        <ul class="list-disc pl-5">
-                            <li v-for="item in experience.technology_stack" class="mb-1 text-gray-800">
-                                <p>{{ item }}</p>
-                            </li>
-                        </ul>
                         <p>Описание: </p>
-                        <p>{{ experience.desc }}</p>
+                        <p>{{ experience.description }}</p>
                     </div>
                 </div>
             </div>
