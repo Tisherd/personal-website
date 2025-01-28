@@ -4,13 +4,13 @@ namespace Tests\Feature\Controllers\Admin;
 
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Inertia\Testing\AssertableInertia as Assert;
 use PHPUnit\Framework\Attributes\Test;
 
-use Tests\TestCase;
-
 use App\Models\User;
 use App\Models\UserRole;
+use Tests\TestCase;
 
 class UserControllerTest extends TestCase
 {
