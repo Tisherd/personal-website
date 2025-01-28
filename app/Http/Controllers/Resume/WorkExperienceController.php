@@ -12,8 +12,10 @@ class WorkExperienceController extends Controller
 {
     public function index(): Response
     {
+        $workExperience = WorkExperience::all();
         return Inertia::render('Resume/WorkExperience', [
-            'workExperiences' => WorkExperience::all(),
+            'workExperiences' => $workExperience,
+            'activeMonths' => WorkExperience::calculateActiveMonths($workExperience),
         ]);
     }
 }

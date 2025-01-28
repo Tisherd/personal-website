@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 
 use Carbon\Carbon;
 
@@ -27,6 +28,29 @@ class WorkExperience extends Model
     ];
 
     protected $appends = ['formatted_date_range', 'period_in_month'];
+
+    /**
+     * Counts the active months.
+     */
+    public static function calculateActiveMonths(Collection $workExperiences): int
+    {
+        $activeMonths = collect();
+
+        foreach ($workExperiences as $experience) {
+            $start = Carbon::parse($experience['start_date']);
+            $end = Carbon::parse($experience['end_date'] ?? Carbon::today());
+
+            $start->startOfMonth();
+            $end->endOfMonth();
+
+            while ($start <= $end) {
+                $activeMonths->push($start->format('Y-m'));
+                $start->addMonth();
+            }
+        }
+
+        return $activeMonths->unique()->count();
+    }
 
     protected function formattedDateRange(): Attribute
     {

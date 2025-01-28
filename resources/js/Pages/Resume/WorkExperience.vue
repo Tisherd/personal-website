@@ -4,6 +4,7 @@ import { ref, computed } from 'vue';
 
 const props = defineProps({
     workExperiences: Array,
+    activeMonths: Number,
 });
 
 const sortOrder = ref("asc"); // Порядок сортировки: "asc" или "desc"
@@ -55,7 +56,7 @@ const formattedPeriod = (periodInMonth) => {
             <!-- Основной блок с информацией -->
             <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
                 <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperiences.length }}</h1>
-                <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(10) }}
+                <h1 class="text-xl font-bold mb-2">Опыт работы: {{ formattedPeriod(activeMonths) }}
                 </h1>
                 <!-- Кнопка для сортировки -->
                 <button @click="toggleSortOrder"
