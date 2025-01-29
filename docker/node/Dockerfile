@@ -20,5 +20,7 @@ COPY . .
 # Expose the port Vite runs on
 EXPOSE 3000
 
-# Start the Vite server
-CMD ["sh", "-c", "if [ \"$APP_ENV\" = \"production\" ]; then npm run build; else npm run dev; fi"]
+# Start the Vite server or build
+ENTRYPOINT ["/bin/sh", "-c"]
+CMD ["[ \"$APP_ENV\" = \"production\" ] && npm run build || npm run dev"]
+
