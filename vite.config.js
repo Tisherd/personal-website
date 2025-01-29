@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
     plugins: [
         laravel({
             input: ['resources/js/app.js', 'resources/css/app.css'],
@@ -16,13 +16,14 @@ export default defineConfig({
                 },
             },
         }),
-
     ],
-    server: {
-        host: true,  // Включает прослушивание на всех интерфейсах
-        port: 3000,
-        hmr: {
-            host: 'localhost', // Или ваш IP-адрес, если нужно
+    ...(mode !== 'production' && {
+        server: {
+            host: true,
+            port: 3000,
+            hmr: {
+                host: 'localhost',
+            },
         },
-    },
-});
+    }),
+}));
