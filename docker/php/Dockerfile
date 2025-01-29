@@ -1,12 +1,10 @@
 FROM php:8.4-fpm AS dependency_installer
 
 ARG APP_ENV
-ARG APP_USER
 ARG XDEBUG_ENABLED
 
 ENV APP_ENV=${APP_ENV:-development}
 ENV XDEBUG_ENABLED=${XDEBUG_ENABLED:-false}
-ENV APP_USER=${APP_USER:-dev_user}
 
 RUN apt-get clean && apt-get update && apt-get install -y \
     git \
@@ -57,6 +55,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin -
 
 FROM dependency_installer AS project_installer
 
+ARG APP_USER=laravel_user
+ARG APP_UID=1000
+
 # Set workdir
 WORKDIR /var/www
 
@@ -73,14 +74,14 @@ RUN if [ "$APP_ENV" = "production" ]; then \
 COPY . .
 
 # create user if not exist
-RUN if ! id -u $APP_USER > /dev/null 2>&1; then \
-        useradd -ms /bin/bash -u 1000 $APP_USER; \
+RUN if ! id -u ${APP_USER} > /dev/null 2>&1; then \
+        useradd -ms /bin/bash -u ${APP_UID} ${APP_USER}; \
     fi
 
-RUN chown -R $APP_USER:$APP_USER storage bootstrap/cache
+RUN chown -R ${APP_USER}:${APP_UID} storage bootstrap/cache
 
 # Switch to the correct user
-USER $APP_USER
+USER ${APP_USER}
 
 # Launch php-fpm
 EXPOSE 9000
