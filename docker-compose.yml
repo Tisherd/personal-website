@@ -42,7 +42,7 @@ services:
       args:
         APP_ENV: ${APP_ENV}
     container_name: "${APP_NAME}_node"
-    restart: unless-stopped
+    restart: on-failure
     ports:
     - "3000:3000"
     working_dir: /var/www
