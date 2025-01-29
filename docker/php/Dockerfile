@@ -47,6 +47,15 @@ RUN if [ "$XDEBUG_ENABLED" = "true" ]; then \
 
 EXPOSE ${XDEBUG_ENABLED:+9003}
 
+# Set configs depend on env
+COPY ./docker/php/ini/prod.ini /tmp/prod.ini
+COPY ./docker/php/ini/local.ini /tmp/local.ini
+RUN if [ "$APP_ENV" = "production" ]; then \
+        cp /tmp/prod.ini /usr/local/etc/php/conf.d/prod.ini; \
+    elif [ "$APP_ENV" = "local" ]; then \
+        cp /tmp/local.ini /usr/local/etc/php/conf.d/local.ini; \
+    fi
+
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0
 

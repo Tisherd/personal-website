@@ -2,7 +2,7 @@ services:
   app:
     build:
       context: .
-      dockerfile: ./docker/php/Dockerfile
+      dockerfile: docker/php/Dockerfile
       args:
         - APP_ENV=${APP_ENV}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
@@ -38,7 +38,7 @@ services:
   node:
     build:
       context: .
-      dockerfile: ./docker/node/Dockerfile
+      dockerfile: docker/node/Dockerfile
       args:
         APP_ENV: ${APP_ENV}
     container_name: "${APP_NAME}_node"
