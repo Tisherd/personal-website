@@ -22,7 +22,6 @@ RUN apt-get clean && apt-get update && apt-get install -y \
     && docker-php-ext-install -j$(nproc) \
     pdo \
     pdo_pgsql \
-    mbstring \
     exif \
     bcmath \
     gd \
