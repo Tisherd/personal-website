@@ -51,9 +51,9 @@ EXPOSE ${XDEBUG_ENABLED:+9003}
 COPY ./docker/php/ini/prod.ini /tmp/prod.ini
 COPY ./docker/php/ini/local.ini /tmp/local.ini
 RUN if [ "$APP_ENV" = "production" ]; then \
-        cp /tmp/prod.ini /usr/local/etc/php/conf.d/prod.ini; \
+        cp /tmp/prod.ini /usr/local/etc/php/conf.d/php.ini; \
     elif [ "$APP_ENV" = "local" ]; then \
-        cp /tmp/local.ini /usr/local/etc/php/conf.d/local.ini; \
+        cp /tmp/local.ini /usr/local/etc/php/conf.d/php.ini; \
     fi
 
 # Install Composer
@@ -73,7 +73,6 @@ WORKDIR /var/www
 COPY composer.json composer.lock ./
 RUN if [ "$APP_ENV" = "production" ]; then \
         composer install --no-dev --no-scripts --no-progress --prefer-dist --optimize-autoloader; \
-        echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/docker-php-ext-opcache.ini; \
     else \
         composer install --no-scripts --no-progress --prefer-dist; \
     fi
