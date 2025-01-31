@@ -57,6 +57,12 @@ seed:
 test:
 	docker exec ${PHP_CONTAINER} php artisan test
 
+cache:
+	docker exec ${PHP_CONTAINER} php artisan cache
+	docker exec ${PHP_CONTAINER} php artisan config
+	docker exec ${PHP_CONTAINER} php artisan route
+	docker exec ${PHP_CONTAINER} php artisan view
+
 clear-cache:
 	docker exec ${PHP_CONTAINER} php artisan cache:clear
 	docker exec ${PHP_CONTAINER} php artisan config:clear
