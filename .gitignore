@@ -13,6 +13,7 @@
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
+Envoy.blade.php
 auth.json
 npm-debug.log
 yarn-error.log
