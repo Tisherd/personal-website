@@ -71,11 +71,7 @@ WORKDIR /var/www
 
 # Composer install
 COPY composer.json composer.lock ./
-RUN if [ "$APP_ENV" = "production" ]; then \
-        composer install --no-dev --no-scripts --no-progress --prefer-dist --optimize-autoloader; \
-    else \
-        composer install --no-scripts --no-progress --prefer-dist; \
-    fi
+RUN composer install --no-scripts --no-progress --prefer-dist
 
 # Copy project files
 COPY . .
