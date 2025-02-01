@@ -67,10 +67,9 @@ test:
 	docker exec ${PHP_CONTAINER} php artisan test
 
 cache:
-	docker exec ${PHP_CONTAINER} php artisan cache
-	docker exec ${PHP_CONTAINER} php artisan config
-	docker exec ${PHP_CONTAINER} php artisan route
-	docker exec ${PHP_CONTAINER} php artisan view
+	docker exec ${PHP_CONTAINER} php artisan config:cache
+	docker exec ${PHP_CONTAINER} php artisan route:cache
+	docker exec ${PHP_CONTAINER} php artisan view:cache
 
 clear-cache:
 	docker exec ${PHP_CONTAINER} php artisan cache:clear
