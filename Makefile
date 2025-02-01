@@ -10,7 +10,7 @@ NPM=docker exec ${NODE_CONTAINER} npm
 # Commands
 .PHONY: build build-no-cache up down restart rebuild logs shell clean \
     composer-install composer-optimize composer-update \
-    migrate seed test cache clear-cache \
+    migrate migrate-force seed seed-force test cache clear-cache \
     npm-install npm-build \
     project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
 
@@ -54,8 +54,14 @@ composer-update:
 migrate:
 	docker exec ${PHP_CONTAINER} php artisan migrate
 
+migrate-force:
+	docker exec ${PHP_CONTAINER} php artisan migrate --force
+
 seed:
 	docker exec ${PHP_CONTAINER} php artisan db:seed
+
+seed-force:
+	docker exec ${PHP_CONTAINER} php artisan db:seed --force
 
 test:
 	docker exec ${PHP_CONTAINER} php artisan test
@@ -81,7 +87,7 @@ npm-build:
 
 # Project
 
-project-init: clean build up wait-for-containers migrate seed
+project-init: clean build up wait-for-containers migrate-force seed-force
 
 wait-for-containers: wait-for-postgres wait-for-mongo wait-for-redis
 
@@ -95,7 +101,7 @@ wait-for-postgres:
 
 wait-for-mongo:
 	@echo "Waiting for MongoDB to be ready..."
-	@until docker exec ${APP_NAME}_mongodb mongo --eval "db.adminCommand('ping')" &>/dev/null; do \
+	@until docker exec ${APP_NAME}_mongodb mongosh --eval "db.adminCommand('ping')" &>/dev/null; do \
 		echo "Waiting for MongoDB..."; \
 		sleep 2; \
 	done
