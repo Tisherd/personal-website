@@ -1,6 +1,5 @@
 # Variables
 include .env
-export $(shell sed 's/=.*//' .env)
 
 DOCKER_COMPOSE=docker compose
 PHP_CONTAINER=${APP_NAME}_php
@@ -9,7 +8,11 @@ COMPOSER=docker exec ${PHP_CONTAINER} composer
 NPM=docker exec ${NODE_CONTAINER} npm
 
 # Commands
-.PHONY: init build up down restart rebuild logs shell clean composer npm project
+.PHONY: build build-no-cache up down restart rebuild logs shell clean \
+    composer-install composer-optimize composer-update \
+    migrate seed test cache clear-cache \
+    npm-install npm-build \
+    project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
 
 # Docker
 build:
