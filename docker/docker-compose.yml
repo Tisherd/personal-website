@@ -75,12 +75,12 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: "${APP_NAME}_postgres"
+    container_name: ${CONTAINER_POSTGRES}
     restart: unless-stopped
     ports:
       - 5432:5432
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ${VOLUME_POSTGRES}:/var/lib/postgresql/data
       - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
@@ -96,8 +96,6 @@ services:
     networks:
       - app-network
 
-
-
   mongodb:
     image: mongo:6.0
     container_name: ${CONTAINER_MONGODB}
@@ -105,7 +103,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - mongodb_data:/data/db
+      - ${VOLUME_MONGODB}:/data/db
       - ./mongodb/init_scripts:/docker-entrypoint-initdb.d
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
