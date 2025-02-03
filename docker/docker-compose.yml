@@ -100,7 +100,7 @@ services:
 
   mongodb:
     image: mongo:6.0
-    container_name: "${APP_NAME}_mongodb"
+    container_name: "${CONTAINER_MONGODB}"
     restart: unless-stopped
     ports:
       - "27017:27017"
