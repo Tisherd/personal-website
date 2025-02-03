@@ -7,11 +7,18 @@ NODE_CONTAINER=${APP_NAME}_node
 COMPOSER=docker exec ${PHP_CONTAINER} composer
 
 # Commands
-.PHONY: build build-no-cache up down restart rebuild logs shell clean
+.PHONY: docker-init-environments build build-no-cache up down restart rebuild logs shell clean config
 
 # Docker
+
+docker-init-environments:
+	bash ./docker-init-environments.sh
+
 build:
-	${DOCKER_COMPOSE} build
+	docker compose build
+
+config:
+	${DOCKER_COMPOSE} config
 
 build-no-cache:
 	${DOCKER_COMPOSE} build --no-cache
