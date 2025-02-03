@@ -100,7 +100,7 @@ services:
 
   mongodb:
     image: mongo:6.0
-    container_name: "${CONTAINER_MONGODB}"
+    container_name: ${CONTAINER_MONGODB}
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -126,10 +126,13 @@ services:
 
   redis:
     image: redis:7.4.1
-    container_name: "${CONTAINER_REDIS}"
+    container_name: ${CONTAINER_REDIS}
     restart: unless-stopped
     ports:
       - "6379:6379"
+    environment:
+        - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: redis-server --requirepass ${REDIS_PASSWORD}
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 60s
