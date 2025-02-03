@@ -1,77 +1,52 @@
 services:
-
-
   php:
     build:
-      context: .
+      context: ..
       dockerfile: docker/php/Dockerfile
       args:
         - APP_ENV=${APP_ENV}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
-    container_name: "${APP_NAME}_php"
+    container_name: ${CONTAINER_PHP}
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-      - ./:/var/www
+      - ../:/var/www
     depends_on:
       - postgres
-      - redis
       - mongodb
+      - redis
     networks:
-      - app-network
+      - tisherd_personal_website_network
     extra_hosts:
       - "host.docker.internal:host-gateway"
 
-
-
   nginx:
     image: nginx:1.27.3-alpine
-    container_name: "${APP_NAME}_nginx"
+    container_name: ${CONTAINER_NGINX}
     restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
     volumes:
-      - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
-      - ./docker/nginx/certbot/conf:/etc/letsencrypt
+      - ../:/var/www
     depends_on:
       - php
     networks:
-      - app-network
-
-
-
-  certbot:
-    image: certbot/certbot
-    container_name: "${APP_NAME}_certbot"
-    volumes:
-      - ./docker/nginx/certbot/www:/var/www/docker/nginx/certbot
-      - ./docker/nginx/certbot/conf:/etc/letsencrypt
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/docker/nginx/certbot; sleep 12h & wait $${!}; done'"
-    networks:
-      - app-network
-
-
+      - tisherd_personal_website_network
 
   node:
     build:
-      context: .
+      context: ..
       dockerfile: docker/node/Dockerfile
       args:
         APP_ENV: ${APP_ENV}
-    container_name: "${APP_NAME}_node"
+    container_name: ${CONTAINER_NODE}
     restart: on-failure
     ports:
     - "3000:3000"
     working_dir: /var/www
     volumes:
-      - ./:/var/www
+      - ../:/var/www
       - /var/www/node_modules
     networks:
-      - app-network
-
-
+      - tisherd_personal_website_network
 
   postgres:
     image: postgres:17
@@ -80,8 +55,8 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - ${VOLUME_POSTGRES}:/var/lib/postgresql/data
-      - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d
+      - tisherd_personal_website_postgres_data:/var/lib/postgresql/data
+      - ./postgres/init_scripts:/docker-entrypoint-initdb.d
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_TEST_DB=${POSTGRES_TEST_DB}
@@ -94,7 +69,7 @@ services:
       retries: 5
       timeout: 5s
     networks:
-      - app-network
+      - tisherd_personal_website_network
 
   mongodb:
     image: mongo:6.0
@@ -103,7 +78,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ${VOLUME_MONGODB}:/data/db
+      - tisherd_personal_website_mongodb_data:/data/db
       - ./mongodb/init_scripts:/docker-entrypoint-initdb.d
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
@@ -117,10 +92,7 @@ services:
       retries: 5
       timeout: 5s
     networks:
-      - app-network
-    env_file:
-      - ../.env
-      - ./docker/.env
+      - tisherd_personal_website_network
 
   redis:
     image: redis:7.4.1
@@ -129,7 +101,7 @@ services:
     ports:
       - "6379:6379"
     environment:
-        - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: redis-server --requirepass ${REDIS_PASSWORD}
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -137,17 +109,14 @@ services:
       retries: 5
       timeout: 3s
     networks:
-      - app-network
-    env_file:
-      - ../.env
-      - ./docker/.env
+      - tisherd_personal_website_network
 
 networks:
-  app-network:
+  tisherd_personal_website_network:
     driver: bridge
 
 volumes:
-  postgres_data:
+  tisherd_personal_website_postgres_data:
     driver: local
-  mongodb_data:
+  tisherd_personal_website_mongodb_data:
     driver: local
