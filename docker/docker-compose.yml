@@ -1,0 +1,152 @@
+services:
+
+
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+      args:
+        - APP_ENV=${APP_ENV}
+        - XDEBUG_ENABLED=${XDEBUG_ENABLED}
+    container_name: "${APP_NAME}_php"
+    restart: unless-stopped
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+    depends_on:
+      - postgres
+      - redis
+      - mongodb
+    networks:
+      - app-network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+
+
+  nginx:
+    image: nginx:1.27.3-alpine
+    container_name: "${APP_NAME}_nginx"
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./:/var/www
+      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/
+      - ./docker/nginx/certbot/conf:/etc/letsencrypt
+    depends_on:
+      - php
+    networks:
+      - app-network
+
+
+
+  certbot:
+    image: certbot/certbot
+    container_name: "${APP_NAME}_certbot"
+    volumes:
+      - ./docker/nginx/certbot/www:/var/www/docker/nginx/certbot
+      - ./docker/nginx/certbot/conf:/etc/letsencrypt
+    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew --webroot -w /var/www/docker/nginx/certbot; sleep 12h & wait $${!}; done'"
+    networks:
+      - app-network
+
+
+
+  node:
+    build:
+      context: .
+      dockerfile: docker/node/Dockerfile
+      args:
+        APP_ENV: ${APP_ENV}
+    container_name: "${APP_NAME}_node"
+    restart: on-failure
+    ports:
+    - "3000:3000"
+    working_dir: /var/www
+    volumes:
+      - ./:/var/www
+      - /var/www/node_modules
+    networks:
+      - app-network
+
+
+
+  postgres:
+    image: postgres:17
+    container_name: "${APP_NAME}_postgres"
+    restart: unless-stopped
+    ports:
+      - 5432:5432
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_TEST_DB=${POSTGRES_TEST_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - APP_ENV=${APP_ENV}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 60s
+      retries: 5
+      timeout: 5s
+    networks:
+      - app-network
+
+
+
+  mongodb:
+    image: mongo:6.0
+    container_name: "${APP_NAME}_mongodb"
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./mongodb/init_scripts:/docker-entrypoint-initdb.d
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_DB_NAME: ${MONGO_DB_NAME}
+      MONGO_TEST_DB_NAME: ${MONGO_TEST_DB_NAME}
+      APP_ENV: ${APP_ENV}
+    healthcheck:
+      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      interval: 60s
+      retries: 5
+      timeout: 5s
+    networks:
+      - app-network
+    env_file:
+      - ../.env
+      - ./docker/.env
+
+  redis:
+    image: redis:7.4.1
+    container_name: "${CONTAINER_REDIS}"
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 60s
+      retries: 5
+      timeout: 3s
+    networks:
+      - app-network
+    env_file:
+      - ../.env
+      - ./docker/.env
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local
+  mongodb_data:
+    driver: local
