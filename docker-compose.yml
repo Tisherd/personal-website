@@ -6,7 +6,7 @@ services:
       args:
         - APP_ENV=${APP_ENV}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
-    container_name: "${APP_NAME}_php"
+    container_name: ${APP_NAME}_php
     restart: unless-stopped
     working_dir: /var/www
     volumes:
@@ -22,7 +22,7 @@ services:
 
   nginx:
     image: nginx:1.27.3-alpine
-    container_name: "${APP_NAME}_nginx"
+    container_name: ${APP_NAME}_nginx
     restart: unless-stopped
     ports:
       - "80:80"
@@ -42,7 +42,7 @@ services:
       dockerfile: docker/node/Dockerfile
       args:
         APP_ENV: ${APP_ENV}
-    container_name: "${APP_NAME}_node"
+    container_name: ${APP_NAME}_node
     restart: on-failure
     ports:
     - "3000:3000"
@@ -55,7 +55,7 @@ services:
 
   postgres:
     image: postgres:17
-    container_name: "${APP_NAME}_postgres"
+    container_name: ${APP_NAME}_postgres
     restart: unless-stopped
     ports:
       - 5432:5432
@@ -78,7 +78,7 @@ services:
 
   mongodb:
     image: mongo:6.0
-    container_name: "${APP_NAME}_mongodb"
+    container_name: ${APP_NAME}_mongodb
     restart: unless-stopped
     ports:
       - "27017:27017"
@@ -101,10 +101,13 @@ services:
 
   redis:
     image: redis:7.4.1
-    container_name: "${APP_NAME}_redis"
+    container_name: ${APP_NAME}_redis
     restart: unless-stopped
     ports:
       - "6379:6379"
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 60s
