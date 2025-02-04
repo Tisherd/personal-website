@@ -1,16 +1,9 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import { ref } from "vue";
 
-const projects = ref([
-    {
-        title: "Personal Website",
-        description: "A personal website built with Laravel, Inertia.js, and Vue 3 to showcase my resume and projects.",
-        github_url: "https://github.com/Tisherd/personal-website",
-        live_url: "https://tisherd.info/",
-        img: "https://images/projects/project_stub.webp"
-    }
-]);
+defineProps({
+    projects: Array,
+});
 </script>
 
 <template>
