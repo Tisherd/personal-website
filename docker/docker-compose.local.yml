@@ -1,8 +1,0 @@
-services:
-  nginx:
-    ports:
-      - "80:80"
-    volumes:
-      - ../:/var/www
-      - ./nginx/conf.d/local.conf:/etc/nginx/conf.d/app.conf
-
