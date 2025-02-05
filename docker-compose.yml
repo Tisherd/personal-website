@@ -28,9 +28,9 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./:/var/www
-      - ./docker/nginx/conf.d/:/etc/nginx/conf.d/:ro
-      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+      - ./public:/var/www/public
+      - ./docker/nginx/conf.d/${APP_ENV}.conf:/etc/nginx/conf.d/app.conf
+      - ./docker/nginx/ssl:/etc/nginx/ssl
       - ./docker/certbot/www/:/var/www/certbot/:ro
     depends_on:
       - php
@@ -45,6 +45,16 @@ services:
       - ./docker/certbot/conf/:/etc/letsencrypt/:rw
     depends_on:
       - nginx
+    entrypoint: >
+      sh -c "if [ \"$$APP_ENV\" = \"production\" ]; then
+            trap exit TERM;
+            while :; do
+            certbot renew --webroot -w /var/www/docker/certbot;
+            sleep 12h & wait $$!;
+            done;
+        else
+            echo 'Skipping certbot renew in non-production environment';
+        fi"
     networks:
       - app-network
 
