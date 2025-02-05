@@ -31,8 +31,8 @@ services:
       - ./public:/var/www/public
       - ./docker/nginx/conf.d/${APP_ENV}.conf:/etc/nginx/conf.d/app.conf
       - ./docker/nginx/ssl:/etc/nginx/ssl
-      - ./docker/certbot/www/:/var/www/certbot/:ro
-      - ./docker/certbot/conf/:/etc/letsencrypt/:ro
+      - ./docker/certbot/www/:/var/www/certbot
+      - ./docker/certbot/conf/:/etc/letsencrypt
     depends_on:
       - php
     networks:
@@ -42,8 +42,8 @@ services:
     image: certbot/certbot
     container_name: ${APP_NAME}_certbot
     volumes:
-      - ./docker/certbot/www/:/var/www/certbot/:rw
-      - ./docker/certbot/conf/:/etc/letsencrypt/:rw
+      - ./docker/certbot/www/:/var/www/certbot
+      - ./docker/certbot/conf/:/etc/letsencrypt
     environment:
       - APP_ENV=${APP_ENV}
     depends_on:
