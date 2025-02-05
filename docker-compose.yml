@@ -47,16 +47,6 @@ services:
       - APP_ENV=${APP_ENV}
     depends_on:
       - nginx
-    entrypoint: >
-      sh -c "if [ \"$APP_ENV\" = \"production\" ]; then
-            trap exit TERM;
-            while :; do
-            certbot renew --webroot -w /var/www/certbot;
-            sleep 12h & wait $$!;
-            done;
-        else
-            echo 'Skipping certbot renew in non-production environment';
-        fi"
     networks:
       - app-network
 
