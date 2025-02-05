@@ -42,8 +42,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/sandbox', Controllers\Sandbox\IndexController::class)
         ->name('sandbox.index');
 
-    Route::get('/blog', Controllers\Blog\IndexController::class)
-        ->name('blog.index');
+    Route::get('/blogs', Controllers\Blog\IndexController::class)
+        ->name('blogs.index');
+
+    Route::post('/blogs', Controllers\Blog\StoreController::class)
+        ->name('blogs.store');
+
+    Route::delete('/blogs', Controllers\Blog\DeleteController::class)
+        ->name('blogs.destroy');
 });
 
 Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
