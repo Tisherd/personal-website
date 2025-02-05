@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -34,6 +35,11 @@ class User extends Authenticatable
     public function role(): BelongsTo
     {
         return $this->belongsTo(UserRole::class, 'role_id');
+    }
+
+    public function blogs(): HasMany
+    {
+        return $this->hasMany(Blog::class);
     }
 
     protected function casts(): array
