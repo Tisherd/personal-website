@@ -92,7 +92,7 @@ services:
       MONGO_TEST_DB_NAME: ${MONGO_TEST_DB_NAME}
       APP_ENV: ${APP_ENV}
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 60s
       retries: 5
       timeout: 5s
