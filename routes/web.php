@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/blogs', Controllers\Blog\IndexController::class)
         ->name('blogs.index');
 
+    Route::get('/blogs/infinite', Controllers\Blog\LoadMoreController::class)
+        ->name('blogs.infinite');
+
     Route::post('/blogs', Controllers\Blog\StoreController::class)
         ->name('blogs.store');
 
