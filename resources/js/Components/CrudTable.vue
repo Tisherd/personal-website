@@ -17,7 +17,7 @@ function getNestedValue(obj, path) {
 
 function destroy(routed, id) {
     if (confirm("Вы уверены?")) {
-        router.delete(route(routed, item.id));
+        router.delete(route(routed, id));
     }
 }
 </script>
