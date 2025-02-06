@@ -34,13 +34,20 @@ const newMessage = ref('');
 const submitBlog = () => {
     if (newMessage.value.trim()) {
         router.post(route('blogs.store'), { message: newMessage.value }, {
-            onSuccess: () => newMessage.value = ''
+            onSuccess: (page) => {
+                newMessage.value = '';
+                blogs.data.unshift(page.props.blogs.data[0]); // Добавляем новый блог в начало
+            }
         });
     }
 };
 
 const deleteBlog = (id) => {
-    router.delete(route('blogs.destroy', id));
+    router.delete(route('blogs.destroy', id), {
+        onSuccess: () => {
+            blogs.data = blogs.data.filter(blog => blog.id !== id);
+        }
+    });
 };
 </script>
 
