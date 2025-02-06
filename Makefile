@@ -8,14 +8,11 @@ COMPOSER=docker exec ${PHP_CONTAINER} composer
 NPM=docker exec ${NODE_CONTAINER} npm
 
 # Commands
-.PHONY: generate-cert build build-no-cache up down restart rebuild logs shell clean \
+.PHONY: build build-no-cache up down restart rebuild logs shell clean \
     composer-install composer-optimize composer-update \
     migrate migrate-force seed seed-force test cache clear-cache \
     npm-install npm-build \
     project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
-
-generate-cert:
-	openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout ./docker/nginx/ssl/nginx.key -out ./docker/nginx/ssl/nginx.crt
 
 # Docker
 build:

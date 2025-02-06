@@ -13,13 +13,13 @@ class AboutMeFactory extends Factory
     public function definition()
     {
         return [
-            'full_name' => $this->faker->name,
-            'birth_date' => $this->faker->date('Y-m-d'),
+            'full_name' => fake()->name(),
+            'birth_date' => fake()->date('Y-m-d'),
             'photo_path' => null,
-            'description' => $this->faker->text,
+            'description' => fake()->text(),
             'contacts' => [
-                'email' => $this->faker->email,
-                'telegram' => 'https://t.me/' . $this->faker->userName,
+                'email' => fake()->email(),
+                'telegram' => 'https://t.me/' . fake()->userName(),
             ],
         ];
     }
