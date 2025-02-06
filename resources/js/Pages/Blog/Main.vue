@@ -1,23 +1,35 @@
 <script setup>
-import { ref } from 'vue';
-import { usePage, router } from '@inertiajs/vue3';
 import MainLayout from '@/Layouts/MainLayout.vue';
 import { useInfiniteScroll } from '@vueuse/core';
+import { ref, reactive } from 'vue';
+import { router } from '@inertiajs/vue3';
+import axios from 'axios';
 
-const { props } = usePage();
-const blogs = ref(props.blogs.data);
-const nextPageUrl = ref(props.blogs.next_page_url);
-const newMessage = ref('');
+const props = defineProps({
+    blogs: Object
+});
+
+const blogs = reactive(props.blogs);
 
 const loadMore = async () => {
-    if (nextPageUrl.value) {
-        const response = await axios.get(nextPageUrl.value);
-        blogs.value.push(...response.data.data);
-        nextPageUrl.value = response.data.next_page_url;
+    if (blogs.next_page_url) {
+        try {
+            const nextPageUrl = new URL(blogs.next_page_url);
+            const nextPage = nextPageUrl.searchParams.get('page');
+
+            const response = await axios.get(route('blogs.infinite', { page: nextPage }));
+
+            blogs.data.push(...response.data.data);
+            blogs.next_page_url = response.data.next_page_url;
+        } catch (error) {
+            console.error('Ошибка загрузки данных:', error);
+        }
     }
 };
 
 useInfiniteScroll(window, loadMore);
+
+const newMessage = ref('');
 
 const submitBlog = () => {
     if (newMessage.value.trim()) {
@@ -45,13 +57,13 @@ const deleteBlog = (id) => {
             </div>
 
             <!-- Blog List -->
-            <div v-for="blog in blogs" :key="blog.id" class="bg-white p-4 rounded-2xl shadow-md relative">
+            <div v-for="blog in blogs.data" :key="blog.id" class="bg-white p-4 rounded-2xl shadow-md relative">
                 <p class="text-lg">{{ blog.message }}</p>
                 <div class="text-sm text-gray-500 mt-2 flex justify-between items-center">
                     <span>{{ new Date(blog.created_at).toLocaleString() }}</span>
                     <span>By {{ blog.user.name }}</span>
                 </div>
-                <button v-if="blog.user.id === props.auth.user?.id" @click="deleteBlog(blog.id)"
+                <button v-if="blog.user.id === $page.props.auth.user.id" @click="deleteBlog(blog.id)"
                     class="absolute top-2 right-2 text-red-500 hover:text-red-700">
                     Delete
                 </button>
