@@ -10,6 +10,6 @@ class BlogSeeder extends Seeder
 {
     public function run(): void
     {
-        Blog::factory(5)->create();
+        Blog::factory(5)->randomTime()->create();
     }
 }
