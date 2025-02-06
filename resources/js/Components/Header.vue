@@ -25,7 +25,7 @@ const showDropdown = ref(false);
                 <Link :href="route('sandbox.index')">Песочница</Link>
             </li>
             <li>
-                <Link :href="route('blog.index')">Блог</Link>
+                <Link :href="route('blogs.index')">Блог</Link>
             </li>
             <li v-if="$page.props.auth.user.is_admin">
                 <Link :href="route('admin.about_me.index')" class="ml-10">Админка</Link>

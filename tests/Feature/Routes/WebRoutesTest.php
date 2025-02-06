@@ -31,7 +31,7 @@ class WebRoutesTest extends TestCase
             route('resume.questions.index'),
             route('projects.index'),
             route('sandbox.index'),
-            route('blog.index'),
+            route('blogs.index'),
         ];
 
         foreach ($routes as $route) {
