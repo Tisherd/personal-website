@@ -13,7 +13,7 @@ class IndexController extends Controller
     public function __invoke(): Response
     {
         return Inertia::render('Blog/Main', [
-            'blogs' => Blog::orderByDesc('created_at')->with('user')->paginate(10),
+            'blogs' => Blog::latest()->with('user')->paginate(20),
         ]);
     }
 }
