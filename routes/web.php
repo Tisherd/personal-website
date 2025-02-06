@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/blogs', Controllers\Blog\StoreController::class)
         ->name('blogs.store');
 
-    Route::delete('/blogs', Controllers\Blog\DeleteController::class)
+    Route::delete('/blogs/{blog}', Controllers\Blog\DeleteController::class)
         ->name('blogs.destroy');
 });
 
