@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
+use Database\Seeders\Init;
+
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -12,11 +14,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            UserRoleSeeder::class,
-            UserSeeder::class,
-            AboutMeSeeder::class,
-            ProjectSeeder::class,
-            BlogSeeder::class,
+            Init\UserRoleSeeder::class,
+            Init\AdminUserSeeder::class,
+            Init\AboutMeSeeder::class,
+            Init\ProjectSeeder::class,
         ]);
     }
 }

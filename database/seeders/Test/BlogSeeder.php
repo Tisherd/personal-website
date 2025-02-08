@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Test;
 
 use Illuminate\Database\Seeder;
 
@@ -10,6 +10,6 @@ class BlogSeeder extends Seeder
 {
     public function run(): void
     {
-        Blog::factory(5)->randomTime()->create();
+        Blog::factory(10)->randomTime()->create();
     }
 }

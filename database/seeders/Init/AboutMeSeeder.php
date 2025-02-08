@@ -1,15 +1,13 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Init;
 
 use Illuminate\Database\Seeder;
+
 use App\Models\AboutMe;
 
 class AboutMeSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
         AboutMe::firstOrCreate(
