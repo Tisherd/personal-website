@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Carbon\Carbon;
 
 use App\Models\Blog;
-use App\Models\UserRole;
+use App\Models\User;
 
 class BlogFactory extends Factory
 {
@@ -16,24 +16,23 @@ class BlogFactory extends Factory
     public function definition(): array
     {
         return [
-            'message' => fake()->text(),
-            'user_id' => UserRole::firstWhere('title', UserRole::ADMIN)->users()->first()->id,
+            'message' => $this->faker->text(),
+            'user_id' => $this->faker->randomElement(User::pluck('id')->toArray()),
         ];
     }
 
-    public function randomTime(): static
+    public function withRandomTimestamps(): static
     {
-        return $this->state(function () {
-            $createdAt = $this->randomDateTime();
-
+        return $this->state(function (array $attributes) {
+            $createdAt = $this->generateRandomTimestamps();
             return [
                 'created_at' => $createdAt,
-                'updated_at' => $this->randomDateTime($createdAt),
+                'updated_at' => $this->generateRandomTimestamps($createdAt),
             ];
         });
     }
 
-    private function randomDateTime(?Carbon $after = null): Carbon
+    private function generateRandomTimestamps(?Carbon $after = null): Carbon
     {
         $date = Carbon::now()->subDays(rand(1, 365));
 
