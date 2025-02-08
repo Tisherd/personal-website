@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders\Test;
+namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 
@@ -10,6 +10,6 @@ class UsersSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create(10);
+        User::factory(10)->create();
     }
 }
