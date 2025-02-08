@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 
 use App\Models\AboutMe;
 
-class AboutMeSeeder extends Seeder
+class AboutMeBaseStructureSeeder extends Seeder
 {
     public function run(): void
     {
