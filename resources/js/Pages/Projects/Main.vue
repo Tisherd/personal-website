@@ -9,7 +9,7 @@ defineProps({
 <template>
     <MainLayout>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <h1 class="text-3xl font-bold mb-8 text-center">My Projects</h1>
+            <h1 class="text-3xl font-bold mb-8 text-center">Мои проекты</h1>
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 <div v-for="project in projects" :key="project.title" class="bg-white rounded-2xl shadow-lg overflow-hidden">
                     <img v-if="project.img" :src="project.img" :alt="project.title" class="w-full h-48 object-cover">
