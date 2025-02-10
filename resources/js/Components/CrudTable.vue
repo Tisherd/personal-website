@@ -55,7 +55,7 @@ function destroy(routed, id) {
                                 class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
                                 <Link class="text-indigo-600 hover:text-indigo-900" :href="route(routes.edit, item.id)">
                                 Редактировать</Link>
-                                <a @click="destroy(routes.destroy, item.id)"
+                                <a @click="destroy(routes.delete, item.id)"
                                     class="text-red-600 hover:text-red-900 cursor-pointer">Удалить</a>
                             </td>
                         </tr>
