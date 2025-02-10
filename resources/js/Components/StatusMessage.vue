@@ -1,10 +1,14 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
 const message = computed(() => usePage().props.message);
 
 const isMessageVisible = ref(true);
+
+watch(message, (newValue) => {
+  isMessageVisible.value = !!newValue;
+});
 
 const hideMessage = () => {
     isMessageVisible.value = false;
