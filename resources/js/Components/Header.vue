@@ -1,6 +1,7 @@
 <script setup>
 import { Link, useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
+import StatusMessage from './StatusMessage.vue';
 
 const form = useForm({});
 
@@ -50,8 +51,5 @@ const showDropdown = ref(false);
         </div>
     </header>
 
-    <p v-if="$page.props.message"
-        class="bg-indigo-600 h-10 flex items-center justify-center text-sm font-medium text-white px-4 sm:px-6 lg:px-8">
-        {{ $page.props.message }}
-    </p>
+    <StatusMessage />
 </template>
