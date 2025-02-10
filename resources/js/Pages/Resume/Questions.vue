@@ -40,8 +40,8 @@ const toggleBlock = (block) => {
 
 <template>
     <ResumeLayout>
-        <div class="flex flex-col items-center justify-center bg-gray-100 space-y-4">
-            <div v-for="group in questionGroups" :key="group.label" class="w-full max-w-3xl">
+        <div class="flex flex-col items-center justify-center space-y-4 mt-8">
+            <div v-for="group in questionGroups" :key="group.label" class="w-full max-w-5xl">
                 <div class="bg-green-100 p-4 rounded-lg shadow-md">
 
                     <button @click="toggleBlock(group)" class="w-full text-left font-bold text-lg">

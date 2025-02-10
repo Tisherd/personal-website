@@ -52,7 +52,7 @@ const formattedPeriod = (periodInMonth) => {
 
 <template>
     <ResumeLayout>
-        <div class="flex flex-col items-center justify-center bg-gray-100">
+        <div class="flex flex-col items-center justify-center mt-8">
             <!-- Основной блок с информацией -->
             <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-2xl mb-4">
                 <h1 class="text-xl font-bold mb-2">Кол-во мест работы: {{ workExperiences.length }}</h1>

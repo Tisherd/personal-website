@@ -13,8 +13,8 @@ defineProps({
 
 <template>
     <ResumeLayout>
-        <div class="flex justify-center bg-gray-100">
-            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg mt-8 ">
+        <div class="flex justify-center mt-8">
+            <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
                 <div class="flex items-center mb-4">
                     <img :src="photo_url" alt="Фото пользователя" class="h-36 rounded-full shadow-lg mr-4" />
                     <div>
@@ -33,6 +33,7 @@ defineProps({
                     <ul class="list-disc pl-5 text-gray-700">
                         <li>Email: {{ contacts.email }}</li>
                         <li>Телефон: {{ contacts.phone }}</li>
+                        <li>Телеграм: {{ contacts.telegram }}</li>
                     </ul>
                 </div>
             </div>
