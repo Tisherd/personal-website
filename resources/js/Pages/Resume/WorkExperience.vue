@@ -77,7 +77,7 @@ const formattedPeriod = (periodInMonth) => {
                         <p>Период: {{ formattedPeriod(experience.period_in_month) }}</p>
                         <p>Должность: {{ experience.position }}</p>
                         <p>Описание: </p>
-                        <p>{{ experience.description }}</p>
+                        <p class="whitespace-pre-wrap">{{ experience.description }}</p>
                     </div>
                 </div>
             </div>
