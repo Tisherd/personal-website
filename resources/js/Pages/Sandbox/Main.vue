@@ -1,6 +1,6 @@
 <script setup>
 import MainLayout from "@/Layouts/MainLayout.vue";
-import UnderConstruction from "@/Components/UnderConstruction.vue";
+import UnderConstruction from "@/Pages/UnderConstruction.vue";
 </script>
 
 <template>
