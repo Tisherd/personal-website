@@ -8,6 +8,7 @@ defineProps({
 
 const headers = [
     { key: "title", label: "Проект" },
+    { key: "description", label: "Описание" },
 ];
 
 const routes = {
