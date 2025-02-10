@@ -26,7 +26,7 @@ defineProps({
 
                 <div class="mt-4">
                     <h2 class="text-xl font-semibold mb-2">Обо мне</h2>
-                    <p class="text-gray-700">{{ description }}</p>
+                    <p class="text-gray-700 whitespace-pre-wrap">{{ description }}</p>
                 </div>
                 <div class="mt-4">
                     <h2 class="text-xl font-semibold mb-2">Контакты</h2>
