@@ -19,7 +19,7 @@ class UserController extends Controller
     public function index(): Response
     {
         return Inertia::render('Admin/Users/Index', [
-            'users' => User::orderByDesc('created_at')->with('role')->paginate(5),
+            'users' => User::latest('id')->with('role')->paginate(10),
         ]);
     }
 
@@ -45,9 +45,9 @@ class UserController extends Controller
             'desc' => $validated['desc'],
         ]);
 
-        session()->flash('message', 'Пользователь успешно создан!');
-
-        return redirect()->route('admin.users.index');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('message', 'Пользователь успешно создан!');
     }
 
     public function edit(User $user): Response
@@ -64,17 +64,17 @@ class UserController extends Controller
 
         $user->update($validated);
 
-        session()->flash('message', 'Пользователь успешно обновлен!');
-
-        return redirect()->route('admin.users.index');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('message', 'Пользователь успешно обновлен!');
     }
 
     public function destroy(User $user): RedirectResponse
     {
         $user->delete();
 
-        session()->flash('message', 'Пользователь успешно удален!');
-
-        return redirect()->route('admin.users.index');
+        return redirect()
+            ->route('admin.users.index')
+            ->with('message', 'Пользователь успешно удален!');
     }
 }
