@@ -32,9 +32,9 @@ class WorkExperienceController extends Controller
 
         WorkExperience::create($validated);
 
-        session()->flash('message', 'Опыт работы успешно создан!');
-
-        return redirect()->route('admin.work_experiences.index');
+        return redirect()
+            ->route('admin.work_experiences.index')
+            ->with('message', 'Опыт работы успешно создан!');
     }
 
     public function edit(WorkExperience $workExperience): Response
@@ -50,17 +50,17 @@ class WorkExperienceController extends Controller
 
         $workExperience->update($validated);
 
-        session()->flash('message', 'Опыт работы успешно обновлен!');
-
-        return redirect()->route('admin.work_experiences.index');
+        return redirect()
+            ->route('admin.work_experiences.index')
+            ->with('message', 'Опыт работы успешно обновлен!');
     }
 
     public function destroy(WorkExperience $workExperience): RedirectResponse
     {
         $workExperience->delete();
 
-        session()->flash('message', 'Опыт работы успешно удален!');
-
-        return redirect()->route('admin.work_experiences.index');
+        return redirect()
+            ->route('admin.work_experiences.index')
+            ->with('message', 'Опыт работы успешно удален!');
     }
 }

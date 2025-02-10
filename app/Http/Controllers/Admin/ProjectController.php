@@ -32,9 +32,9 @@ class ProjectController extends Controller
 
         Project::create($validated);
 
-        session()->flash('message', 'Проект успешно создан!');
-
-        return redirect()->route('admin.projects.index');
+        return redirect()
+            ->route('admin.projects.index')
+            ->with('message', 'Проект успешно создан!');
     }
 
     public function edit(Project $project): Response
@@ -50,17 +50,17 @@ class ProjectController extends Controller
 
         $project->update($validated);
 
-        session()->flash('message', 'Проект успешно обновлен!');
-
-        return redirect()->route('admin.projects.index');
+        return redirect()
+            ->route('admin.projects.index')
+            ->with('message', 'Проект успешно обновлен!');
     }
 
     public function destroy(Project $project): RedirectResponse
     {
         $project->delete();
 
-        session()->flash('message', 'Проект успешно удален!');
-
-        return redirect()->route('admin.projects.index');
+        return redirect()
+            ->route('admin.projects.index')
+            ->with('message', 'Проект успешно удален!');
     }
 }
