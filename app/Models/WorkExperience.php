@@ -19,12 +19,7 @@ class WorkExperience extends Model
         'position',
         'start_date',
         'end_date',
-        'technology_stack',
-        'desc',
-    ];
-
-    protected $casts = [
-        'technology_stack' => 'array',
+        'description',
     ];
 
     protected $appends = ['formatted_date_range', 'period_in_month'];
