@@ -62,8 +62,8 @@ function handlePhotoUpload(event) {
             resetFileInput();
             return;
         }
-        if (file.size > 2 * 1024 * 1024) { // 2 MB
-            form.setError('photo', "Размер файла не должен превышать 2MB.");
+        if (file.size > 8 * 1024 * 1024) { // 8 MB
+            form.setError('photo', "Размер файла не должен превышать 8MB.");
             resetFileInput();
             return;
         }
