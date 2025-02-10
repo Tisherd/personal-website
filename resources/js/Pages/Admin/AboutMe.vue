@@ -15,8 +15,6 @@ const props = defineProps({
     contacts: Object,
 });
 
-console.log(props);
-
 const initialData = {...props, photo: null};
 
 const form = useForm(initialData);
