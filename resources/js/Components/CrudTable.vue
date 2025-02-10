@@ -23,11 +23,11 @@ function destroy(routed, id) {
 </script>
 
 <template>
-    <div class="flex flex-col items-center justify-center mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
-        <div class="w-full text-left my-6 ml-10">
+    <div class="flex flex-col items-center justify-center mx-auto max-w-8xl px-4 sm:px-6 lg:px-8">
+        <div class="w-full text-left my-6 ml-20">
             <h1 class="text-2xl font-bold">{{ headerTitle }}</h1>
             <Link :href="route(routes.create)" class="text-indigo-600 hover:text-indigo-900 mt-2 block">
-                Добавить
+            Добавить
             </Link>
         </div>
 
@@ -36,12 +36,8 @@ function destroy(routed, id) {
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th
-                                v-for="header in headers"
-                                :key="header.key"
-                                scope="col"
-                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                            >
+                            <th v-for="header in headers" :key="header.key" scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 {{ header.label }}
                             </th>
                             <th scope="col" class="relative px-6 py-3">
@@ -51,20 +47,16 @@ function destroy(routed, id) {
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         <tr v-for="item in items" :key="item.id">
-                            <td
-                                v-for="header in headers"
-                                :key="header.key"
-                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                            >
+                            <td v-for="header in headers" :key="header.key"
+                                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                 {{ getNestedValue(item, header.key) }}
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
-                                <Link
-                                    class="text-indigo-600 hover:text-indigo-900"
-                                    :href="route(routes.edit, item.id)"
-                                >Редактировать</Link>
-                                <a @click="destroy(routes.destroy, item.id)" class="text-red-600 hover:text-red-900 cursor-pointer"
-                                >Удалить</a>
+                            <td
+                                class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex justify-end items-center space-x-3">
+                                <Link class="text-indigo-600 hover:text-indigo-900" :href="route(routes.edit, item.id)">
+                                Редактировать</Link>
+                                <a @click="destroy(routes.destroy, item.id)"
+                                    class="text-red-600 hover:text-red-900 cursor-pointer">Удалить</a>
                             </td>
                         </tr>
                     </tbody>
@@ -75,7 +67,7 @@ function destroy(routed, id) {
             </div>
         </div>
 
-        <Pagination :links="links" />
+        <Pagination class="mt-2" :links="links" />
     </div>
 
 </template>

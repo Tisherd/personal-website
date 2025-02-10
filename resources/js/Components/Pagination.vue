@@ -8,7 +8,7 @@ defineProps({
 
 <template>
     <div v-if="links.length > 3"
-        class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
+        class="px-4 py-3 flex items-center justify-between sm:px-6">
         <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
             <div>
                 <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
