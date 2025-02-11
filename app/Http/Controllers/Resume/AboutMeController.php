@@ -14,6 +14,8 @@ class AboutMeController extends Controller
 {
     public function index(): Response
     {
+        dump(env('ADMIN_USER_LOGIN'));
+        dump('s');
         $data = Cache::remember(AboutMe::CACHE_KEY, 60, function () {
             return AboutMe::find(AboutMe::DOC_ID)
                 ->append([
