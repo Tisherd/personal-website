@@ -26,9 +26,9 @@ docker-up:
 docker-down:
 	${DOCKER_COMPOSE} down
 
-docker-restart: down up
+docker-restart: docker-down docker-up
 
-docker-rebuild: down build up
+docker-rebuild: docker-down docker-build docker-up
 
 docker-logs:
 	${DOCKER_COMPOSE} logs -f
