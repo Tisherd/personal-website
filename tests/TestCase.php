@@ -5,8 +5,8 @@ namespace Tests;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 use App\Models\User;
-use Database\Seeders\AboutMeSeeder;
-use Database\Seeders\UserRoleSeeder;
+use Database\Seeders\Init\AboutMeBaseStructureSeeder;
+use Database\Seeders\Init\UserRolesSeeder;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -18,8 +18,8 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->seed(UserRoleSeeder::class);
-        $this->seed(AboutMeSeeder::class);
+        $this->seed(UserRolesSeeder::class);
+        $this->seed(AboutMeBaseStructureSeeder::class);
 
         $this->simpleUser = User::factory()->create();
         $this->adminUser = User::factory()->admin()->create();
