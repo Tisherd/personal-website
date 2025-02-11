@@ -35,4 +35,9 @@ return [
         ],
     ],
 
+    'main_admin_user' => [
+        'login' => env('ADMIN_USER_LOGIN', 'admin'),
+        'name' => env('ADMIN_USER_NAME', 'Ivan Ivanov'),
+        'password' => env('ADMIN_USER_PASSWORD', 'admin123456'),
+    ],
 ];

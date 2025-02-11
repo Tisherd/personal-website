@@ -13,11 +13,11 @@ class AdminUserSeeder extends Seeder
     {
         User::firstOrCreate(
             [
-                'login' => env('ADMIN_USER_LOGIN'),
+                'login' => config('services.main_admin_user.login'),
             ],
             [
-                'name' => env('ADMIN_USER_NAME'),
-                'password' => env('ADMIN_USER_PASSWORD'),
+                'name' => config('services.main_admin_user.name'),
+                'password' => config('services.main_admin_user.password'),
                 'role_id' => UserRole::where('title', UserRole::ADMIN)->first()->id,
                 'desc' => "It's me"
             ]
