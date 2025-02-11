@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Facades\Cache;
 
 use Carbon\Carbon;
@@ -11,8 +10,6 @@ use MongoDB\Laravel\Eloquent\Model;
 
 class AboutMe extends Model
 {
-    use HasFactory;
-    
     const CACHE_KEY = 'about_me_data';
 
     const DOC_ID = 'about_me';
