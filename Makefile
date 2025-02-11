@@ -8,42 +8,46 @@ COMPOSER=docker exec ${PHP_CONTAINER} composer
 NPM=docker exec ${NODE_CONTAINER} npm
 
 # Commands
-.PHONY: build build-no-cache up down restart rebuild logs shell clean \
-    composer-install composer-optimize composer-update \
-    migrate migrate-force seed seed-force test cache clear-cache \
+.PHONY: docker-build docker-up docker-down docker-restart docker-rebuild \
+    docker-logs docker-shell docker-clean docker-volume-prune \
+    composer-install composer-install-no-dev composer-optimize composer-update \
+    artisan-migrate artisan-migrate-force artisan-seed artisan-seed-force \
+    artisan-test artisan-cache artisan-clear-cache \
     npm-install npm-build \
     project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
 
 # Docker
-build:
+docker-build:
 	${DOCKER_COMPOSE} build
 
-
-build-no-cache:
-	${DOCKER_COMPOSE} build --no-cache
-
-up:
+docker-up:
 	${DOCKER_COMPOSE} up -d
 
-down:
+docker-down:
 	${DOCKER_COMPOSE} down
 
-restart: down up
+docker-restart: down up
 
-rebuild: down build up
+docker-rebuild: down build up
 
-logs:
+docker-logs:
 	${DOCKER_COMPOSE} logs -f
 
-shell:
+docker-shell:
 	docker exec -it ${PHP_CONTAINER} bash
 
-clean:
+docker-clean:
 	${DOCKER_COMPOSE} down --volumes --remove-orphans
+
+docker-volume-prune:
+	docker volume prune -f
 
 # Composer
 composer-install:
 	${COMPOSER} install
+
+composer-install-no-dev:
+	${COMPOSER} install --no-dev
 
 composer-optimize:
 	${COMPOSER} dump-autoload --optimize
@@ -52,27 +56,27 @@ composer-update:
 	${COMPOSER} update
 
 # Laravel
-migrate:
+artisan-migrate:
 	docker exec ${PHP_CONTAINER} php artisan migrate
 
-migrate-force:
+artisan-migrate-force:
 	docker exec ${PHP_CONTAINER} php artisan migrate --force
 
-seed:
+artisan-seed:
 	docker exec ${PHP_CONTAINER} php artisan db:seed
 
-seed-force:
+artisan-seed-force:
 	docker exec ${PHP_CONTAINER} php artisan db:seed --force
 
-test:
+artisan-test:
 	docker exec ${PHP_CONTAINER} php artisan test
 
-cache:
+artisan-cache:
 	docker exec ${PHP_CONTAINER} php artisan config:cache
 	docker exec ${PHP_CONTAINER} php artisan route:cache
 	docker exec ${PHP_CONTAINER} php artisan view:cache
 
-clear-cache:
+artisan-clear-cache:
 	docker exec ${PHP_CONTAINER} php artisan cache:clear
 	docker exec ${PHP_CONTAINER} php artisan config:clear
 	docker exec ${PHP_CONTAINER} php artisan route:clear
