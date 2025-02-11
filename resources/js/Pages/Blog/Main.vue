@@ -68,10 +68,10 @@ const deleteBlog = (id) => {
                 <p class="text-lg">{{ blog.message }}</p>
                 <div class="text-sm text-gray-500 mt-2 flex justify-between items-center">
                     <span>{{ new Date(blog.created_at).toLocaleString() }}</span>
-                    <span>By {{ blog.user.name }}</span>
+                    <span>By {{ blog.user?.name || 'Deleted User' }}</span>
                 </div>
-                <button v-if="blog.user.id === $page.props.auth.user.id" @click="deleteBlog(blog.id)"
-                    class="absolute top-2 right-2 text-red-500 hover:text-red-700">
+                <button v-if="$page.props.auth.user.is_admin || blog.user?.id === $page.props.auth.user.id"
+                    @click="deleteBlog(blog.id)" class="absolute top-2 right-2 text-red-500 hover:text-red-700">
                     Delete
                 </button>
             </div>
