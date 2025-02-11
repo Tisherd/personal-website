@@ -91,7 +91,7 @@ npm-build:
 
 # Project
 
-project-init: clean build up wait-for-containers migrate-force seed-force
+project-init: docker-clean docker-build docker-up wait-for-containers artisan-migrate-force artisan-seed-force
 
 wait-for-containers: wait-for-postgres wait-for-mongo wait-for-redis
 
