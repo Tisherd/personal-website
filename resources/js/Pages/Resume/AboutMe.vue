@@ -31,9 +31,17 @@ defineProps({
                 <div class="mt-4">
                     <h2 class="text-xl font-semibold mb-2">Контакты</h2>
                     <ul class="list-disc pl-5 text-gray-700">
-                        <li>Email: {{ contacts.email }}</li>
-                        <li>Телефон: {{ contacts.phone }}</li>
-                        <li>Телеграм: {{ contacts.telegram }}</li>
+                        <li v-if="contacts.email">Email: {{ contacts.email }}</li>
+                        <li v-if="contacts.phone">Телефон: {{ contacts.phone }}</li>
+                        <li v-if="contacts.telegram">
+                            Телеграм:
+                            <a :href="contacts.telegram"
+                               target="_blank"
+                               rel="noopener noreferrer"
+                               class="hover:underline">
+                                {{ contacts.telegram }}
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
