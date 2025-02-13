@@ -1,2 +1,6 @@
 *
 !.gitignore
+
+!/supervisor
+!/supervisor/laravel_scheduler
+!/supervisor/laravel_scheduler/.gitkeep
