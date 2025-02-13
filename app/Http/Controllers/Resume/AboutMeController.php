@@ -14,7 +14,7 @@ class AboutMeController extends Controller
 {
     public function index(): Response
     {
-        $data = Cache::remember(AboutMe::CACHE_KEY, 60, function () {
+        $data = Cache::remember(AboutMe::CACHE_KEY, 120, function () {
             return AboutMe::find(AboutMe::DOC_ID)
                 ->append([
                     'photo_url',
