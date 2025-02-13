@@ -18,8 +18,8 @@ const form = useForm({
     role_id: props.defaultRoleId || null,
 });
 
-function store() {
-    form.post(route('admin.users.store'))
+const store = () => {
+    form.post(route('admin.users.store'));
 };
 </script>
 

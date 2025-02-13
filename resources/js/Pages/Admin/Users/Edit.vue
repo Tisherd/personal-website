@@ -17,8 +17,8 @@ const form = useForm({
     role_id: props.user.role_id,
 });
 
-function update() {
-    form.put(route('admin.users.update', props.user.id))
+const update = () => {
+    form.put(route('admin.users.update', props.user.id));
 };
 </script>
 

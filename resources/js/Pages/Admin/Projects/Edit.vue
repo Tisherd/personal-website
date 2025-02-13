@@ -16,8 +16,8 @@ const form = useForm({
     live_url: props.project.live_url,
 });
 
-function update() {
-    form.put(route('admin.projects.update', props.project.id))
+const update = () => {
+    form.put(route('admin.projects.update', props.project.id));
 };
 </script>
 

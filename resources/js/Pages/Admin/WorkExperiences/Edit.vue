@@ -17,8 +17,8 @@ const form = useForm({
     description: props.workExperience.description,
 });
 
-function update() {
-    form.put(route('admin.work_experiences.update', props.workExperience.id))
+const update = () => {
+    form.put(route('admin.work_experiences.update', props.workExperience.id));
 };
 </script>
 

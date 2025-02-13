@@ -13,8 +13,8 @@ const form = useForm({
     description: null,
 });
 
-function store() {
-    form.post(route('admin.work_experiences.store'))
+const store = () => {
+    form.post(route('admin.work_experiences.store'));
 };
 </script>
 

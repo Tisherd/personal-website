@@ -12,8 +12,8 @@ const form = useForm({
     live_url: "",
 });
 
-function store() {
-    form.post(route('admin.projects.store'))
+const store = () => {
+    form.post(route('admin.projects.store'));
 };
 </script>
 

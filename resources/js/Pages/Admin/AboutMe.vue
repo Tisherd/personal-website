@@ -28,32 +28,32 @@ const hasChanges = computed(() => {
     );
 });
 
-function cancelChanges() {
+const cancelChanges = () => {
     form.reset();
     newPhotoUrl.value = null;
     resetFileInput();
-}
+};
 
-function saveChanges() {
+const saveChanges = () => {
     form.post(route("admin.about_me.update"), {
         preserveScroll: true,
         onSuccess: () => {
-            Object.assign(initialData, form.data()); // Обновляем initialData после успешного сохранения
-            oldPhotoUrl.value = newPhotoUrl.value || oldPhotoUrl.value; // Обновляем старое фото
-            newPhotoUrl.value = null; // Сбрасываем новое фото
+            Object.assign(initialData, form.data());
+            oldPhotoUrl.value = newPhotoUrl.value || oldPhotoUrl.value;
+            newPhotoUrl.value = null;
             resetFileInput();
         },
     });
-}
+};
 
-function resetFileInput() {
+const resetFileInput = () => {
     const fileInput = document.getElementById("photo");
     if (fileInput) {
         fileInput.value = "";
     }
-}
+};
 
-function handlePhotoUpload(event) {
+const handlePhotoUpload = (event) => {
     const file = event.target.files[0];
     form.clearErrors('photo');
     if (file) {
@@ -70,7 +70,7 @@ function handlePhotoUpload(event) {
         form.photo = file;
         newPhotoUrl.value = URL.createObjectURL(file);
     }
-}
+};
 </script>
 
 <template>
