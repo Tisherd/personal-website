@@ -23,4 +23,9 @@ class GoogleTableSync extends Model
         'comment',
         'status',
     ];
+
+    public function scopeAllowed($query)
+    {
+        return $query->where('status', self::ALLOWED_STATUS);
+    }
 }
