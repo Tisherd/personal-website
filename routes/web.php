@@ -39,8 +39,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects', Controllers\Projects\IndexController::class)
         ->name('projects.index');
 
-    Route::get('/sandbox', Controllers\Sandbox\IndexController::class)
-        ->name('sandbox.index');
+    Route::prefix('sandbox')->as('sandbox.')->group(function () {
+        Route::get('/', function () {
+            return redirect()->route('sandbox.google_table_sync.index');
+        });
+
+        Route::get('/google_table_sync', [Controllers\Sandbox\GoogleTableSyncController::class, 'index'])
+            ->name('google_table_sync.index');
+    });
 
     Route::get('/blogs', Controllers\Blog\IndexController::class)
         ->name('blogs.index');

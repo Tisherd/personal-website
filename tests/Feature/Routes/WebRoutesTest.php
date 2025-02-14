@@ -29,8 +29,11 @@ class WebRoutesTest extends TestCase
             route('resume.work_experiences.index'),
             route('resume.skills.index'),
             route('resume.questions.index'),
+
             route('projects.index'),
-            route('sandbox.index'),
+
+            route('sandbox.google_table_sync.index'),
+
             route('blogs.index'),
         ];
 
