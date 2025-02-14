@@ -13,8 +13,8 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'title' => fake()->name(),
-            'description' => fake()->text(),
+            'title' => $this->faker->name(),
+            'description' => $this->faker->text(),
         ];
     }
 }
