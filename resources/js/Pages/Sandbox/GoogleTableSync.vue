@@ -33,7 +33,7 @@ const updateGoogleSheetUrl = () => {
 <template>
     <SandboxLayout>
         <div class="p-6">
-            <h1 class="text-2xl font-bold mb-4">CRUD Инструмент</h1>
+            <h1 class="text-2xl font-bold mb-4">Синхронизация с Google Table</h1>
 
             <!-- Google Sheets URL -->
             <div class="mb-4">
@@ -54,6 +54,7 @@ const updateGoogleSheetUrl = () => {
                     <tr class="bg-gray-200">
                         <th class="border px-4 py-2">ID</th>
                         <th class="border px-4 py-2">Название</th>
+                        <th class="border px-4 py-2">Значение</th>
                         <th class="border px-4 py-2">Содержание</th>
                         <th class="border px-4 py-2">Статус</th>
                         <th class="border px-4 py-2">Действие</th>
@@ -61,15 +62,16 @@ const updateGoogleSheetUrl = () => {
                 </thead>
                 <tbody>
                     <tr v-for="item in items" :key="item.id">
-                        <td class="border px-4 py-2">{{ item.id }}</td>
-                        <td class="border px-4 py-2">{{ item.title }}</td>
-                        <td class="border px-4 py-2">{{ item.content }}</td>
-                        <td class="border px-4 py-2">
+                        <td class="border px-4 py-2 text-center">{{ item.id }}</td>
+                        <td class="border px-4 py-2 text-center">{{ item.title }}</td>
+                        <td class="border px-4 py-2 text-center">{{ item.value }}</td>
+                        <td class="border px-4 py-2 text-center">{{ item.content }}</td>
+                        <td class="border px-4 py-2 text-center">
                             <span :class="item.status === 'Allowed' ? 'text-green-600' : 'text-red-600'">
                                 {{ item.status }}
                             </span>
                         </td>
-                        <td class="border px-4 py-2">
+                        <td class="border px-4 py-2 text-center">
                             <button @click="deleteItem(item.id)" class="bg-red-500 text-white px-2 py-1 rounded">Удалить</button>
                         </td>
                     </tr>
