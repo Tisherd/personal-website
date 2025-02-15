@@ -33,9 +33,9 @@ class GoogleTableSyncController extends Controller
         return redirect()->route('sandbox.google_table_sync.index');
     }
 
-    public function destroy(GoogleTableSync $item)
+    public function destroy(GoogleTableSync $googleTableSync)
     {
-        $item->delete();
+        $googleTableSync->delete();
         return redirect()->route('sandbox.google_table_sync.index');
     }
 
