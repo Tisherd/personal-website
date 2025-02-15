@@ -46,6 +46,17 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/google_table_sync', [Controllers\Sandbox\GoogleTableSyncController::class, 'index'])
             ->name('google_table_sync.index');
+
+        Route::post('/google_table_sync', [Controllers\Sandbox\GoogleTableSyncController::class, 'store'])
+            ->name('google_table_sync.store');
+        Route::delete('/google_table_sync/{google_table_sync}', [Controllers\Sandbox\GoogleTableSyncController::class, 'destroy'])
+            ->name('google_table_sync.destroy');
+        Route::post('/google_table_sync/generate', [Controllers\Sandbox\GoogleTableSyncController::class, 'generate'])
+            ->name('google_table_sync.generate');
+        Route::post('/google_table_sync/clear', [Controllers\Sandbox\GoogleTableSyncController::class, 'clear'])
+            ->name('google_table_sync.clear');
+        Route::post('/google_table_sync/update-google-sheet', [Controllers\Sandbox\GoogleTableSyncController::class, 'updateGoogleSheet'])
+            ->name('google_table_sync.update-google-sheet');
     });
 
     Route::get('/blogs', Controllers\Blog\IndexController::class)
