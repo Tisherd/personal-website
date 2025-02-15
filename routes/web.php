@@ -1,91 +1,64 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers;
+
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Resume;
+use App\Http\Controllers\Projects;
+use App\Http\Controllers\Sandbox;
+use App\Http\Controllers\Blog;
+use App\Http\Controllers\Admin;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [Controllers\Auth\AuthenticatedSessionController::class, 'create'])
-        ->name('login');
-
-    Route::post('login', [Controllers\Auth\AuthenticatedSessionController::class, 'store']);
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('logout', [Controllers\Auth\AuthenticatedSessionController::class, 'destroy'])
-        ->name('logout');
+    Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
 
-    Route::get('/', function () {
-        return redirect()->route('resume.about_me.index');
-    });
+    Route::get('/', fn () => redirect()->route('resume.about_me.index'));
 
     Route::prefix('resume')->as('resume.')->group(function () {
-        Route::get('/', function () {
-            return redirect()->route('resume.about_me.index');
-        });
+        Route::get('/', fn () => redirect()->route('resume.about_me.index'));
 
-        Route::get('/about_me', [Controllers\Resume\AboutMeController::class, 'index'])
-            ->name('about_me.index');
-
-        Route::get('/work_experience', [Controllers\Resume\WorkExperienceController::class, 'index'])
-            ->name('work_experiences.index');
-
-        Route::get('/skills', [Controllers\Resume\SkillsController::class, 'index'])
-            ->name('skills.index');
-
-        Route::get('/questions', [Controllers\Resume\QuestionsController::class, 'index'])
-            ->name('questions.index');
+        Route::get('/about_me', [Resume\AboutMeController::class, 'index'])->name('about_me.index');
+        Route::get('/work_experience', [Resume\WorkExperienceController::class, 'index'])->name('work_experiences.index');
+        Route::get('/skills', [Resume\SkillsController::class, 'index'])->name('skills.index');
+        Route::get('/questions', [Resume\QuestionsController::class, 'index'])->name('questions.index');
     });
 
-    Route::get('/projects', Controllers\Projects\IndexController::class)
+    Route::get('/projects', Projects\IndexController::class)
         ->name('projects.index');
 
     Route::prefix('sandbox')->as('sandbox.')->group(function () {
-        Route::get('/', function () {
-            return redirect()->route('sandbox.google_table_sync.index');
+        Route::get('/', fn () => redirect()->route('sandbox.google_table_sync.index'));
+
+        Route::prefix('google_table_sync')->as('google_table_sync.')->group(function () {
+            Route::get('/', [Sandbox\GoogleTableSyncController::class, 'index'])->name('index');
+            Route::post('/', [Sandbox\GoogleTableSyncController::class, 'store'])->name('store');
+            Route::delete('/{google_table_sync}', [Sandbox\GoogleTableSyncController::class, 'destroy'])->name('destroy');
+            Route::post('/generate', [Sandbox\GoogleTableSyncController::class, 'generate'])->name('generate');
+            Route::post('/clear', [Sandbox\GoogleTableSyncController::class, 'clear'])->name('clear');
+            Route::post('/update-google-sheet', [Sandbox\GoogleTableSyncController::class, 'updateGoogleSheet'])->name('update-google-sheet');
         });
-
-        Route::get('/google_table_sync', [Controllers\Sandbox\GoogleTableSyncController::class, 'index'])
-            ->name('google_table_sync.index');
-
-        Route::post('/google_table_sync', [Controllers\Sandbox\GoogleTableSyncController::class, 'store'])
-            ->name('google_table_sync.store');
-        Route::delete('/google_table_sync/{google_table_sync}', [Controllers\Sandbox\GoogleTableSyncController::class, 'destroy'])
-            ->name('google_table_sync.destroy');
-        Route::post('/google_table_sync/generate', [Controllers\Sandbox\GoogleTableSyncController::class, 'generate'])
-            ->name('google_table_sync.generate');
-        Route::post('/google_table_sync/clear', [Controllers\Sandbox\GoogleTableSyncController::class, 'clear'])
-            ->name('google_table_sync.clear');
-        Route::post('/google_table_sync/update-google-sheet', [Controllers\Sandbox\GoogleTableSyncController::class, 'updateGoogleSheet'])
-            ->name('google_table_sync.update-google-sheet');
     });
 
-    Route::get('/blogs', Controllers\Blog\IndexController::class)
-        ->name('blogs.index');
-
-    Route::get('/blogs/infinite', Controllers\Blog\LoadMoreController::class)
-        ->name('blogs.infinite');
-
-    Route::post('/blogs', Controllers\Blog\StoreController::class)
-        ->name('blogs.store');
-
-    Route::delete('/blogs/{blog}', Controllers\Blog\DeleteController::class)
-        ->name('blogs.destroy');
+    Route::prefix('blogs')->as('blogs.')->group(function () {
+        Route::get('/', Blog\IndexController::class)->name('index');
+        Route::post('/', Blog\StoreController::class)->name('store');
+        Route::get('/infinite', Blog\LoadMoreController::class)->name('infinite');
+        Route::delete('/{blog}', Blog\DeleteController::class)->name('destroy');
+    });
 });
 
 Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('admin.about_me.index');
-    });
+    Route::get('/', fn () => redirect()->route('admin.about_me.index'));
 
-    Route::get('/about_me', [Controllers\Admin\AboutMeController::class, 'index'])
-        ->name('about_me.index');
-    Route::post('/about_me', [Controllers\Admin\AboutMeController::class, 'update'])
-        ->name('about_me.update');
+    Route::get('/about_me', [Admin\AboutMeController::class, 'index'])->name('about_me.index');
+    Route::post('/about_me', [Admin\AboutMeController::class, 'update'])->name('about_me.update');
 
-    Route::resource('work_experiences', Controllers\Admin\WorkExperienceController::class)
-        ->names('work_experiences');
-    Route::resource('projects', Controllers\Admin\ProjectController::class)
-        ->names('projects');
-    Route::resource('users', Controllers\Admin\UserController::class)
-        ->names('users');
+    Route::resource('work_experiences', Admin\WorkExperienceController::class)->names('work_experiences');
+    Route::resource('projects', Admin\ProjectController::class)->names('projects');
+    Route::resource('users', Admin\UserController::class)->names('users');
 });
