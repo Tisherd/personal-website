@@ -40,4 +40,8 @@ return [
         'name' => env('ADMIN_USER_NAME', 'Ivan Ivanov'),
         'password' => env('ADMIN_USER_PASSWORD', 'admin123456'),
     ],
+
+    'google' => [
+        'service_acc_key' => storage_path('auth_keys/google/personal-website.json'),
+    ],
 ];
