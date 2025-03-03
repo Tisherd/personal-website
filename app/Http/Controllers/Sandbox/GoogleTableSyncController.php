@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers\Sandbox;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 
 use Inertia\Inertia;
 use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Models\GoogleTableSync;
+use App\Services\GoogleTableSyncService;
 
 class GoogleTableSyncController extends Controller
 {
@@ -16,7 +17,7 @@ class GoogleTableSyncController extends Controller
     {
         return Inertia::render('Sandbox/GoogleTableSync', [
             'items' => GoogleTableSync::all(),
-            'googleSheetUrl' => config('app.google_sheet_url'),
+            'googleSheetUrl' => GoogleTableSyncService::getSheet(),
         ]);
     }
 
@@ -54,10 +55,15 @@ class GoogleTableSyncController extends Controller
         return redirect()->route('sandbox.google_table_sync.index');
     }
 
-    public function updateGoogleSheet(Request $request)
+    public function updateGoogleSheet(Request $request, GoogleTableSyncService $service)
     {
-        $request->validate(['googleSheetUrl' => 'required|url']);
+        try {
+            $request->validate(['googleSheetUrl' => 'required|url']);
+            $service->setSheet($request->get('googleSheetUrl'));
 
-        return redirect()->route('sandbox.google_table_sync.index');
+            return response()->json(['message' => 'Google Sheet успешно обновлен'], 200);
+        } catch (\Throwable $error) {
+            return response()->json(['error' => $error->getMessage()], 500);
+        }
     }
 }

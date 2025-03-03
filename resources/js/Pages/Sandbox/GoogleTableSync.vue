@@ -1,11 +1,14 @@
 <script setup>
 import SandboxLayout from "@/Layouts/SandboxLayout.vue";
+import InputError from '@/Components/Base/InputError.vue';
 import { ref } from 'vue';
 import { router, usePage } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const page = usePage();
 const items = ref(page.props.items);
 const googleSheetUrl = ref(page.props.googleSheetUrl || '');
+const googleSheetUrlError = ref(null);
 
 const deleteItem = (id) => {
     if (confirm('Вы уверены?')) {
@@ -25,8 +28,18 @@ const clearTable = () => {
     }
 };
 
-const updateGoogleSheetUrl = () => {
-    router.post(route('sandbox.google_table_sync.update-google-sheet'), { googleSheetUrl: googleSheetUrl.value });
+const updateGoogleSheetUrl = async () => {
+    googleSheetUrlError.value = null; // Сброс ошибки перед отправкой
+
+    try {
+        const response = await axios.post(route('sandbox.google_table_sync.update-google-sheet'), {
+            googleSheetUrl: googleSheetUrl.value
+        });
+
+        alert(response.data.message);
+    } catch (err) {
+        googleSheetUrlError.value = err.response?.data?.error || 'Произошла ошибка';
+    }
 };
 </script>
 
@@ -38,7 +51,14 @@ const updateGoogleSheetUrl = () => {
             <!-- Google Sheets URL -->
             <div class="mb-4">
                 <label class="block font-semibold">Google Sheet URL:</label>
-                <input v-model="googleSheetUrl" type="text" class="border p-2 rounded w-full" />
+                <input
+                    v-model="googleSheetUrl"
+                    type="text"
+                    class="border p-2 rounded w-full"
+                    :class="{'border-red-500': googleSheetUrlError}"
+                />
+                <InputError class="mt-2" :message="googleSheetUrlError" />
+                <!-- <p v-if="googleSheetUrlError" class="text-red-500 text-sm mt-1">{{ googleSheetUrlError }}</p> -->
                 <button @click="updateGoogleSheetUrl" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">Сохранить</button>
             </div>
 

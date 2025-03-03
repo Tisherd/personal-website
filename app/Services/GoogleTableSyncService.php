@@ -3,9 +3,12 @@
 namespace App\Services;
 
 use Google;
+use Illuminate\Support\Facades\Cache;
 
 class GoogleTableSyncService
 {
+    const FILE_ID_CACHE_KEY = 'google_table_sync_file_id';
+
     private Google\Service\Sheets $sheetService;
 
     private Google\Service\Drive $driveService;
@@ -25,19 +28,31 @@ class GoogleTableSyncService
         return $this->sheetService->spreadsheets->get("1OBcxuiLIXI8o9QrntSaDqbxY-2q_i_tXVuJ8QiuPX58");
     }
 
-    public function setWorkSheet(string $fileId)
+    public function setSheet(string $docUrl)
     {
         try {
+            $fileId = $this->extractGoogleSheetId($docUrl);
             $this->checkAvailability($fileId);
 
-            return 'OK';
+            Cache::set('google_table_sync_file_id', $docUrl);
         } catch (\Throwable $error) {
             throw new \Exception($error->getMessage());
         }
     }
 
+    public static function getSheet()
+    {
+        return Cache::get('google_table_sync_file_id');
+    }
+
+    private function extractGoogleSheetId(string $url): string
+    {
+        preg_match('/\/d\/([^\/]+)/', $url, $matches);
+        return $matches[1] ?? '';
+    }
+
     /**
-     * Проверяем доступность гугл-таблицы
+     * Проверка доступности гугл-таблицы
      *
      * @param string $fileId
      * @return void
@@ -48,12 +63,13 @@ class GoogleTableSyncService
             $this->driveService->permissions->listPermissions($fileId);
         } catch (Google\Service\Exception $googleException) {
             $googleExceptionMessage = current($googleException->getErrors())['message'] ?? 'unknown error';
-            dump($googleExceptionMessage);
             switch ($googleExceptionMessage) {
                 case 'The user does not have sufficient permissions for this file.':
                     throw new \Exception('Need editor rights for this table');
                 case str_starts_with($googleExceptionMessage, "File not found"):
                     throw new \Exception('The table not found');
+                case 'Required':
+                    throw new \Exception('Broken url');
                 default:
                     throw new \Exception('Unknown error');
             }
