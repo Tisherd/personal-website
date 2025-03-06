@@ -76,13 +76,10 @@ services:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-      args:
-        APP_ENV: ${APP_ENV}
+      target: production
     image: ${APP_NAME}_node
     container_name: ${APP_NAME}_node
     restart: on-failure
-    ports:
-    - "3000:3000"
     working_dir: /var/www
     volumes:
       - ./:/var/www

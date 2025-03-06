@@ -63,8 +63,7 @@ services:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-      args:
-        APP_ENV: ${APP_ENV}
+      target: local
     image: ${APP_NAME}_node
     container_name: ${APP_NAME}_node
     restart: on-failure

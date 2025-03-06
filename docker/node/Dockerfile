@@ -1,26 +1,21 @@
-# Set the base image
-FROM node:23.4
+FROM node:23.4 as base
 
-ARG APP_ENV
-
-ENV APP_ENV=${APP_ENV:-development}
-
-# Set working directory
 WORKDIR /var/www
 
-# Copy `package.json` and `package-lock.json`
 COPY package*.json ./
 
-# Install project dependencies
 RUN npm install
 
-# Copy project files into the docker image
 COPY . .
 
-# Expose the port Vite runs on
+# -------------------------------------
+FROM base AS local
+
 EXPOSE 3000
+CMD ["npm", "run", "dev"]
 
-# Start the Vite server or build
-ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["[ \"$APP_ENV\" = \"production\" ] && npm run build || npm run dev"]
+# -------------------------------------
+FROM base AS production
 
+RUN npm run build
+CMD ["echo", "Build complete. Exiting."]
