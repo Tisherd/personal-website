@@ -59,19 +59,6 @@ services:
     networks:
       - app-network
 
-  certbot:
-    image: certbot/certbot
-    container_name: ${APP_NAME}_certbot
-    volumes:
-      - ./docker/certbot/www/:/var/www/certbot
-      - ./docker/certbot/conf/:/etc/letsencrypt
-    environment:
-      - APP_ENV=${APP_ENV}
-    depends_on:
-      - nginx
-    networks:
-      - app-network
-
   node:
     build:
       context: .
@@ -98,18 +85,12 @@ services:
       - 5432:5432
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d
+      - ./docker/postgres/init_scripts:/docker-entrypoint-initdb.d:ro
     environment:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_TEST_DB=${POSTGRES_TEST_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - APP_ENV=${APP_ENV}
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 60s
-      retries: 5
-      timeout: 5s
     networks:
       - app-network
 
@@ -121,23 +102,18 @@ services:
       - "27017:27017"
     volumes:
       - mongodb_data:/data/db
-      - ./docker/mongodb/init_scripts:/docker-entrypoint-initdb.d
+      - ./docker/mongodb/init_scripts:/docker-entrypoint-initdb.d:ro
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_DB_NAME: ${MONGO_DB_NAME}
       MONGO_TEST_DB_NAME: ${MONGO_TEST_DB_NAME}
       APP_ENV: ${APP_ENV}
-    healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-      interval: 60s
-      retries: 5
-      timeout: 5s
     networks:
       - app-network
 
   redis:
-    image: redis:7.4.1
+    image: redis:7.4
     container_name: ${APP_NAME}_redis
     restart: unless-stopped
     ports:
@@ -145,11 +121,6 @@ services:
     command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 60s
-      retries: 5
-      timeout: 3s
     networks:
       - app-network
 
