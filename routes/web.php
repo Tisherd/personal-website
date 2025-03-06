@@ -9,10 +9,6 @@ use App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Blog;
 use App\Http\Controllers\Admin;
 
-use App\Http\Controllers\TestGoogleController;
-
-Route::get('/test_google', [TestGoogleController::class, 'index']);
-
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
