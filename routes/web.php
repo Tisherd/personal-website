@@ -31,19 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects', Projects\IndexController::class)
         ->name('projects.index');
 
-    Route::prefix('sandbox')->as('sandbox.')->group(function () {
-        Route::get('/', fn () => redirect()->route('sandbox.google_table_sync.index'));
-
-        Route::prefix('google_table_sync')->as('google_table_sync.')->group(function () {
-            Route::get('/', [Sandbox\GoogleTableSyncController::class, 'index'])->name('index');
-            Route::post('/', [Sandbox\GoogleTableSyncController::class, 'store'])->name('store');
-            Route::delete('/{google_table_sync}', [Sandbox\GoogleTableSyncController::class, 'destroy'])->name('destroy');
-            Route::post('/generate', [Sandbox\GoogleTableSyncController::class, 'generate'])->name('generate');
-            Route::post('/clear', [Sandbox\GoogleTableSyncController::class, 'clear'])->name('clear');
-            Route::post('/update-google-sheet', [Sandbox\GoogleTableSyncController::class, 'updateGoogleSheet'])->name('update-google-sheet');
-        });
-    });
-
     Route::prefix('blogs')->as('blogs.')->group(function () {
         Route::get('/', Blog\IndexController::class)->name('index');
         Route::post('/', Blog\StoreController::class)->name('store');

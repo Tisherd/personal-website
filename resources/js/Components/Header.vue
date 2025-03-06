@@ -23,9 +23,6 @@ const showDropdown = ref(false);
                 <Link :href="route('projects.index')">Проекты</Link>
             </li>
             <li>
-                <Link :href="route('sandbox.google_table_sync.index')">Песочница</Link>
-            </li>
-            <li>
                 <Link :href="route('blogs.index')">Блог</Link>
             </li>
             <li v-if="$page.props.auth.user.is_admin">
