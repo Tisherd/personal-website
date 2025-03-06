@@ -1,7 +1,7 @@
 # Variables
 include .env
 
-DOCKER_COMPOSE=docker compose
+DOCKER_COMPOSE=docker compose -f ./docker-compose.${APP_ENV}.yml
 PHP_CONTAINER=${APP_NAME}_php
 NODE_CONTAINER=${APP_NAME}_node
 COMPOSER=docker exec ${PHP_CONTAINER} composer
@@ -11,7 +11,7 @@ NPM=docker exec ${NODE_CONTAINER} npm
 .PHONY: docker-build docker-up docker-down docker-restart docker-rebuild \
     docker-logs docker-shell docker-clean docker-volume-prune \
     composer-install composer-install-no-dev composer-optimize composer-update \
-    artisan-migrate artisan-migrate-force artisan-seed artisan-seed-force \
+    artisan-migrate-refresh artisan-migrate artisan-migrate-force artisan-seed artisan-seed-force \
     artisan-test artisan-cache artisan-clear-cache \
     npm-install npm-build \
     project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
@@ -56,6 +56,9 @@ composer-update:
 	${COMPOSER} update
 
 # Laravel
+artisan-migrate-refresh:
+	docker exec ${PHP_CONTAINER} php artisan migrate:refresh --seed
+
 artisan-migrate:
 	docker exec ${PHP_CONTAINER} php artisan migrate
 
