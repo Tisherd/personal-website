@@ -6,6 +6,7 @@ services:
       args:
         - APP_ENV=${APP_ENV}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
+    image: ${APP_NAME}_php
     container_name: ${APP_NAME}_php
     restart: unless-stopped
     working_dir: /var/www
@@ -77,6 +78,7 @@ services:
       dockerfile: docker/node/Dockerfile
       args:
         APP_ENV: ${APP_ENV}
+    image: ${APP_NAME}_node
     container_name: ${APP_NAME}_node
     restart: on-failure
     ports:
