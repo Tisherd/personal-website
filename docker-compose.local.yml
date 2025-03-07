@@ -4,8 +4,8 @@ services:
       context: .
       dockerfile: docker/php/Dockerfile
       args:
-        - APP_USER=${PHP_USER}
-        - APP_UID=${PHP_UID}
+        - APP_USER=${APP_USER}
+        - APP_UID=${APP_UID}
         - XDEBUG_ENABLED=${XDEBUG_ENABLED}
     image: ${APP_NAME}_php
     container_name: ${APP_NAME}_php
@@ -25,25 +25,36 @@ services:
       - "9003" # xdebug
     extra_hosts:
       - "host.docker.internal:host-gateway" # for linux xdebug
+    healthcheck:
+      test: ["CMD", "php-fpm", "-t"]
+      interval: 30s
+      retries: 3
+      timeout: 5s
 
   supervisor:
     build:
       context: .
       dockerfile: docker/supervisor/Dockerfile
+      args:
+        - SUPERVISOR_USER=${SUPERVISOR_USER}
+        - SUPERVISOR_UID=${SUPERVISOR_UID}
+    image: ${APP_NAME}_supervisor
     container_name: ${APP_NAME}_supervisor
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - ./:/var/www
     depends_on:
-      - php
+      - postgres
+      - redis
+      - mongodb
+    networks:
+      - app-network
     healthcheck:
       test: ["CMD", "supervisorctl", "status"]
       interval: 30s
       retries: 3
       timeout: 5s
-    networks:
-      - app-network
 
   nginx:
     image: nginx:1.27.3-alpine
