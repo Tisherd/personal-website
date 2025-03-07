@@ -16,7 +16,8 @@ NPM=docker exec ${NODE_CONTAINER} npm
     artisan-migrate-refresh artisan-migrate artisan-migrate-force artisan-seed artisan-seed-force \
     artisan-test artisan-cache artisan-clear-cache \
     npm-install npm-build \
-    project-init wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
+    project-rebuild project-init \
+    wait-for-containers wait-for-postgres wait-for-mongo wait-for-redis
 
 # Docker
 docker-build:
@@ -95,6 +96,7 @@ npm-build:
 	${NPM} run build
 
 # Project
+project-rebuild: docker-rebuild composer-install
 
 project-init: docker-clean docker-build docker-up wait-for-containers artisan-migrate-force artisan-seed-force
 
