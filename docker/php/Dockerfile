@@ -43,7 +43,7 @@ RUN if [ "$XDEBUG_ENABLED" = "true" ]; then \
     fi
 
 # Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/bin --filename=composer --version=2.7.0
+COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 
 # -------------------------------------
 
@@ -54,9 +54,7 @@ WORKDIR /var/www
 COPY . .
 
 # create user if not exist
-RUN if ! id -u ${APP_USER} > /dev/null 2>&1; then \
-        useradd -ms /bin/bash -u ${APP_UID} ${APP_USER}; \
-    fi
+RUN useradd -ms /bin/bash -u ${APP_UID} ${APP_USER} || true
 
 RUN chown -R ${APP_USER}:${APP_UID} storage bootstrap/cache
 
