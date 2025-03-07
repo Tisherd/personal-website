@@ -3,13 +3,17 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-      target: dev
+      args:
+        - APP_USER=laravel_user
+        - APP_UID=1000
+        - XDEBUG_ENABLED=true
     image: ${APP_NAME}_php
     container_name: ${APP_NAME}_php
     restart: unless-stopped
     working_dir: /var/www
     volumes:
       - ./:/var/www
+      - ./docker/php/ini/local.ini:/usr/local/etc/php/conf.d/php.ini:ro
     depends_on:
       - postgres
       - redis
