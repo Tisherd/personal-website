@@ -1,9 +1,7 @@
 # Variables
 include .env
 
-ENV_TYPE = $(if $(APP_ENV),dev,prod)
-
-DOCKER_COMPOSE=docker compose -f ./docker-compose.${ENV_TYPE}.yml
+DOCKER_COMPOSE=docker compose -f ./docker-compose.${APP_ENV}.yml
 PHP_CONTAINER=${APP_NAME}_php
 NODE_CONTAINER=${APP_NAME}_node
 COMPOSER=docker exec ${PHP_CONTAINER} composer
