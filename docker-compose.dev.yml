@@ -63,7 +63,7 @@ services:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-      target: local
+      target: dev
     image: ${APP_NAME}_node
     container_name: ${APP_NAME}_node
     restart: on-failure

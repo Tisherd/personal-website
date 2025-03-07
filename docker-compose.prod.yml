@@ -76,7 +76,7 @@ services:
     build:
       context: .
       dockerfile: docker/node/Dockerfile
-      target: production
+      target: prod
     image: ${APP_NAME}_node
     container_name: ${APP_NAME}_node
     restart: on-failure

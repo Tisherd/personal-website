@@ -1,4 +1,4 @@
-FROM node:23.4 as base
+FROM node:23.4 AS base
 
 WORKDIR /var/www
 
@@ -9,13 +9,13 @@ RUN npm install
 COPY . .
 
 # -------------------------------------
-FROM base AS local
+FROM base AS dev
 
 EXPOSE 3000
 CMD ["npm", "run", "dev"]
 
 # -------------------------------------
-FROM base AS production
+FROM base AS prod
 
 RUN npm run build
 CMD ["echo", "Build complete. Exiting."]
