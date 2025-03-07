@@ -3,9 +3,7 @@ services:
     build:
       context: .
       dockerfile: docker/php/Dockerfile
-      args:
-        - APP_ENV=${APP_ENV}
-        - XDEBUG_ENABLED=${XDEBUG_ENABLED}
+      target: prod
     image: ${APP_NAME}_php
     container_name: ${APP_NAME}_php
     restart: unless-stopped
@@ -18,8 +16,6 @@ services:
       - mongodb
     networks:
       - app-network
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
 
   supervisor:
     build:
