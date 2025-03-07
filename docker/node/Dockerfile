@@ -17,4 +17,4 @@ CMD ["npm", "run", "dev"]
 # -------------------------------------
 FROM base AS prod
 
-CMD ["tail", "-f", "/dev/null"]
+CMD ["/bin/bash"]
