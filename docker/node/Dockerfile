@@ -17,4 +17,4 @@ CMD ["npm", "run", "dev"]
 # -------------------------------------
 FROM base AS prod
 
-CMD ["/bin/bash"]
+CMD ["/bin/bash", "-c", "while true; do sleep 1; done"]
