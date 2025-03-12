@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Services\Notifiers;
+namespace App\Services\Notification;
 
 use Illuminate\Support\Facades\Http;
 
-class TelegramNotifier implements NotifierInterface
+class TelegramNotification implements NotificationInterface
 {
-    protected $token;
-    protected $chatId;
+    protected string $token;
+    protected int $chatId;
+    protected string $messagePrefix = 'personal website app';
 
     public function __construct()
     {
@@ -15,8 +16,9 @@ class TelegramNotifier implements NotifierInterface
         $this->chatId = config('notifier.telegram.chat_id');
     }
 
-    public function sendMessage(string $message): void
+    public function notify(string $message): void
     {
+        $message = $this->messagePrefix . PHP_EOL . $message;
         Http::post("https://api.telegram.org/bot{$this->token}/sendMessage", [
             'chat_id' => $this->chatId,
             'text' => $message,
