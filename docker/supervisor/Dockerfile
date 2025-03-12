@@ -16,8 +16,7 @@ RUN if ! php -m | grep -q redis; then \
         PHP_PEAR_PHP_BIN=php pecl install redis && docker-php-ext-enable redis; \
     fi
 
-COPY ./docker/supervisor/conf/supervisord.conf /etc/supervisor/supervisord.conf
-COPY ./docker/supervisor/conf/laravel-scheduler.conf /etc/supervisor/conf.d/laravel-scheduler.conf
+COPY ./docker/supervisor/conf/ /etc/supervisor/
 
 WORKDIR /var/www
 
