@@ -11,6 +11,7 @@ use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\Notifiers\TelegramNotifier;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -27,11 +28,14 @@ class AuthenticatedSessionController extends Controller
     /**
      * Handle an incoming authentication request.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(LoginRequest $request, TelegramNotifier $telegramNotifier): RedirectResponse
     {
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        $user = request()->user();
+        $telegramNotifier->sendMessage("User {$user->name} logged in.");
 
         return redirect()->intended(route('resume.about_me.index', absolute: false));
     }
