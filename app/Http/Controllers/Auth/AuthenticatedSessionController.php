@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\UserLoggedIn;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,7 @@ use Inertia\Response;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Services\Notifiers\TelegramNotifier;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,6 +34,8 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
+
+        event(new UserLoggedIn(request()->user()));
 
         return redirect()->intended(route('resume.about_me.index', absolute: false));
     }
