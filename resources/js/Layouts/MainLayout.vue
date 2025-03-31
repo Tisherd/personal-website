@@ -1,5 +1,5 @@
 <script setup>
-import HeaderComponent from "@/Components/Header.vue";
+import HeaderComponent from "@/Components/layout/Header.vue";
 import FooterComponent from "@/Components/layout/Footer.vue";
 </script>
 
