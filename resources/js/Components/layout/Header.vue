@@ -1,7 +1,7 @@
 <script setup>
-import { Link, useForm } from '@inertiajs/vue3';
+import Navigation from './Navigation.vue';
+import { useForm } from '@inertiajs/vue3';
 import { ref } from 'vue';
-import StatusMessage from './StatusMessage.vue';
 
 const form = useForm({});
 
@@ -13,22 +13,9 @@ const showDropdown = ref(false);
 </script>
 
 <template>
-    <header class="bg-gray-600 text-white p-3 flex justify-between items-center">
+    <header class="bg-slate-600 text-white p-3 flex justify-between items-center">
         <!-- Левая часть: навигация -->
-        <ul class="flex space-x-4 pl-20">
-            <li>
-                <Link :href="route('resume.about_me.index')">Резюме</Link>
-            </li>
-            <li>
-                <Link :href="route('projects.index')">Проекты</Link>
-            </li>
-            <li>
-                <Link :href="route('blogs.index')">Блог</Link>
-            </li>
-            <li v-if="$page.props.auth.user.is_admin">
-                <Link :href="route('admin.about_me.index')" class="ml-10">Админка</Link>
-            </li>
-        </ul>
+        <Navigation />
 
         <!-- Правая часть: имя пользователя -->
         <div class="relative pr-20">
@@ -47,6 +34,4 @@ const showDropdown = ref(false);
             </div>
         </div>
     </header>
-
-    <StatusMessage />
 </template>

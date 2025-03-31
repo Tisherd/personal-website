@@ -5,12 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Resume;
 use App\Http\Controllers\Projects;
-use App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Blog;
 use App\Http\Controllers\Admin;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::inertia('/login', 'LoginPage')->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
