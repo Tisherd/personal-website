@@ -1,19 +1,34 @@
 <script setup>
 import HeaderComponent from "@/Components/layout/Header.vue";
 import FooterComponent from "@/Components/layout/Footer.vue";
-import AdminLeftPanel from "@/Layouts/Aside/AdminLeftPanel.vue";
+import AsideComponent from "@/Components/layout/Aside.vue";
+
+const asideLinks = [
+    { href: route('admin.about_me.index'), label: "Обо мне" },
+    { href: route('admin.work_experiences.index'), label: "Опыт работы" },
+    { href: route('admin.projects.index'), label: "Проекты" },
+    { href: route('admin.users.index'), label: "Пользователи" },
+    { href: "/telescope", label: "Telescope" },
+];
 </script>
 
 <template>
-    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen overflow-hidden">
+    <div class="flex flex-col min-h-screen">
+        <!-- Хедер -->
         <HeaderComponent />
-        <div class="flex flex-grow">
-            <AdminLeftPanel />
-            <main class="container mx-auto px-4 py-8 flex-grow">
+
+        <!-- Основной контейнер (aside + main) -->
+        <div class="flex flex-grow bg-gray-100">
+            <!-- Боковая панель -->
+            <AsideComponent title="Панель администратора" :links="asideLinks" />
+
+            <!-- Основное содержимое -->
+            <main class="flex-grow container mx-auto px-4 py-8">
                 <slot />
             </main>
         </div>
+
+        <!-- Футер -->
         <FooterComponent />
     </div>
 </template>
-
