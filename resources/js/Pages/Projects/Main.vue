@@ -18,7 +18,7 @@ defineProps({
                         <p class="text-gray-600 mb-4">{{ project.description }}</p>
                         <div class="flex justify-between items-center">
                             <a :href="project.github_url" target="_blank" class="text-blue-500 hover:underline">GitHub</a>
-                            <a :href="project.live_url" target="_blank" class="text-green-500 hover:underline">Live Demo</a>
+                            <a v-if="project.live_url" :href="project.live_url" target="_blank" class="text-green-500 hover:underline">Live Demo</a>
                         </div>
                     </div>
                 </div>
