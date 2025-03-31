@@ -1,6 +1,6 @@
 <script setup>
 import HeaderComponent from "@/Components/Header.vue";
-import FooterComponent from "@/Components/Footer.vue";
+import FooterComponent from "@/Components/layout/Footer.vue";
 import ResumeLeftPanel from "@/Layouts/Aside/ResumeLeftPanel.vue";
 </script>
 
