@@ -8,6 +8,8 @@ const asideLinks = [
     { href: route('admin.work_experiences.index'), label: "Опыт работы" },
     { href: route('admin.projects.index'), label: "Проекты" },
     { href: route('admin.users.index'), label: "Пользователи" },
+    { href: route('admin.skill_groups.index'), label: "Группа навыков" },
+    { href: route('admin.skills.index'), label: "Навыки" },
     { href: "/telescope", label: "Telescope" },
 ];
 </script>

@@ -45,6 +45,9 @@ Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
     Route::post('/about_me', [Admin\AboutMeController::class, 'update'])->name('about_me.update');
 
     Route::resource('work_experiences', Admin\WorkExperienceController::class)->names('work_experiences');
+    Route::resource('skill_groups', Admin\SkillGroupController::class)->names('skill_groups');
+    Route::resource('skills', Admin\SkillController::class)->names('skills');
+
     Route::resource('projects', Admin\ProjectController::class)->names('projects');
     Route::resource('users', Admin\UserController::class)->names('users');
 });
