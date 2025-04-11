@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Notification\NotificationInterface;
+use App\Services\Notification\TelegramNotification;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\Facades\RateLimiter;
@@ -15,7 +17,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        $this->app->bind(NotificationInterface::class, TelegramNotification::class);
+
+        if (class_exists(\Laravel\Telescope\TelescopeServiceProvider::class)) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

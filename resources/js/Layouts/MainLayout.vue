@@ -1,14 +1,22 @@
 <script setup>
-import HeaderComponent from "@/Components/Header.vue";
-import FooterComponent from "@/Components/Footer.vue";
+import HeaderComponent from "@/Components/layout/Header.vue";
+import FooterComponent from "@/Components/layout/Footer.vue";
 </script>
 
 <template>
-    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen overflow-hidden">
+    <div class="flex flex-col min-h-screen">
+        <!-- Хедер -->
         <HeaderComponent />
-        <main class="container mx-auto px-4 py-8 flex-grow">
-            <slot />
-        </main>
+
+        <!-- Основной контейнер -->
+        <div class="flex flex-grow bg-gray-100">
+            <!-- Основное содержимое -->
+            <main class="flex-grow container mx-auto px-4 py-8">
+                <slot />
+            </main>
+        </div>
+
+        <!-- Футер -->
         <FooterComponent />
     </div>
 </template>

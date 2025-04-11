@@ -5,12 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Resume;
 use App\Http\Controllers\Projects;
-use App\Http\Controllers\Sandbox;
 use App\Http\Controllers\Blog;
 use App\Http\Controllers\Admin;
 
 Route::middleware('guest')->group(function () {
-    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::inertia('/login', 'LoginPage')->name('login');
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 });
 
@@ -46,6 +45,9 @@ Route::prefix('admin')->as('admin.')->middleware('admin')->group(function () {
     Route::post('/about_me', [Admin\AboutMeController::class, 'update'])->name('about_me.update');
 
     Route::resource('work_experiences', Admin\WorkExperienceController::class)->names('work_experiences');
+    Route::resource('skill_groups', Admin\SkillGroupController::class)->names('skill_groups');
+    Route::resource('skills', Admin\SkillController::class)->names('skills');
+
     Route::resource('projects', Admin\ProjectController::class)->names('projects');
     Route::resource('users', Admin\UserController::class)->names('users');
 });

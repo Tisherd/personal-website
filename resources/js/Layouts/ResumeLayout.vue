@@ -1,19 +1,33 @@
 <script setup>
-import HeaderComponent from "@/Components/Header.vue";
-import FooterComponent from "@/Components/Footer.vue";
-import ResumeLeftPanel from "@/Layouts/Aside/ResumeLeftPanel.vue";
+import HeaderComponent from "@/Components/layout/Header.vue";
+import FooterComponent from "@/Components/layout/Footer.vue";
+import AsideComponent from "@/Components/layout/Aside.vue";
+
+const asideLinks = [
+    { href: route('resume.about_me.index'), label: "Обо мне" },
+    { href: route('resume.work_experiences.index'), label: "Опыт работы" },
+    { href: route('resume.skills.index'), label: "Навыки" },
+    { href: route('resume.questions.index'), label: "Вопросы" },
+];
 </script>
 
 <template>
-    <div class="bg-gray-100 text-gray-800 flex flex-col min-h-screen overflow-hidden">
+    <div class="flex flex-col min-h-screen">
+        <!-- Хедер -->
         <HeaderComponent />
-        <div class="flex flex-grow">
-            <ResumeLeftPanel />
-            <main class="container mx-auto px-4 py-8 flex-grow">
+
+        <!-- Основной контейнер (aside + main) -->
+        <div class="flex flex-grow bg-gray-100">
+            <!-- Боковая панель -->
+            <AsideComponent title="Резюме" :links="asideLinks" />
+
+            <!-- Основное содержимое -->
+            <main class="flex-grow container mx-auto px-4 py-8">
                 <slot />
             </main>
         </div>
+
+        <!-- Футер -->
         <FooterComponent />
     </div>
 </template>
-
