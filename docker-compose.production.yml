@@ -72,16 +72,11 @@ services:
       - app-network
 
   certbot:
-    build:
-      context: .
-      dockerfile: ./docker/certbot/Dockerfile
+    image: certbot/certbot
     container_name: ${APP_NAME}_certbot
     volumes:
       - ./docker/certbot/www/:/var/www/certbot
       - ./docker/certbot/conf/:/etc/letsencrypt
-    environment:
-      - DOCKER_SSL_DOMAIN=${DOCKER_SSL_DOMAIN}
-      - DOCKER_SSL_EMAIL=${DOCKER_SSL_EMAIL}
     depends_on:
       - nginx
     networks:
