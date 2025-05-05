@@ -82,6 +82,19 @@ services:
       - DOCKER_SSL_EMAIL=${DOCKER_SSL_EMAIL}
     depends_on:
       - nginx
+    command: >
+      sh -c "
+        if [ ! -d /etc/letsencrypt/live/${DOCKER_SSL_DOMAIN} ]; then
+          certbot certonly --webroot \
+            --webroot-path=/var/www/certbot \
+            --email ${DOCKER_SSL_EMAIL} \
+            --agree-tos \
+            --no-eff-email \
+            -d ${DOCKER_SSL_DOMAIN};
+        else
+          certbot renew --webroot-path=/var/www/certbot;
+        fi
+      "
     networks:
       - app-network
 
