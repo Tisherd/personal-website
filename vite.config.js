@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
+import fs from 'fs';
 
 export default defineConfig(({ mode }) => ({
     plugins: [
@@ -22,8 +23,12 @@ export default defineConfig(({ mode }) => ({
             host: true,
             port: 3000,
             hmr: {
-                host: 'localhost',
+                host: 'personal-site.tisherd.local',
             },
+            // https: {
+            //     key: fs.readFileSync('./docker/nginx/ssl/l11.tisherd.local.key'),
+            //     cert: fs.readFileSync('./docker/nginx/ssl/l11.tisherd.local.pem'),
+            // },
         },
     }),
 }));
