@@ -48,7 +48,7 @@ COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 # -------------------------------------
 
 # Set workdir
-WORKDIR /var/www
+WORKDIR /var/www/personal-site
 
 # Copy project files
 COPY . .
