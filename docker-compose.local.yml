@@ -19,7 +19,7 @@ services:
       - redis
       - mongodb
     networks:
-      - app-network
+      - supreme-network
     expose:
       - "9000" # fpm
       - "9003" # xdebug
@@ -49,7 +49,7 @@ services:
       - redis
       - mongodb
     networks:
-      - app-network
+      - supreme-network
     healthcheck:
       test: ["CMD", "supervisorctl", "status"]
       interval: 30s
@@ -57,21 +57,19 @@ services:
       timeout: 5s
 
   nginx:
-    image: nginx:1.27.3-alpine
+    image: nginx:1.30.0
     container_name: ${APP_NAME}_nginx
     restart: unless-stopped
     ports:
-      - "80:80"
-      - "443:443"
+      - "8200:80"
     volumes:
-      - ./public:/var/www/public
-      - ./storage/app/public:/var/www/storage/app/public
+      - ./public:/var/www/personal-site/public
+      - ./storage/app/public:/var/www/personal-site/storage/app/public
       - ./docker/nginx/conf.d/local.conf:/etc/nginx/conf.d/app.conf:ro
-      - ./docker/nginx/ssl:/etc/nginx/ssl
     depends_on:
       - php
     networks:
-      - app-network
+      - supreme-network
 
   node:
     build:
@@ -88,7 +86,7 @@ services:
       - ./:/var/www
       - node_modules:/var/www/node_modules
     networks:
-      - app-network
+      - supreme-network
 
   postgres:
     image: postgres:17
@@ -105,7 +103,7 @@ services:
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
     networks:
-      - app-network
+      - supreme-network
 
   mongodb:
     image: mongo:6.0
@@ -124,7 +122,7 @@ services:
       MONGO_TEST_DB_NAME: ${MONGO_TEST_DB_NAME}
       APP_ENV: ${APP_ENV}
     networks:
-      - app-network
+      - supreme-network
 
   redis:
     image: redis:7.4
@@ -138,11 +136,11 @@ services:
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     networks:
-      - app-network
+      - supreme-network
 
 networks:
-  app-network:
-    driver: bridge
+  supreme-network:
+    external: true
 
 volumes:
   postgres_data:
