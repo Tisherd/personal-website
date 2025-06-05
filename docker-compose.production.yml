@@ -54,7 +54,7 @@ services:
       timeout: 5s
 
   nginx:
-    image: nginx:1.30.0
+    image: nginx:1.28.0
     container_name: ${APP_NAME}_nginx
     restart: unless-stopped
     volumes:
