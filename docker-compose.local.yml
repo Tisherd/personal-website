@@ -10,9 +10,9 @@ services:
     image: ${APP_NAME}_php
     container_name: ${APP_NAME}_php
     restart: unless-stopped
-    working_dir: /var/www
+    working_dir: /var/www/personal-site
     volumes:
-      - ./:/var/www
+      - ./:/var/www/personal-site
       - ./docker/php/ini/local.ini:/usr/local/etc/php/conf.d/php.ini:ro
     depends_on:
       - postgres
@@ -41,9 +41,9 @@ services:
     image: ${APP_NAME}_supervisor
     container_name: ${APP_NAME}_supervisor
     restart: unless-stopped
-    working_dir: /var/www
+    working_dir: /var/www/personal-site
     volumes:
-      - ./:/var/www
+      - ./:/var/www/personal-site
     depends_on:
       - postgres
       - redis
@@ -81,9 +81,9 @@ services:
     restart: unless-stopped
     ports:
     - "3000:3000"
-    working_dir: /var/www
+    working_dir: /var/www/personal-site
     volumes:
-      - ./:/var/www
+      - ./:/var/www/personal-site
       - node_modules:/var/www/node_modules
     networks:
       - supreme-network

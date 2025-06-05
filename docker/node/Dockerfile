@@ -1,6 +1,6 @@
 FROM node:23.4 AS base
 
-WORKDIR /var/www
+WORKDIR /var/www/personal-site
 
 COPY package*.json ./
 

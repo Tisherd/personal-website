@@ -18,7 +18,7 @@ RUN if ! php -m | grep -q redis; then \
 
 COPY ./docker/supervisor/conf/ /etc/supervisor/
 
-WORKDIR /var/www
+WORKDIR /var/www/personal-site
 
 COPY . .
 
